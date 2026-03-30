@@ -1,4 +1,4 @@
--- Neuron Database Schema
+-- Neuron Note Database Schema
 -- Run this in the Supabase SQL Editor to set up all tables
 
 -- Profiles

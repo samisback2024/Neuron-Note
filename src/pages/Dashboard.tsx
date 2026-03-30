@@ -145,7 +145,7 @@ export function Dashboard() {
                 </span>
               </div>
               <h3 className="text-xl font-bold">
-                Experience Neuron&apos;s Full Workflow
+                Experience Neuron Note&apos;s Full Workflow
               </h3>
               <p className="text-sm text-white/70 mt-1">
                 Take a guided tour: Create a note → Link ideas → Visualize

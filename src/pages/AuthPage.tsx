@@ -53,7 +53,7 @@ export function AuthPage() {
           <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
             <Sparkles size={20} className="text-white" />
           </div>
-          <span className="text-2xl font-bold text-white">Neuron</span>
+          <span className="text-2xl font-bold text-white">Neuron Note</span>
         </div>
         <div>
           <h1 className="text-5xl font-bold text-white leading-tight mb-4">
@@ -88,7 +88,7 @@ export function AuthPage() {
               <Sparkles size={20} className="text-white" />
             </div>
             <span className="text-2xl font-bold text-surface-900 dark:text-white">
-              Neuron
+              Neuron Note
             </span>
           </div>
 

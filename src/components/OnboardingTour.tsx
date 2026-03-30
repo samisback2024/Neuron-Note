@@ -6,7 +6,7 @@ const TOUR_STEPS = [
   {
     title: "Welcome to the Interactive Demo",
     description:
-      "Let's walk through Neuron's core features: creating notes, linking them, visualizing connections, and getting AI insights.",
+      "Let's walk through Neuron Note's core features: creating notes, linking them, visualizing connections, and getting AI insights.",
   },
   {
     title: "Create Notes",

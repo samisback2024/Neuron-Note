@@ -85,7 +85,7 @@ export function Sidebar() {
                 exit={{ opacity: 0 }}
                 className="font-semibold text-surface-900 dark:text-white text-lg whitespace-nowrap"
               >
-                Neuron
+                Neuron Note
               </motion.span>
             )}
           </AnimatePresence>
