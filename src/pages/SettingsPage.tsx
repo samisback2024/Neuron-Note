@@ -20,21 +20,21 @@ export function SettingsPage() {
   };
 
   return (
-    <div className="px-6 md:px-8 py-6 md:py-8">
+    <div className="px-6 md:px-10 py-7 md:py-9">
       <div className="mx-auto max-w-[800px]">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className="text-[22px] font-semibold text-surface-900 dark:text-white mb-1">
+          <h1 className="text-[20px] font-semibold text-surface-900 dark:text-white/95 mb-1">
             Settings
           </h1>
-          <p className="text-[13px] text-surface-500 mb-8">
+          <p className="text-[12.5px] text-surface-500 dark:text-surface-400 mb-8">
             Manage your account and preferences
           </p>
 
           {/* Appearance */}
-          <section className="bg-white dark:bg-surface-800 rounded-2xl p-6 border border-surface-200/80 dark:border-surface-700/40 mb-6">
+          <section className="bg-white dark:bg-surface-800/80 rounded-2xl p-6 border border-surface-200/60 dark:border-surface-700/30 shadow-sm mb-6">
             <div className="flex items-center gap-3 mb-4">
               <Sun size={18} className="text-primary-500" />
               <div>
@@ -92,7 +92,7 @@ export function SettingsPage() {
           </section>
 
           {/* Profile */}
-          <section className="bg-white dark:bg-surface-800 rounded-2xl p-6 border border-surface-200/80 dark:border-surface-700/40 mb-6">
+          <section className="bg-white dark:bg-surface-800/80 rounded-2xl p-6 border border-surface-200/60 dark:border-surface-700/30 shadow-sm mb-6">
             <div className="flex items-center gap-3 mb-4">
               <User size={18} className="text-primary-500" />
               <h2 className="text-base font-semibold text-surface-900 dark:text-white">
@@ -131,7 +131,7 @@ export function SettingsPage() {
           </section>
 
           {/* Notifications */}
-          <section className="bg-white dark:bg-surface-800 rounded-2xl p-6 border border-surface-200/80 dark:border-surface-700/40 mb-6">
+          <section className="bg-white dark:bg-surface-800/80 rounded-2xl p-6 border border-surface-200/60 dark:border-surface-700/30 shadow-sm mb-6">
             <div className="flex items-center gap-3 mb-4">
               <Bell size={18} className="text-primary-500" />
               <h2 className="text-base font-semibold text-surface-900 dark:text-white">
@@ -177,7 +177,7 @@ export function SettingsPage() {
           </section>
 
           {/* Privacy & Security */}
-          <section className="bg-white dark:bg-surface-800 rounded-2xl p-6 border border-surface-200/80 dark:border-surface-700/40 mb-6">
+          <section className="bg-white dark:bg-surface-800/80 rounded-2xl p-6 border border-surface-200/60 dark:border-surface-700/30 shadow-sm mb-6">
             <div className="flex items-center gap-3 mb-4">
               <Shield size={18} className="text-primary-500" />
               <h2 className="text-base font-semibold text-surface-900 dark:text-white">
@@ -212,7 +212,7 @@ export function SettingsPage() {
               Unlock unlimited notes, advanced AI features, and priority
               support.
             </p>
-            <button className="px-5 py-2.5 bg-white text-primary-600 rounded-xl font-semibold text-sm hover:bg-white/90 transition-colors">
+            <button className="px-5 py-2 bg-white text-primary-600 rounded-lg font-medium text-[12.5px] hover:bg-white/90 transition-colors shadow-sm">
               Learn more
             </button>
           </section>

@@ -41,8 +41,8 @@ export function ProjectsPage() {
 
   if (projectsLoading) {
     return (
-      <div className="px-6 md:px-8 py-6 md:py-8">
-        <div className="mx-auto max-w-[1100px]">
+      <div className="px-6 md:px-10 py-7 md:py-9">
+        <div className="mx-auto max-w-[1080px]">
           <div className="skeleton h-8 w-32 mb-6" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[1, 2, 3].map((i) => (
@@ -55,21 +55,21 @@ export function ProjectsPage() {
   }
 
   return (
-    <div className="px-6 md:px-8 py-6 md:py-8">
-      <div className="mx-auto max-w-[1100px]">
+    <div className="px-6 md:px-10 py-7 md:py-9">
+      <div className="mx-auto max-w-[1080px]">
         <div className="flex items-center justify-between mb-1">
-          <h1 className="text-[22px] font-semibold text-surface-900 dark:text-white">
+          <h1 className="text-[20px] font-semibold text-surface-900 dark:text-white/95">
             Projects
           </h1>
           <button
             onClick={() => setShowNew(true)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-xl transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors shadow-sm"
           >
             <Plus size={16} />
             New Project
           </button>
         </div>
-        <p className="text-[13px] text-surface-500 mb-6">
+        <p className="text-[12.5px] text-surface-500 dark:text-surface-400 mb-6">
           {projects.length} active projects
         </p>
 
@@ -165,7 +165,7 @@ export function ProjectsPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="group bg-white dark:bg-surface-800 rounded-2xl p-5 border border-surface-200/80 dark:border-surface-700/40 hover:shadow-lg transition-all"
+                className="group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-3 mb-4">
                   <div

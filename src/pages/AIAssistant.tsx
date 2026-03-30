@@ -43,22 +43,25 @@ export function AIAssistant() {
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex items-center gap-3 px-6 md:px-8 py-4 border-b border-surface-200 dark:border-surface-700/50 bg-white dark:bg-surface-900 flex-shrink-0">
+      <div className="flex items-center gap-3 px-6 md:px-10 py-4 border-b border-surface-200/60 dark:border-surface-700/30 bg-white dark:bg-surface-900 flex-shrink-0">
         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-violet-500 flex items-center justify-center">
           <Sparkles size={20} className="text-white" />
         </div>
         <div>
-          <h1 className="text-lg font-bold text-surface-900 dark:text-white">
+          <h1 className="text-[17px] font-semibold text-surface-900 dark:text-white/95">
             AI Assistant
           </h1>
-          <p className="text-xs text-surface-500">
+          <p className="text-[12.5px] text-surface-500 dark:text-surface-400">
             Your intelligent knowledge companion
           </p>
         </div>
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 md:px-8 py-6">
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto px-6 md:px-10 py-6"
+      >
         {chatMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full">
             <div className="max-w-lg w-full">
@@ -91,7 +94,7 @@ export function AIAssistant() {
                       onClick={() => {
                         setInput(prompt);
                       }}
-                      className="text-left text-sm px-4 py-3 rounded-xl border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 text-surface-700 dark:text-surface-300 hover:border-primary-300 dark:hover:border-primary-600 hover:bg-primary-50/50 dark:hover:bg-primary-900/10 transition-all"
+                      className="text-left text-[13px] px-4 py-3 rounded-xl border border-surface-200/60 dark:border-surface-700/30 bg-white dark:bg-surface-800/80 text-surface-700 dark:text-surface-300 hover:border-primary-300 dark:hover:border-primary-600 hover:bg-primary-50/50 dark:hover:bg-primary-900/10 shadow-sm transition-all"
                     >
                       {prompt}
                     </button>
@@ -172,7 +175,7 @@ export function AIAssistant() {
       </div>
 
       {/* Input */}
-      <div className="border-t border-surface-200 dark:border-surface-700/50 bg-white dark:bg-surface-900 px-6 md:px-8 py-4 flex-shrink-0">
+      <div className="border-t border-surface-200/60 dark:border-surface-700/30 bg-white dark:bg-surface-900 px-6 md:px-10 py-4 flex-shrink-0">
         <div className="max-w-2xl mx-auto flex items-end gap-3">
           <div className="flex-1 relative">
             <textarea
@@ -186,14 +189,14 @@ export function AIAssistant() {
               }}
               placeholder="Ask me anything about your notes..."
               rows={1}
-              className="w-full px-4 py-3 rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-800 text-surface-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30 resize-none"
+              className="w-full px-4 py-3 rounded-xl border border-surface-200/60 dark:border-surface-700/30 bg-surface-50 dark:bg-surface-800 text-surface-900 dark:text-white text-[13px] shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 resize-none"
               style={{ maxHeight: 120 }}
             />
           </div>
           <button
             onClick={handleSend}
             disabled={chatLoading || !input.trim()}
-            className="p-3 rounded-xl bg-primary-500 hover:bg-primary-600 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+            className="p-3 rounded-lg bg-primary-500 hover:bg-primary-600 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 shadow-sm"
           >
             <Send size={18} />
           </button>

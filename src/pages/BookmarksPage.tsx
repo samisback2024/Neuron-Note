@@ -61,11 +61,11 @@ export function BookmarksPage() {
 
   if (bookmarksLoading) {
     return (
-      <div className="px-6 md:px-8 py-6 md:py-8">
-        <div className="mx-auto max-w-[1100px]">
-          <div className="skeleton h-8 w-36 mb-6" />
+      <div className="px-6 md:px-10 py-7 md:py-9">
+        <div className="mx-auto max-w-[1080px]">
+          <div className="skeleton h-7 w-36 mb-6" />
           {[1, 2, 3].map((i) => (
-            <div key={i} className="skeleton h-24 rounded-xl mb-3" />
+            <div key={i} className="skeleton h-20 rounded-xl mb-3" />
           ))}
         </div>
       </div>
@@ -73,21 +73,21 @@ export function BookmarksPage() {
   }
 
   return (
-    <div className="px-6 md:px-8 py-6 md:py-8">
-      <div className="mx-auto max-w-[1100px]">
+    <div className="px-6 md:px-10 py-7 md:py-9">
+      <div className="mx-auto max-w-[1080px]">
         <div className="flex items-center justify-between mb-1">
-          <h1 className="text-[22px] font-semibold text-surface-900 dark:text-white">
+          <h1 className="text-[20px] font-semibold text-surface-900 dark:text-white/95">
             Bookmarks
           </h1>
           <button
             onClick={() => setShowNew(true)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-xl transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors"
           >
-            <Plus size={16} />
+            <Plus size={15} />
             Add Bookmark
           </button>
         </div>
-        <p className="text-[13px] text-surface-500 mb-6">
+        <p className="text-[12.5px] text-surface-500 dark:text-surface-400 mb-6">
           {bookmarks.length} saved links
         </p>
 
@@ -95,7 +95,7 @@ export function BookmarksPage() {
         <div className="flex items-center gap-3 mb-6">
           <div className="relative flex-1">
             <Search
-              size={16}
+              size={15}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-400"
             />
             <input
@@ -103,21 +103,21 @@ export function BookmarksPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search bookmarks..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 text-surface-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-surface-200/60 dark:border-surface-700/30 bg-white dark:bg-surface-800/80 text-surface-900 dark:text-white/90 text-[13px] focus:outline-none focus:ring-2 focus:ring-primary-500/20 shadow-sm placeholder-surface-400 dark:placeholder-surface-500"
             />
           </div>
-          <div className="flex bg-surface-100 dark:bg-surface-800 rounded-lg p-1">
+          <div className="flex bg-surface-100 dark:bg-surface-800/80 rounded-lg p-1 shadow-sm">
             <button
               onClick={() => setViewMode("list")}
-              className={`p-2 rounded-md transition-colors ${viewMode === "list" ? "bg-white dark:bg-surface-700 shadow-sm" : "text-surface-400"}`}
+              className={`p-1.5 rounded-md transition-colors ${viewMode === "list" ? "bg-white dark:bg-surface-700 shadow-sm" : "text-surface-400"}`}
             >
-              <List size={16} />
+              <List size={15} />
             </button>
             <button
               onClick={() => setViewMode("grid")}
-              className={`p-2 rounded-md transition-colors ${viewMode === "grid" ? "bg-white dark:bg-surface-700 shadow-sm" : "text-surface-400"}`}
+              className={`p-1.5 rounded-md transition-colors ${viewMode === "grid" ? "bg-white dark:bg-surface-700 shadow-sm" : "text-surface-400"}`}
             >
-              <Grid3X3 size={16} />
+              <Grid3X3 size={15} />
             </button>
           </div>
         </div>
@@ -200,15 +200,17 @@ export function BookmarksPage() {
 
         {/* Bookmarks */}
         {filtered.length === 0 ? (
-          <div className="text-center py-16">
-            <Globe
-              size={56}
-              className="mx-auto text-surface-300 dark:text-surface-600 mb-4"
-            />
-            <h3 className="text-lg font-semibold text-surface-900 dark:text-white mb-2">
+          <div className="bg-white dark:bg-surface-800/80 rounded-2xl py-14 px-6 border border-surface-200/60 dark:border-surface-700/30 shadow-sm text-center">
+            <div className="w-12 h-12 rounded-xl bg-surface-100 dark:bg-surface-700/50 flex items-center justify-center mx-auto mb-3">
+              <Globe
+                size={22}
+                className="text-surface-400 dark:text-surface-500"
+              />
+            </div>
+            <h3 className="text-[14px] font-semibold text-surface-900 dark:text-white/90 mb-1">
               {search ? "No bookmarks found" : "No bookmarks yet"}
             </h3>
-            <p className="text-surface-500 text-sm">
+            <p className="text-surface-500 dark:text-surface-400 text-[12.5px] max-w-xs mx-auto">
               {search
                 ? "Try a different search"
                 : "Save your favorite links here"}
@@ -222,7 +224,7 @@ export function BookmarksPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="group bg-white dark:bg-surface-800 rounded-xl p-4 border border-surface-200/80 dark:border-surface-700/40 hover:shadow-md transition-all flex items-start gap-4"
+                className="group bg-white dark:bg-surface-800/80 rounded-xl p-4 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all flex items-start gap-4"
               >
                 <div className="w-12 h-12 rounded-xl bg-surface-100 dark:bg-surface-700 flex items-center justify-center flex-shrink-0 overflow-hidden">
                   {bookmark.image ? (
@@ -288,7 +290,7 @@ export function BookmarksPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.03 }}
-                className="group bg-white dark:bg-surface-800 rounded-xl border border-surface-200/80 dark:border-surface-700/40 hover:shadow-lg transition-all overflow-hidden"
+                className="group bg-white dark:bg-surface-800/80 rounded-xl border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all overflow-hidden"
               >
                 <div className="h-32 bg-gradient-to-br from-surface-100 to-surface-200 dark:from-surface-700 dark:to-surface-800 flex items-center justify-center">
                   {bookmark.image ? (
@@ -330,7 +332,7 @@ export function BookmarksPage() {
         {/* Collections */}
         {collections.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-[17px] font-semibold text-surface-900 dark:text-white mb-4">
+            <h2 className="text-[15px] font-semibold text-surface-900 dark:text-white/90 mb-4">
               Collections
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -346,7 +348,7 @@ export function BookmarksPage() {
                 return (
                   <div
                     key={col}
-                    className="bg-white dark:bg-surface-800 rounded-xl p-5 border border-surface-200/80 dark:border-surface-700/40 hover:shadow-md transition-all cursor-pointer"
+                    className="bg-white dark:bg-surface-800/80 rounded-xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all cursor-pointer"
                   >
                     <div
                       className={`w-10 h-10 rounded-xl ${colors[i % 3]} mb-3`}

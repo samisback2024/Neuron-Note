@@ -76,11 +76,11 @@ export function TasksPage() {
 
   if (tasksLoading) {
     return (
-      <div className="px-6 md:px-8 py-6 md:py-8">
-        <div className="mx-auto max-w-[1100px]">
-          <div className="skeleton h-8 w-24 mb-6" />
+      <div className="px-6 md:px-10 py-7 md:py-9">
+        <div className="mx-auto max-w-[1080px]">
+          <div className="skeleton h-7 w-24 mb-6" />
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="skeleton h-16 rounded-xl mb-3" />
+            <div key={i} className="skeleton h-14 rounded-xl mb-3" />
           ))}
         </div>
       </div>
@@ -88,34 +88,36 @@ export function TasksPage() {
   }
 
   return (
-    <div className="px-6 md:px-8 py-6 md:py-8">
-      <div className="mx-auto max-w-[1100px]">
+    <div className="px-6 md:px-10 py-7 md:py-9">
+      <div className="mx-auto max-w-[1080px]">
         <div className="flex items-center justify-between mb-1">
-          <h1 className="text-[22px] font-semibold text-surface-900 dark:text-white">
+          <h1 className="text-[20px] font-semibold text-surface-900 dark:text-white/95">
             Tasks
           </h1>
           <button
             onClick={() => setShowNewTask(true)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-xl transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors"
           >
-            <Plus size={16} />
+            <Plus size={15} />
             New Task
           </button>
         </div>
-        <p className="text-[13px] text-surface-500 mb-6"></p>
+        <p className="text-[12.5px] text-surface-500 dark:text-surface-400 mb-6">
+          {remaining} tasks remaining
+        </p>
 
         {/* Filters */}
-        <div className="flex items-center gap-2 mb-6">
-          <Filter size={16} className="text-surface-400 mr-1" />
+        <div className="flex items-center gap-1.5 mb-6">
+          <Filter size={14} className="text-surface-400 mr-1.5" />
           {(["all", "today", "upcoming", "completed"] as FilterType[]).map(
             (f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize ${
+                className={`px-3 py-1.5 rounded-lg text-[12.5px] font-medium transition-colors capitalize ${
                   filter === f
-                    ? "bg-primary-500 text-white"
-                    : "bg-surface-100 dark:bg-surface-800 text-surface-600 dark:text-surface-400 hover:bg-surface-200 dark:hover:bg-surface-700"
+                    ? "bg-primary-500 text-white shadow-sm"
+                    : "bg-surface-100 dark:bg-surface-800/80 text-surface-600 dark:text-surface-400 hover:bg-surface-200 dark:hover:bg-surface-700/60"
                 }`}
               >
                 {f}
@@ -209,17 +211,19 @@ export function TasksPage() {
         {/* Task List */}
         <div className="space-y-2">
           {filteredTasks.length === 0 ? (
-            <div className="text-center py-16">
-              <CheckCircle2
-                size={56}
-                className="mx-auto text-surface-300 dark:text-surface-600 mb-4"
-              />
-              <h3 className="text-lg font-semibold text-surface-900 dark:text-white mb-2">
+            <div className="bg-white dark:bg-surface-800/80 rounded-2xl py-14 px-6 border border-surface-200/60 dark:border-surface-700/30 shadow-sm text-center">
+              <div className="w-12 h-12 rounded-xl bg-surface-100 dark:bg-surface-700/50 flex items-center justify-center mx-auto mb-3">
+                <CheckCircle2
+                  size={22}
+                  className="text-surface-400 dark:text-surface-500"
+                />
+              </div>
+              <h3 className="text-[14px] font-semibold text-surface-900 dark:text-white/90 mb-1">
                 {filter === "completed"
                   ? "No completed tasks"
                   : "No tasks here"}
               </h3>
-              <p className="text-surface-500 text-sm">
+              <p className="text-surface-500 dark:text-surface-400 text-[12.5px] max-w-xs mx-auto">
                 {filter === "all"
                   ? "Create your first task to get started"
                   : "Try a different filter"}
@@ -232,7 +236,7 @@ export function TasksPage() {
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="group bg-white dark:bg-surface-800 rounded-xl p-4 border border-surface-200/80 dark:border-surface-700/40 hover:shadow-md transition-all flex items-center gap-4"
+                className="group bg-white dark:bg-surface-800/80 rounded-xl p-4 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all flex items-center gap-4"
               >
                 <button
                   onClick={() =>
@@ -308,12 +312,12 @@ export function TasksPage() {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="bg-white dark:bg-surface-800 rounded-2xl p-4 border border-surface-200/80 dark:border-surface-700/40 text-center"
+                className="bg-white dark:bg-surface-800/80 rounded-2xl p-4 border border-surface-200/60 dark:border-surface-700/30 shadow-sm text-center"
               >
-                <p className="text-[22px] font-bold text-surface-900 dark:text-white">
+                <p className="text-[20px] font-semibold text-surface-900 dark:text-white/95">
                   {stat.value}
                 </p>
-                <p className="text-[11px] text-surface-500 mt-1">
+                <p className="text-[10.5px] text-surface-500 dark:text-surface-400 mt-1">
                   {stat.label}
                 </p>
               </div>

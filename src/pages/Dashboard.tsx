@@ -39,14 +39,14 @@ export function Dashboard() {
   const tourDone = localStorage.getItem("neuron-tour-done");
 
   return (
-    <div className="px-6 md:px-8 py-6 md:py-8">
-      <div className="mx-auto max-w-[1100px]">
+    <div className="px-6 md:px-10 py-7 md:py-9">
+      <div className="mx-auto max-w-[1080px]">
         {/* Welcome */}
         <motion.div {...fadeUp} transition={{ delay: 0 }}>
-          <h1 className="text-[32px] md:text-[44px] font-semibold text-surface-900 dark:text-white leading-[1.05] tracking-tight">
+          <h1 className="text-[28px] md:text-[36px] font-semibold text-surface-900 dark:text-white/95 leading-[1.1] tracking-[-0.01em]">
             {greeting}, {profile?.name?.split(" ")[0] || "there"}
           </h1>
-          <p className="text-[15px] md:text-[17px] text-surface-500 mt-1.5">
+          <p className="text-[14px] md:text-[15px] text-surface-500 dark:text-surface-400 mt-2">
             {format(today, "EEEE, MMMM d, yyyy")} · Your thinking workspace
           </p>
         </motion.div>
@@ -55,39 +55,41 @@ export function Dashboard() {
         <motion.div
           {...fadeUp}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-8"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8"
         >
           {[
             {
               label: "Notes",
               value: totalNotes,
-              trend: <TrendingUp size={18} className="text-primary-400" />,
+              trend: <TrendingUp size={16} className="text-primary-400" />,
             },
             {
-              label: "Tasks",
+              label: "Pending Tasks",
               value: totalTasks,
-              trend: <Clock size={18} className="text-violet-400" />,
+              trend: <Clock size={16} className="text-violet-400" />,
             },
             {
-              label: "Ideas",
+              label: "Connections",
               value: totalConnections,
-              trend: <Zap size={18} className="text-green-400" />,
+              trend: <Zap size={16} className="text-green-400" />,
             },
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-white dark:bg-surface-800 rounded-3xl p-6 border border-surface-200/80 dark:border-surface-700/40 hover:shadow-lg hover:shadow-surface-200/50 dark:hover:shadow-surface-900/50 transition-shadow"
+              className="bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-[28px] font-bold text-surface-900 dark:text-white leading-none">
-                    {stat.value}
-                  </p>
-                  <p className="text-[13px] text-surface-500 mt-2">
+                  <p className="text-[13px] text-surface-500 dark:text-surface-400 font-medium">
                     {stat.label}
                   </p>
+                  <p className="text-[26px] font-semibold text-surface-900 dark:text-white/95 leading-none mt-1.5">
+                    {stat.value}
+                  </p>
                 </div>
-                {stat.trend}
+                <div className="w-8 h-8 rounded-lg bg-surface-50 dark:bg-surface-700/50 flex items-center justify-center">
+                  {stat.trend}
+                </div>
               </div>
             </div>
           ))}
@@ -97,15 +99,18 @@ export function Dashboard() {
         <motion.div
           {...fadeUp}
           transition={{ delay: 0.15 }}
-          className="mt-6 bg-white dark:bg-surface-800 rounded-3xl p-4 px-5 border border-surface-200/80 dark:border-surface-700/40 flex items-center gap-4"
+          className="mt-5 bg-white dark:bg-surface-800/80 rounded-2xl py-3 px-4 border border-surface-200/60 dark:border-surface-700/30 shadow-sm flex items-center gap-3"
         >
-          <div className="w-8 h-8 rounded-full bg-surface-100 dark:bg-surface-700 flex items-center justify-center flex-shrink-0">
-            <Plus size={16} className="text-surface-500" />
+          <div className="w-9 h-9 rounded-xl bg-surface-100 dark:bg-surface-700/50 flex items-center justify-center flex-shrink-0">
+            <Plus
+              size={16}
+              className="text-surface-500 dark:text-surface-400"
+            />
           </div>
           <input
             type="text"
-            placeholder="Quick capture: What's on your mind?"
-            className="flex-1 bg-transparent text-surface-900 dark:text-white placeholder-surface-400 focus:outline-none text-[14px]"
+            placeholder="Quick capture — jot down an idea..."
+            className="flex-1 bg-transparent text-surface-900 dark:text-white/90 placeholder-surface-400 dark:placeholder-surface-500 focus:outline-none text-[13.5px]"
             onKeyDown={(e) => {
               if (e.key === "Enter" && (e.target as HTMLInputElement).value) {
                 const val = (e.target as HTMLInputElement).value;
@@ -119,7 +124,7 @@ export function Dashboard() {
           />
           <button
             onClick={() => navigate("/notes")}
-            className="px-5 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[13px] font-medium rounded-xl transition-colors"
+            className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors"
           >
             Capture
           </button>
@@ -130,27 +135,27 @@ export function Dashboard() {
           <motion.div
             {...fadeUp}
             transition={{ delay: 0.2 }}
-            className="mt-6 bg-gradient-to-r from-primary-500 via-violet-500 to-green-400 rounded-3xl p-7 text-white"
+            className="mt-5 bg-gradient-to-r from-primary-500 via-violet-500 to-green-400 rounded-2xl p-6 md:p-7 text-white shadow-lg shadow-primary-500/10"
           >
             <div className="flex items-center justify-between gap-6">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <PlayCircle size={16} />
-                  <span className="text-[11px] font-semibold uppercase tracking-wider opacity-80">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <PlayCircle size={14} />
+                  <span className="text-[10.5px] font-semibold uppercase tracking-widest opacity-80">
                     Interactive Demo
                   </span>
                 </div>
-                <h3 className="text-[20px] font-bold leading-snug">
-                  Experience Neuron Note&apos;s Full Workflow
+                <h3 className="text-[17px] font-semibold leading-snug">
+                  Experience the Full Workflow
                 </h3>
-                <p className="text-[13px] text-white/70 mt-1.5">
-                  Take a guided tour: Create a note → Link ideas → Visualize
-                  connections → Get AI insights
+                <p className="text-[12.5px] text-white/65 mt-1">
+                  Create a note → Link ideas → Visualize connections → Get AI
+                  insights
                 </p>
               </div>
               <button
                 onClick={startTour}
-                className="px-6 py-2.5 bg-white text-primary-600 rounded-xl font-semibold text-[13px] hover:bg-white/90 transition-colors flex-shrink-0"
+                className="px-5 py-2.5 bg-white text-primary-600 rounded-xl font-semibold text-[12.5px] hover:bg-white/90 transition-colors flex-shrink-0 shadow-sm"
               >
                 Start Tour
               </button>
@@ -159,36 +164,41 @@ export function Dashboard() {
         )}
 
         {/* Recent Notes */}
-        <motion.div {...fadeUp} transition={{ delay: 0.25 }} className="mt-10">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-[17px] font-semibold text-surface-900 dark:text-white">
+        <motion.div {...fadeUp} transition={{ delay: 0.25 }} className="mt-9">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-[15px] font-semibold text-surface-900 dark:text-white/90">
               Recent Notes
             </h2>
             <button
               onClick={() => navigate("/notes")}
-              className="text-[13px] text-primary-500 hover:text-primary-600 font-medium"
+              className="text-[12.5px] text-primary-500 hover:text-primary-600 font-medium"
             >
               View all
             </button>
           </div>
           {recentNotes.length === 0 ? (
-            <div className="bg-white dark:bg-surface-800 rounded-3xl p-10 border border-surface-200/80 dark:border-surface-700/40 text-center">
-              <FileText
-                size={36}
-                className="mx-auto text-surface-300 dark:text-surface-600 mb-3"
-              />
-              <p className="text-surface-500 text-[14px]">
-                No notes yet. Start capturing your ideas!
+            <div className="bg-white dark:bg-surface-800/80 rounded-2xl py-12 px-6 border border-surface-200/60 dark:border-surface-700/30 shadow-sm text-center">
+              <div className="w-12 h-12 rounded-xl bg-surface-100 dark:bg-surface-700/50 flex items-center justify-center mx-auto mb-3">
+                <FileText
+                  size={22}
+                  className="text-surface-400 dark:text-surface-500"
+                />
+              </div>
+              <h3 className="text-[14px] font-semibold text-surface-900 dark:text-white/90 mb-1">
+                No notes yet
+              </h3>
+              <p className="text-surface-500 dark:text-surface-400 text-[12.5px] mb-4 max-w-xs mx-auto">
+                Start capturing your ideas and thoughts to see them here.
               </p>
               <button
                 onClick={() => navigate("/notes")}
-                className="mt-3 text-[13px] text-primary-500 hover:text-primary-600 font-medium"
+                className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors"
               >
                 Create your first note
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {recentNotes.map((note, i) => (
                 <motion.div
                   key={note.id}
@@ -196,25 +206,25 @@ export function Dashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.05 }}
                   onClick={() => navigate(`/notes/${note.id}`)}
-                  className="bg-white dark:bg-surface-800 rounded-2xl p-5 border border-surface-200/80 dark:border-surface-700/40 hover:shadow-lg hover:shadow-surface-200/50 dark:hover:shadow-surface-900/50 hover:border-primary-200 dark:hover:border-primary-700 transition-all cursor-pointer"
+                  className="bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md hover:border-primary-200/60 dark:hover:border-primary-700/40 transition-all cursor-pointer"
                 >
-                  <h3 className="font-semibold text-surface-900 dark:text-white text-[14px]">
+                  <h3 className="font-medium text-surface-900 dark:text-white/90 text-[13.5px]">
                     {note.title}
                   </h3>
-                  <p className="text-[12px] text-surface-500 mt-2 line-clamp-2 leading-relaxed">
+                  <p className="text-[12px] text-surface-500 dark:text-surface-400 mt-1.5 line-clamp-2 leading-relaxed">
                     {note.content?.replace(/<[^>]*>/g, "").substring(0, 120) ||
                       "Empty note"}
                   </p>
-                  <div className="flex items-center gap-2 mt-4 flex-wrap">
+                  <div className="flex items-center gap-2 mt-3.5 flex-wrap">
                     {note.tags?.slice(0, 2).map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 rounded-full text-[11px] bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400"
+                        className="px-2 py-0.5 rounded-md text-[10.5px] bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-medium"
                       >
                         {tag}
                       </span>
                     ))}
-                    <span className="text-[11px] text-surface-400 ml-auto">
+                    <span className="text-[10.5px] text-surface-400 ml-auto">
                       {format(new Date(note.updated_at), "MMM d")}
                     </span>
                   </div>
@@ -225,31 +235,36 @@ export function Dashboard() {
         </motion.div>
 
         {/* Today's Tasks */}
-        <motion.div {...fadeUp} transition={{ delay: 0.3 }} className="mt-10">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-[17px] font-semibold text-surface-900 dark:text-white">
+        <motion.div {...fadeUp} transition={{ delay: 0.3 }} className="mt-9">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-[15px] font-semibold text-surface-900 dark:text-white/90">
               Today&apos;s Tasks
             </h2>
             <button
               onClick={() => navigate("/tasks")}
-              className="text-[13px] text-primary-500 hover:text-primary-600 font-medium"
+              className="text-[12.5px] text-primary-500 hover:text-primary-600 font-medium"
             >
               View all
             </button>
           </div>
-          <div className="bg-white dark:bg-surface-800 rounded-3xl border border-surface-200/80 dark:border-surface-700/40 overflow-hidden">
+          <div className="bg-white dark:bg-surface-800/80 rounded-2xl border border-surface-200/60 dark:border-surface-700/30 shadow-sm overflow-hidden">
             {todayTasks.length === 0 ? (
-              <div className="p-10 text-center">
-                <CheckSquare
-                  size={36}
-                  className="mx-auto text-surface-300 dark:text-surface-600 mb-3"
-                />
-                <p className="text-surface-500 text-[14px]">
-                  All caught up! No pending tasks.
+              <div className="py-12 px-6 text-center">
+                <div className="w-12 h-12 rounded-xl bg-surface-100 dark:bg-surface-700/50 flex items-center justify-center mx-auto mb-3">
+                  <CheckSquare
+                    size={22}
+                    className="text-surface-400 dark:text-surface-500"
+                  />
+                </div>
+                <h3 className="text-[14px] font-semibold text-surface-900 dark:text-white/90 mb-1">
+                  All caught up!
+                </h3>
+                <p className="text-surface-500 dark:text-surface-400 text-[12.5px] mb-4 max-w-xs mx-auto">
+                  No pending tasks for today. Create one to stay on track.
                 </p>
                 <button
                   onClick={() => navigate("/tasks")}
-                  className="mt-3 text-[13px] text-primary-500 hover:text-primary-600 font-medium"
+                  className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors"
                 >
                   Create a task
                 </button>
@@ -258,7 +273,7 @@ export function Dashboard() {
               todayTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="flex items-center gap-3 px-5 py-3.5 border-b border-surface-100 dark:border-surface-700/30 last:border-0 hover:bg-surface-50 dark:hover:bg-surface-700/30 transition-colors"
+                  className="flex items-center gap-3 px-5 py-3.5 border-b border-surface-100 dark:border-surface-700/20 last:border-0 hover:bg-surface-50/50 dark:hover:bg-surface-700/20 transition-colors"
                 >
                   <input
                     type="checkbox"
@@ -268,24 +283,24 @@ export function Dashboard() {
                         .getState()
                         .updateTask(task.id, { completed: !task.completed })
                     }
-                    className="w-4 h-4 rounded-md border-2 border-surface-300 dark:border-surface-600 accent-green-400"
+                    className="w-4 h-4 rounded border-2 border-surface-300 dark:border-surface-600 accent-green-400"
                   />
                   <span
-                    className={`text-[14px] flex-1 ${
+                    className={`text-[13.5px] flex-1 ${
                       task.completed
                         ? "line-through text-surface-400"
-                        : "text-surface-900 dark:text-white"
+                        : "text-surface-900 dark:text-white/90"
                     }`}
                   >
                     {task.title}
                   </span>
                   <span
-                    className={`text-[11px] px-2 py-0.5 rounded-md font-medium ${
+                    className={`text-[10.5px] px-2 py-0.5 rounded font-medium ${
                       task.priority === "high"
-                        ? "bg-red-50 dark:bg-red-900/20 text-red-500"
+                        ? "bg-red-50 dark:bg-red-900/15 text-red-500"
                         : task.priority === "medium"
-                          ? "bg-yellow-50 dark:bg-yellow-900/20 text-yellow-600"
-                          : "bg-green-50 dark:bg-green-900/20 text-green-500"
+                          ? "bg-yellow-50 dark:bg-yellow-900/15 text-yellow-600 dark:text-yellow-500"
+                          : "bg-green-50 dark:bg-green-900/15 text-green-500"
                     }`}
                   >
                     {task.priority}
