@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "motion/react";
 import { X, Clock, Link2, Tag } from "lucide-react";
 import { useStore } from "../../lib/store";
 import { formatDistanceToNow } from "date-fns";
@@ -30,15 +29,9 @@ export function ContextPanel() {
   };
 
   return (
-    <AnimatePresence>
+    <>
       {contextOpen && (
-        <motion.aside
-          initial={{ width: 0, opacity: 0 }}
-          animate={{ width: 320, opacity: 1 }}
-          exit={{ width: 0, opacity: 0 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="hidden lg:flex flex-col h-screen bg-white dark:bg-surface-900 border-l border-surface-200 dark:border-surface-700/50 overflow-hidden flex-shrink-0"
-        >
+        <aside className="hidden lg:flex flex-col h-screen w-80 min-w-[320px] bg-white dark:bg-surface-900 border-l border-surface-200 dark:border-surface-700/50 flex-shrink-0">
           <div className="flex items-center justify-between px-5 h-16 border-b border-surface-200 dark:border-surface-700/50 flex-shrink-0">
             <h3 className="font-semibold text-surface-900 dark:text-white">
               {getContextTitle()}
@@ -147,8 +140,8 @@ export function ContextPanel() {
               )}
             </div>
           </div>
-        </motion.aside>
+        </aside>
       )}
-    </AnimatePresence>
+    </>
   );
 }
