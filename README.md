@@ -24,18 +24,18 @@
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18, TypeScript, Vite 8 |
-| Styling | Tailwind CSS v4 with custom design system |
-| State | Zustand |
-| Editor | TipTap (StarterKit, Highlight, TaskList, Typography) |
-| Animations | Motion (framer-motion successor) |
-| Backend | Supabase (Auth, PostgreSQL, RLS, Realtime) |
-| AI | Supabase Edge Functions + OpenAI GPT-4o-mini |
-| Icons | Lucide React |
-| Routing | React Router DOM v6 |
-| Hosting | Vercel |
+| Layer      | Technology                                           |
+| ---------- | ---------------------------------------------------- |
+| Frontend   | React 18, TypeScript, Vite 8                         |
+| Styling    | Tailwind CSS v4 with custom design system            |
+| State      | Zustand                                              |
+| Editor     | TipTap (StarterKit, Highlight, TaskList, Typography) |
+| Animations | Motion (framer-motion successor)                     |
+| Backend    | Supabase (Auth, PostgreSQL, RLS, Realtime)           |
+| AI         | Supabase Edge Functions + OpenAI GPT-4o-mini         |
+| Icons      | Lucide React                                         |
+| Routing    | React Router DOM v6                                  |
+| Hosting    | Vercel                                               |
 
 ## Getting Started
 

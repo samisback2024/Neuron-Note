@@ -33,15 +33,15 @@
   --color-green-800: #0d4c30;
   --color-green-900: #062817;
   --color-surface-50: #ffffff;
-  --color-surface-100: #f8f9fa;
+  --color-surface-100: #f8f9fb;
   --color-surface-200: #f0f1f3;
   --color-surface-300: #e2e4e8;
   --color-surface-400: #c8ccd3;
   --color-surface-500: #9ca3af;
   --color-surface-600: #6b7280;
   --color-surface-700: #4b5563;
-  --color-surface-800: #2a2a2a;
-  --color-surface-900: #1a1a1a;
+  --color-surface-800: #1e1e24;
+  --color-surface-900: #16161b;
   --color-danger: #ef4444;
   --color-warning: #f59e0b;
 }
@@ -58,12 +58,14 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 15px;
 }
 
 body {
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #4b5563;
 }
 
 ::-webkit-scrollbar {
