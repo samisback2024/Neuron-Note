@@ -2,6 +2,7 @@
 // Deploy: supabase functions deploy ai-chat
 // Set secret: supabase secrets set OPENAI_API_KEY=your_key
 
+// deno-lint-ignore-file
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
@@ -16,7 +17,7 @@ serve(async (req) => {
   }
 
   try {
-    const { message, userId } = await req.json();
+    const { message } = await req.json();
     const openaiKey = Deno.env.get("OPENAI_API_KEY");
 
     if (!openaiKey) {
@@ -57,7 +58,7 @@ serve(async (req) => {
     return new Response(JSON.stringify({ reply }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
-  } catch (error) {
+  } catch {
     return new Response(
       JSON.stringify({ reply: "An error occurred processing your request." }),
       {

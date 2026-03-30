@@ -11,9 +11,9 @@ export function ContextPanel() {
   const displayTags = tags.slice(0, 5);
 
   // Compute related notes from links
-  const relatedNotes = notes.slice(0, 3).map((n) => ({
+  const relatedNotes = notes.slice(0, 3).map((n, i) => ({
     ...n,
-    similarity: Math.floor(Math.random() * 15 + 80),
+    similarity: 85 + i * 3,
   }));
 
   const getContextTitle = () => {

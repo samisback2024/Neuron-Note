@@ -15,8 +15,7 @@ const PROJECT_COLORS = [
 ];
 
 export function ProjectsPage() {
-  const { projects, projectsLoading, tasks, createProject, deleteProject } =
-    useStore();
+  const { projects, projectsLoading, tasks, createProject } = useStore();
   const [showNew, setShowNew] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

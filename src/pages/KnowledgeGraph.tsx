@@ -40,11 +40,12 @@ export function KnowledgeGraph() {
   const isDragging = useRef(false);
   const lastMouse = useRef({ x: 0, y: 0 });
   const nodesRef = useRef<GraphNode[]>([]);
+  const drawRef = useRef<() => void>(() => {});
 
   const { nodes, edges } = useMemo(() => {
     const graphNodes: GraphNode[] = notes.map((note, i) => {
       const angle = (i / notes.length) * Math.PI * 2;
-      const radius = 200 + Math.random() * 100;
+      const radius = 200 + ((i * 73 + 37) % 100);
       return {
         id: note.id,
         label: note.title || "Untitled",
@@ -71,17 +72,16 @@ export function KnowledgeGraph() {
 
   const simulateForces = useCallback(() => {
     const ns = nodesRef.current;
+    if (ns.length === 0) return;
     const damping = 0.9;
     const repulsion = 5000;
     const attraction = 0.005;
     const centerForce = 0.01;
 
     for (let i = 0; i < ns.length; i++) {
-      // Center gravity
       ns[i].vx -= ns[i].x * centerForce;
       ns[i].vy -= ns[i].y * centerForce;
 
-      // Repulsion between nodes
       for (let j = i + 1; j < ns.length; j++) {
         const dx = ns[j].x - ns[i].x;
         const dy = ns[j].y - ns[i].y;
@@ -96,7 +96,6 @@ export function KnowledgeGraph() {
       }
     }
 
-    // Edge attraction
     for (const edge of edges) {
       const source = ns.find((n) => n.id === edge.source);
       const target = ns.find((n) => n.id === edge.target);
@@ -110,12 +109,11 @@ export function KnowledgeGraph() {
       }
     }
 
-    // Apply velocity
-    for (const n of ns) {
-      n.vx *= damping;
-      n.vy *= damping;
-      n.x += n.vx;
-      n.y += n.vy;
+    for (let i = 0; i < ns.length; i++) {
+      ns[i].vx *= damping;
+      ns[i].vy *= damping;
+      ns[i].x += ns[i].vx;
+      ns[i].y += ns[i].vy;
     }
   }, [edges]);
 
@@ -190,8 +188,12 @@ export function KnowledgeGraph() {
     }
 
     simulateForces();
-    animRef.current = requestAnimationFrame(draw);
+    animRef.current = requestAnimationFrame(() => drawRef.current());
   }, [edges, zoom, hoveredNode, search, panOffset, simulateForces]);
+
+  useEffect(() => {
+    drawRef.current = draw;
+  }, [draw]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -251,7 +253,7 @@ export function KnowledgeGraph() {
         : "grab";
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleClick = () => {
     if (hoveredNode) {
       navigate(`/notes/${hoveredNode}`);
     }

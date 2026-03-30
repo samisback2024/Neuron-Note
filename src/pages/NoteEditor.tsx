@@ -31,11 +31,12 @@ export function NoteEditor() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { notes, updateNote, deleteNote } = useStore();
-  const [title, setTitle] = useState("");
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   const note = notes.find((n) => n.id === id);
+  const noteContent = note?.content;
+  const [title, setTitle] = useState(note?.title ?? "");
 
   const editor = useEditor({
     extensions: [
@@ -59,13 +60,15 @@ export function NoteEditor() {
   });
 
   useEffect(() => {
-    if (note) {
+    if (note?.id) {
       setTitle(note.title);
-      if (editor && note.content !== editor.getHTML()) {
-        editor.commands.setContent(note.content);
+      if (editor && noteContent !== editor.getHTML()) {
+        editor.commands.setContent(noteContent || "");
       }
     }
-  }, [note?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+    // Only sync when navigating to a different note
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [note?.id]);
 
   const saveNote = useCallback(async () => {
     if (!id || !editor) return;
