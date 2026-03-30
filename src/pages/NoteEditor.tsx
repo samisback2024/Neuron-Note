@@ -81,7 +81,7 @@ export function NoteEditor() {
   // Auto-save every 3 seconds if content changes
   useEffect(() => {
     const interval = setInterval(() => {
-      if (editor?.isActive) {
+      if (editor && !editor.isDestroyed) {
         saveNote();
       }
     }, 3000);
