@@ -23,6 +23,8 @@ import {
   Save,
   Trash2,
   Users,
+  RotateCcw,
+  AlertTriangle,
 } from "lucide-react";
 import { useStore } from "../lib/store";
 import { ShareModal } from "../components/ShareModal";
@@ -40,22 +42,30 @@ export function NoteEditor() {
     noteCollaborators,
     loadNoteCollaborators,
     subscribeToNote,
+    trashedNotes,
+    loadTrashedNotes,
+    restoreNote,
+    permanentlyDeleteNote,
   } = useStore();
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
+  const [confirmPermanentDelete, setConfirmPermanentDelete] = useState(false);
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const note = notes.find((n) => n.id === id);
+  const note =
+    notes.find((n) => n.id === id) || trashedNotes.find((n) => n.id === id);
+  const isTrashed = note?.is_trashed ?? false;
   const noteContent = note?.content;
   const [title, setTitle] = useState(note?.title ?? "");
 
   const isOwner = note?.user_id === user?.id;
   const canEdit =
-    isOwner ||
-    noteCollaborators.some(
-      (c) => c.user_id === user?.id && c.role === "editor",
-    );
+    !isTrashed &&
+    (isOwner ||
+      noteCollaborators.some(
+        (c) => c.user_id === user?.id && c.role === "editor",
+      ));
 
   const editor = useEditor({
     extensions: [
@@ -93,9 +103,10 @@ export function NoteEditor() {
   useEffect(() => {
     if (!id) return;
     loadNoteCollaborators(id);
+    loadTrashedNotes();
     const unsubscribe = subscribeToNote(id);
     return () => unsubscribe();
-  }, [id, loadNoteCollaborators, subscribeToNote]);
+  }, [id, loadNoteCollaborators, subscribeToNote, loadTrashedNotes]);
 
   // Set editor editability based on permissions
   useEffect(() => {
@@ -162,8 +173,23 @@ export function NoteEditor() {
   const handleDelete = async () => {
     if (!id) return;
     await deleteNote(id);
-    toast.success("Note deleted");
+    toast.success("Moved to Trash");
     navigate("/notes");
+  };
+
+  const handleRestore = async () => {
+    if (!id) return;
+    await restoreNote(id);
+    toast.success("Note restored");
+    navigate(`/notes/${id}`);
+  };
+
+  const handlePermanentDelete = async () => {
+    if (!id) return;
+    await permanentlyDeleteNote(id);
+    setConfirmPermanentDelete(false);
+    toast.success("Note permanently deleted");
+    navigate("/trash");
   };
 
   if (!note) {
@@ -344,6 +370,32 @@ export function NoteEditor() {
         </div>
       </div>
 
+      {/* Trashed banner */}
+      {isTrashed && (
+        <div className="flex items-center gap-3 px-4 md:px-8 py-3 bg-red-50 dark:bg-red-900/15 border-b border-red-200/60 dark:border-red-800/30">
+          <AlertTriangle size={16} className="text-red-500 flex-shrink-0" />
+          <span className="text-[13px] text-red-600 dark:text-red-400 font-medium">
+            This note is in Trash
+          </span>
+          <div className="ml-auto flex items-center gap-2 flex-shrink-0">
+            <button
+              onClick={handleRestore}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-500 hover:bg-primary-600 text-white text-[12px] font-medium transition-colors"
+            >
+              <RotateCcw size={13} />
+              Restore
+            </button>
+            <button
+              onClick={() => setConfirmPermanentDelete(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-[12px] font-medium transition-colors"
+            >
+              <Trash2 size={13} />
+              Delete Forever
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Editor */}
       <div className="flex-1 overflow-y-auto px-4 md:px-8 py-6 max-w-3xl mx-auto w-full">
         <input
@@ -379,6 +431,56 @@ export function NoteEditor() {
             isOwner={isOwner}
             onClose={() => setShareOpen(false)}
           />
+        )}
+      </AnimatePresence>
+
+      {/* Permanent Delete Confirmation */}
+      <AnimatePresence>
+        {confirmPermanentDelete && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            onClick={() => setConfirmPermanentDelete(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="px-6 py-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center flex-shrink-0">
+                    <AlertTriangle size={20} className="text-red-500" />
+                  </div>
+                  <h3 className="text-[16px] font-semibold text-surface-900 dark:text-white/95">
+                    Delete permanently?
+                  </h3>
+                </div>
+                <p className="text-[13px] text-surface-500 dark:text-surface-400 leading-relaxed">
+                  This note will be permanently deleted. This action cannot be
+                  undone.
+                </p>
+              </div>
+              <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-surface-200/60 dark:border-surface-700/30">
+                <button
+                  onClick={() => setConfirmPermanentDelete(false)}
+                  className="px-4 py-2 rounded-lg text-[12.5px] font-medium text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handlePermanentDelete}
+                  className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white text-[12.5px] font-medium transition-colors"
+                >
+                  Delete Forever
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.div>

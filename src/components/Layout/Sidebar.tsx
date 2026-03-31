@@ -11,6 +11,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  Trash2,
 } from "lucide-react";
 import { useStore } from "../../lib/store";
 
@@ -22,6 +23,7 @@ const navItems = [
   { to: "/knowledge-graph", icon: Share2, label: "Knowledge Graph" },
   { to: "/bookmarks", icon: Bookmark, label: "Bookmarks" },
   { to: "/ai-assistant", icon: Sparkles, label: "AI Assistant" },
+  { to: "/trash", icon: Trash2, label: "Trash" },
   { to: "/settings", icon: Settings, label: "Settings" },
 ];
 

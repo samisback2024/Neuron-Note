@@ -28,7 +28,7 @@ export function NotesPage() {
   const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     await deleteNote(id);
-    toast.success("Note deleted");
+    toast.success("Moved to Trash");
   };
 
   if (notesLoading) {

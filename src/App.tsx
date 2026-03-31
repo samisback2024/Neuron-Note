@@ -14,6 +14,7 @@ import { KnowledgeGraph } from "./pages/KnowledgeGraph";
 import { BookmarksPage } from "./pages/BookmarksPage";
 import { AIAssistant } from "./pages/AIAssistant";
 import { SettingsPage } from "./pages/SettingsPage";
+import { TrashPage } from "./pages/TrashPage";
 import { OnboardingTour } from "./components/OnboardingTour";
 import { QuickCapture } from "./components/QuickCapture";
 
@@ -124,6 +125,7 @@ export default function App() {
                   <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
                   <Route path="/bookmarks" element={<BookmarksPage />} />
                   <Route path="/ai-assistant" element={<AIAssistant />} />
+                  <Route path="/trash" element={<TrashPage />} />
                   <Route path="/settings" element={<SettingsPage />} />
                 </Routes>
               </AppLayout>

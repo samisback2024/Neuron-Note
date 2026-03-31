@@ -17,6 +17,8 @@ export interface Note {
   title: string;
   content: string;
   tags?: string[];
+  is_trashed: boolean;
+  trashed_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -127,6 +129,14 @@ interface AppState {
   createNote: (title: string, content: string) => Promise<Note | null>;
   updateNote: (id: string, updates: Partial<Note>) => Promise<void>;
   deleteNote: (id: string) => Promise<void>;
+
+  // Trash
+  trashedNotes: Note[];
+  trashedLoading: boolean;
+  loadTrashedNotes: () => Promise<void>;
+  trashNote: (id: string) => Promise<void>;
+  restoreNote: (id: string) => Promise<void>;
+  permanentlyDeleteNote: (id: string) => Promise<void>;
 
   // Tasks
   tasks: Task[];
@@ -291,11 +301,12 @@ export const useStore = create<AppState>((set, get) => ({
     if (!user) return;
     set({ notesLoading: true });
 
-    // Fetch own notes
+    // Fetch own notes (exclude trashed)
     const { data: ownNotes } = await supabase
       .from("notes")
       .select("*")
       .eq("user_id", user.id)
+      .eq("is_trashed", false)
       .order("updated_at", { ascending: false });
 
     // Fetch notes shared with me
@@ -311,6 +322,7 @@ export const useStore = create<AppState>((set, get) => ({
         .from("notes")
         .select("*")
         .in("id", sharedIds)
+        .eq("is_trashed", false)
         .order("updated_at", { ascending: false });
       sharedNotes = (data as Note[]) ?? [];
     }
@@ -361,8 +373,60 @@ export const useStore = create<AppState>((set, get) => ({
   },
 
   deleteNote: async (id) => {
-    await supabase.from("notes").delete().eq("id", id);
+    // Soft delete: move to trash
+    await supabase
+      .from("notes")
+      .update({ is_trashed: true, trashed_at: new Date().toISOString() })
+      .eq("id", id);
     set((s) => ({ notes: s.notes.filter((n) => n.id !== id) }));
+  },
+
+  // Trash
+  trashedNotes: [],
+  trashedLoading: false,
+
+  loadTrashedNotes: async () => {
+    const user = get().user;
+    if (!user) return;
+    set({ trashedLoading: true });
+    const { data } = await supabase
+      .from("notes")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("is_trashed", true)
+      .order("trashed_at", { ascending: false });
+    set({ trashedNotes: (data as Note[]) ?? [], trashedLoading: false });
+  },
+
+  trashNote: async (id) => {
+    await supabase
+      .from("notes")
+      .update({ is_trashed: true, trashed_at: new Date().toISOString() })
+      .eq("id", id);
+    set((s) => ({
+      notes: s.notes.filter((n) => n.id !== id),
+    }));
+  },
+
+  restoreNote: async (id) => {
+    await supabase
+      .from("notes")
+      .update({ is_trashed: false, trashed_at: null })
+      .eq("id", id);
+    const restored = get().trashedNotes.find((n) => n.id === id);
+    set((s) => ({
+      trashedNotes: s.trashedNotes.filter((n) => n.id !== id),
+      notes: restored
+        ? [{ ...restored, is_trashed: false, trashed_at: null }, ...s.notes]
+        : s.notes,
+    }));
+  },
+
+  permanentlyDeleteNote: async (id) => {
+    await supabase.from("notes").delete().eq("id", id);
+    set((s) => ({
+      trashedNotes: s.trashedNotes.filter((n) => n.id !== id),
+    }));
   },
 
   // Tasks
