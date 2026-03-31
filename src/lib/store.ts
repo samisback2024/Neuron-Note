@@ -516,9 +516,22 @@ export const useStore = create<AppState>((set, get) => ({
         body: { message: content, userId: user.id },
       });
 
-      const reply = error
-        ? "I'm sorry, I couldn't process your request. Please check your Supabase Edge Function configuration."
-        : (data?.reply ?? "I'm thinking...");
+      let reply: string;
+      if (error) {
+        console.error("[AI Assistant] Edge function error:", error);
+        reply =
+          "Could not reach the AI service. Make sure the 'ai-chat' edge function is deployed and OPENAI_API_KEY is set. Check browser console for details.";
+      } else if (data?.error) {
+        console.warn(
+          "[AI Assistant] Function returned error:",
+          data.error,
+          data.detail,
+        );
+        reply = data.reply || "The AI service encountered a problem.";
+      } else {
+        reply =
+          data?.reply ?? "I received an empty response. Please try again.";
+      }
 
       const { data: assistantMsg } = await supabase
         .from("chat_messages")
@@ -535,12 +548,13 @@ export const useStore = create<AppState>((set, get) => ({
           chatMessages: [...s.chatMessages, assistantMsg as ChatMessage],
         }));
       }
-    } catch {
+    } catch (err) {
+      console.error("[AI Assistant] Network/invocation error:", err);
       const fallback: ChatMessage = {
         id: crypto.randomUUID(),
         role: "assistant",
         content:
-          "I'm having trouble connecting right now. Please ensure your Supabase Edge Function for AI chat is configured.",
+          "Could not connect to the AI service. Verify the 'ai-chat' edge function is deployed and your Supabase project is running.",
         created_at: new Date().toISOString(),
       };
       set((s) => ({ chatMessages: [...s.chatMessages, fallback] }));

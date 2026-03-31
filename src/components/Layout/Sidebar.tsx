@@ -74,9 +74,7 @@ export function Sidebar() {
       >
         {/* Header */}
         <div className="flex items-center gap-3 px-5 h-[60px] flex-shrink-0">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-violet-500 flex items-center justify-center flex-shrink-0">
-            <Sparkles size={15} className="text-white" />
-          </div>
+          <img src="/favicon.svg" alt="Neuron Note" className="w-8 h-8 flex-shrink-0" />
           <AnimatePresence>
             {sidebarOpen && (
               <motion.span
