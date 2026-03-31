@@ -272,6 +272,34 @@ export function QuickCapture() {
       e.preventDefault();
       if (mode === "command" && allItems[selectedIndex]) {
         allItems[selectedIndex].action();
+      } else if (mode === "command" && query.trim() && allItems.length === 0) {
+        // Prefix shortcut in command mode
+        if (query.startsWith("#task ")) {
+          const title = query.slice(6).trim();
+          if (title) {
+            createTask({
+              title,
+              completed: false,
+              priority: "medium",
+              due_date: new Date().toISOString().split("T")[0],
+              project_id: null,
+              project_name: null,
+            });
+            toast.success("Task created");
+          }
+          close();
+        } else {
+          const title = query.startsWith("#note ")
+            ? query.slice(6).trim()
+            : query.trim();
+          createNote(title, "").then((note) => {
+            if (note) {
+              navigate(`/notes/${note.id}`);
+              toast.success("Note created");
+            }
+          });
+          close();
+        }
       } else if (mode === "note" && query.trim()) {
         createNote(query, "").then((note) => {
           if (note) {

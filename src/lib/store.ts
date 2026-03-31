@@ -17,6 +17,7 @@ export interface Note {
   title: string;
   content: string;
   tags?: string[];
+  is_pinned: boolean;
   is_trashed: boolean;
   trashed_at: string | null;
   created_at: string;
@@ -119,6 +120,7 @@ interface AppState {
   loadNotes: () => Promise<void>;
   createNote: (title: string, content: string) => Promise<Note | null>;
   updateNote: (id: string, updates: Partial<Note>) => Promise<void>;
+  togglePin: (id: string) => Promise<void>;
   deleteNote: (id: string) => Promise<void>;
 
   // Trash
@@ -200,6 +202,10 @@ interface AppState {
     dailySummary: boolean;
   };
   updateNotifications: (n: Partial<AppState["notifications"]>) => void;
+
+  // Connectivity
+  isOnline: boolean;
+  setOnline: (v: boolean) => void;
 }
 
 export const useStore = create<AppState>((set, get) => ({
@@ -351,6 +357,18 @@ export const useStore = create<AppState>((set, get) => ({
         n.id === id
           ? { ...n, ...updates, updated_at: new Date().toISOString() }
           : n,
+      ),
+    }));
+  },
+
+  togglePin: async (id) => {
+    const note = get().notes.find((n) => n.id === id);
+    if (!note) return;
+    const pinned = !note.is_pinned;
+    await supabase.from("notes").update({ is_pinned: pinned }).eq("id", id);
+    set((s) => ({
+      notes: s.notes.map((n) =>
+        n.id === id ? { ...n, is_pinned: pinned } : n,
       ),
     }));
   },
@@ -682,4 +700,8 @@ export const useStore = create<AppState>((set, get) => ({
   },
   updateNotifications: (n) =>
     set((s) => ({ notifications: { ...s.notifications, ...n } })),
+
+  // Connectivity
+  isOnline: typeof navigator !== "undefined" ? navigator.onLine : true,
+  setOnline: (v) => set({ isOnline: v }),
 }));

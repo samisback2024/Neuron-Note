@@ -16,6 +16,8 @@ import { SettingsPage } from "./pages/SettingsPage";
 import { TrashPage } from "./pages/TrashPage";
 import { OnboardingTour } from "./components/OnboardingTour";
 import { QuickCapture } from "./components/QuickCapture";
+import { SearchOverlay } from "./components/SearchOverlay";
+import { SyncStatus } from "./components/SyncStatus";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { session, authLoading } = useStore();
@@ -140,6 +142,8 @@ export default function App() {
                 </Routes>
               </AppLayout>
               <QuickCapture />
+              <SearchOverlay />
+              <SyncStatus />
             </ProtectedRoute>
           }
         />

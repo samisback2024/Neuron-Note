@@ -24,6 +24,7 @@ import {
   Users,
   RotateCcw,
   AlertTriangle,
+  Pin,
 } from "lucide-react";
 import { useStore } from "../lib/store";
 import { ShareModal } from "../components/ShareModal";
@@ -37,6 +38,7 @@ export function NoteEditor() {
     notes,
     updateNote,
     deleteNote,
+    togglePin,
     user,
     noteCollaborators,
     loadNoteCollaborators,
@@ -356,6 +358,21 @@ export function NoteEditor() {
             title="Share note"
           >
             <Users size={16} />
+          </button>
+          <button
+            onClick={() => {
+              if (!id) return;
+              togglePin(id);
+              toast.success(note?.is_pinned ? "Unpinned" : "Pinned");
+            }}
+            className={`p-2 rounded-lg transition-colors ${
+              note?.is_pinned
+                ? "bg-primary-50 dark:bg-primary-900/30 text-primary-500"
+                : "hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500"
+            }`}
+            title={note?.is_pinned ? "Unpin note" : "Pin note"}
+          >
+            <Pin size={16} />
           </button>
           <button
             onClick={() => {

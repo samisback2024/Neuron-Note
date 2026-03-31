@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { Plus, Search, FileText, Clock, Trash2 } from "lucide-react";
+import { Plus, Search, FileText, Clock, Trash2, Pin } from "lucide-react";
 import { useStore } from "../lib/store";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 
 export function NotesPage() {
-  const { notes, notesLoading, createNote, deleteNote } = useStore();
+  const { notes, notesLoading, createNote, deleteNote, togglePin } = useStore();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
@@ -16,6 +16,9 @@ export function NotesPage() {
       n.title.toLowerCase().includes(search.toLowerCase()) ||
       n.content?.toLowerCase().includes(search.toLowerCase()),
   );
+
+  const pinnedNotes = filteredNotes.filter((n) => n.is_pinned);
+  const unpinnedNotes = filteredNotes.filter((n) => !n.is_pinned);
 
   const handleCreate = async () => {
     const note = await createNote("Untitled Note", "");
@@ -108,40 +111,125 @@ export function NotesPage() {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredNotes.map((note, i) => (
-              <motion.div
-                key={note.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.03 }}
-                onClick={() => navigate(`/notes/${note.id}`)}
-                className="group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover cursor-pointer"
-              >
-                <h3 className="font-medium text-surface-900 dark:text-white/90 text-[13.5px] mb-2 truncate">
-                  {note.title || "Untitled"}
-                </h3>
-                <p className="text-[12px] text-surface-500 dark:text-surface-400 line-clamp-3 leading-relaxed mb-3">
-                  {note.content?.replace(/<[^>]*>/g, "").substring(0, 200) ||
-                    "Empty note..."}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-[10.5px] text-surface-400">
-                    <Clock size={11} />
-                    {format(new Date(note.updated_at), "MMM d, h:mm a")}
-                  </div>
-                  <button
-                    onClick={(e) => handleDelete(e, note.id)}
-                    className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/15 text-surface-400 hover:text-red-500 transition-all"
-                  >
-                    <Trash2 size={13} />
-                  </button>
+          <>
+            {/* Pinned */}
+            {pinnedNotes.length > 0 && (
+              <>
+                <div className="flex items-center gap-2 mb-3">
+                  <Pin size={13} className="text-primary-500" />
+                  <span className="text-[12px] font-semibold text-surface-500 dark:text-surface-400 uppercase tracking-wider">
+                    Pinned
+                  </span>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                  {pinnedNotes.map((note, i) => (
+                    <NoteCard
+                      key={note.id}
+                      note={note}
+                      index={i}
+                      onNavigate={() => navigate(`/notes/${note.id}`)}
+                      onDelete={(e) => handleDelete(e, note.id)}
+                      onTogglePin={(e) => {
+                        e.stopPropagation();
+                        togglePin(note.id);
+                        toast.success("Unpinned");
+                      }}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+            {/* All / Unpinned */}
+            {unpinnedNotes.length > 0 && pinnedNotes.length > 0 && (
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-[12px] font-semibold text-surface-500 dark:text-surface-400 uppercase tracking-wider">
+                  All Notes
+                </span>
+              </div>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {unpinnedNotes.map((note, i) => (
+                <NoteCard
+                  key={note.id}
+                  note={note}
+                  index={i}
+                  onNavigate={() => navigate(`/notes/${note.id}`)}
+                  onDelete={(e) => handleDelete(e, note.id)}
+                  onTogglePin={(e) => {
+                    e.stopPropagation();
+                    togglePin(note.id);
+                    toast.success("Pinned");
+                  }}
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
+  );
+}
+
+/* ── Note Card ────────────────────────────────────────────── */
+
+import type { Note } from "../lib/store";
+
+function NoteCard({
+  note,
+  index,
+  onNavigate,
+  onDelete,
+  onTogglePin,
+}: {
+  note: Note;
+  index: number;
+  onNavigate: () => void;
+  onDelete: (e: React.MouseEvent) => void;
+  onTogglePin: (e: React.MouseEvent) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.03 }}
+      onClick={onNavigate}
+      className={`group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border shadow-sm card-hover cursor-pointer ${
+        note.is_pinned
+          ? "border-primary-200/60 dark:border-primary-800/30"
+          : "border-surface-200/60 dark:border-surface-700/30"
+      }`}
+    >
+      <div className="flex items-start justify-between mb-2">
+        <h3 className="font-medium text-surface-900 dark:text-white/90 text-[13.5px] truncate flex-1 mr-2">
+          {note.title || "Untitled"}
+        </h3>
+        <button
+          onClick={onTogglePin}
+          className={`p-1 rounded-lg transition-all flex-shrink-0 ${
+            note.is_pinned
+              ? "text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20"
+              : "text-surface-400 hover:text-primary-500 hover:bg-surface-100 dark:hover:bg-surface-700 opacity-0 group-hover:opacity-100"
+          }`}
+        >
+          <Pin size={13} />
+        </button>
+      </div>
+      <p className="text-[12px] text-surface-500 dark:text-surface-400 line-clamp-3 leading-relaxed mb-3">
+        {note.content?.replace(/<[^>]*>/g, "").substring(0, 200) ||
+          "Empty note..."}
+      </p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-[10.5px] text-surface-400">
+          <Clock size={11} />
+          {format(new Date(note.updated_at), "MMM d, h:mm a")}
+        </div>
+        <button
+          onClick={onDelete}
+          className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/15 text-surface-400 hover:text-red-500 transition-all"
+        >
+          <Trash2 size={13} />
+        </button>
+      </div>
+    </motion.div>
   );
 }

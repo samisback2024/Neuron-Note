@@ -8,9 +8,12 @@ import {
   Clock,
   Plus,
   PlayCircle,
+  Pin,
+  Search,
 } from "lucide-react";
 import { useStore } from "../lib/store";
-import { format } from "date-fns";
+import { format, isToday } from "date-fns";
+import toast from "react-hot-toast";
 
 const fadeUp = {
   initial: { opacity: 0, y: 10 },
@@ -18,7 +21,16 @@ const fadeUp = {
 };
 
 export function Dashboard() {
-  const { profile, notes, tasks, noteLinks, startTour } = useStore();
+  const {
+    profile,
+    notes,
+    tasks,
+    noteLinks,
+    startTour,
+    createNote,
+    createTask,
+    togglePin,
+  } = useStore();
   const navigate = useNavigate();
 
   const today = new Date();
@@ -33,10 +45,44 @@ export function Dashboard() {
   const totalTasks = tasks.filter((t) => !t.completed).length;
   const totalConnections = noteLinks.length;
 
-  const recentNotes = notes.slice(0, 3);
-  const todayTasks = tasks.filter((t) => !t.completed).slice(0, 3);
+  const pinnedNotes = notes.filter((n) => n.is_pinned);
+  const recentNotes = notes.filter((n) => !n.is_pinned).slice(0, 5);
+  const todayTasks = tasks.filter(
+    (t) => !t.completed && t.due_date && isToday(new Date(t.due_date)),
+  );
+  const pendingTasks =
+    todayTasks.length > 0
+      ? todayTasks
+      : tasks.filter((t) => !t.completed).slice(0, 3);
 
   const tourDone = localStorage.getItem("neuron-tour-done");
+
+  const handleQuickCapture = (val: string) => {
+    if (!val.trim()) return;
+
+    // Prefix support: #task creates a task
+    if (val.startsWith("#task ")) {
+      const title = val.slice(6).trim();
+      if (title) {
+        createTask({
+          title,
+          completed: false,
+          priority: "medium",
+          due_date: new Date().toISOString().split("T")[0],
+          project_id: null,
+          project_name: null,
+        });
+        toast.success("Task created");
+      }
+      return;
+    }
+
+    // Default: create note (strip optional #note prefix)
+    const title = val.startsWith("#note ") ? val.slice(6).trim() : val.trim();
+    createNote(title, "").then((note) => {
+      if (note) toast.success("Note captured!");
+    });
+  };
 
   return (
     <div className="px-6 md:px-10 py-7 md:py-9">
@@ -109,25 +155,21 @@ export function Dashboard() {
           </div>
           <input
             type="text"
-            placeholder="Quick capture — jot down an idea..."
+            placeholder="Quick capture — type an idea, or #task Buy groceries"
             className="flex-1 bg-transparent text-surface-900 dark:text-white/90 placeholder-surface-400 dark:placeholder-surface-500 focus:outline-none text-[13.5px]"
             onKeyDown={(e) => {
               if (e.key === "Enter" && (e.target as HTMLInputElement).value) {
-                const val = (e.target as HTMLInputElement).value;
-                useStore.getState().createNote(val, "");
+                handleQuickCapture((e.target as HTMLInputElement).value);
                 (e.target as HTMLInputElement).value = "";
-                import("react-hot-toast").then(({ default: toast }) =>
-                  toast.success("Note captured!"),
-                );
               }
             }}
           />
-          <button
-            onClick={() => navigate("/notes")}
-            className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors"
-          >
-            Capture
-          </button>
+          <div className="hidden md:flex items-center gap-1.5 flex-shrink-0">
+            <kbd className="px-1.5 py-0.5 rounded bg-surface-100 dark:bg-surface-700 text-[10px] text-surface-400 font-mono">
+              ⌘/
+            </kbd>
+            <span className="text-[10.5px] text-surface-400">search</span>
+          </div>
         </motion.div>
 
         {/* Tour banner */}
@@ -159,6 +201,48 @@ export function Dashboard() {
               >
                 Start Tour
               </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Pinned Notes */}
+        {pinnedNotes.length > 0 && (
+          <motion.div {...fadeUp} transition={{ delay: 0.22 }} className="mt-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Pin size={14} className="text-primary-500" />
+              <h2 className="text-[15px] font-semibold text-surface-900 dark:text-white/90">
+                Pinned
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {pinnedNotes.map((note, i) => (
+                <motion.div
+                  key={note.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.24 + i * 0.04 }}
+                  onClick={() => navigate(`/notes/${note.id}`)}
+                  className="group bg-white dark:bg-surface-800/80 rounded-2xl p-4 border border-primary-200/60 dark:border-primary-800/30 shadow-sm card-hover cursor-pointer relative"
+                >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      togglePin(note.id);
+                      toast.success("Unpinned");
+                    }}
+                    className="absolute top-3 right-3 p-1.5 rounded-lg text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 opacity-0 group-hover:opacity-100 transition-all"
+                  >
+                    <Pin size={12} />
+                  </button>
+                  <h3 className="font-medium text-surface-900 dark:text-white/90 text-[13.5px] pr-6 truncate">
+                    {note.title || "Untitled"}
+                  </h3>
+                  <p className="text-[12px] text-surface-500 dark:text-surface-400 mt-1 line-clamp-2 leading-relaxed">
+                    {note.content?.replace(/<[^>]*>/g, "").substring(0, 100) ||
+                      "Empty note"}
+                  </p>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         )}
@@ -238,7 +322,7 @@ export function Dashboard() {
         <motion.div {...fadeUp} transition={{ delay: 0.3 }} className="mt-9">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-[15px] font-semibold text-surface-900 dark:text-white/90">
-              Today&apos;s Tasks
+              {todayTasks.length > 0 ? "Today\u2019s Tasks" : "Pending Tasks"}
             </h2>
             <button
               onClick={() => navigate("/tasks")}
@@ -248,7 +332,7 @@ export function Dashboard() {
             </button>
           </div>
           <div className="bg-white dark:bg-surface-800/80 rounded-2xl border border-surface-200/60 dark:border-surface-700/30 shadow-sm overflow-hidden">
-            {todayTasks.length === 0 ? (
+            {pendingTasks.length === 0 ? (
               <div className="py-12 px-6 text-center">
                 <div className="w-12 h-12 rounded-xl bg-surface-100 dark:bg-surface-700/50 flex items-center justify-center mx-auto mb-3">
                   <CheckSquare
@@ -260,7 +344,7 @@ export function Dashboard() {
                   All caught up!
                 </h3>
                 <p className="text-surface-500 dark:text-surface-400 text-[12.5px] mb-4 max-w-xs mx-auto">
-                  No pending tasks for today. Create one to stay on track.
+                  No pending tasks. Create one to stay on track.
                 </p>
                 <button
                   onClick={() => navigate("/tasks")}
@@ -270,7 +354,7 @@ export function Dashboard() {
                 </button>
               </div>
             ) : (
-              todayTasks.map((task) => (
+              pendingTasks.map((task) => (
                 <div
                   key={task.id}
                   className="flex items-center gap-3 px-5 py-3.5 border-b border-surface-100 dark:border-surface-700/20 last:border-0 hover:bg-surface-50/50 dark:hover:bg-surface-700/20 transition-colors"
