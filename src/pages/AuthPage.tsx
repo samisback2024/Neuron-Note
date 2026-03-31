@@ -1,15 +1,7 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { motion } from "motion/react";
-import {
-  Sparkles,
-  Mail,
-  Lock,
-  User,
-  ArrowRight,
-  Eye,
-  EyeOff,
-} from "lucide-react";
+import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useStore } from "../lib/store";
 import toast from "react-hot-toast";
 
@@ -50,9 +42,7 @@ export function AuthPage() {
       {/* Left branding panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-500 via-primary-600 to-violet-600 p-12 flex-col justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
-            <Sparkles size={20} className="text-white" />
-          </div>
+          <img src="/favicon.svg" alt="Neuron Note" className="w-10 h-10" />
           <span className="text-2xl font-bold text-white">Neuron Note</span>
         </div>
         <div>
@@ -84,9 +74,7 @@ export function AuthPage() {
           className="w-full max-w-md"
         >
           <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-violet-500 flex items-center justify-center">
-              <Sparkles size={20} className="text-white" />
-            </div>
+            <img src="/favicon.svg" alt="Neuron Note" className="w-10 h-10" />
             <span className="text-2xl font-bold text-surface-900 dark:text-white">
               Neuron Note
             </span>

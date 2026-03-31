@@ -74,7 +74,11 @@ export function Sidebar() {
       >
         {/* Header */}
         <div className="flex items-center gap-3 px-5 h-[60px] flex-shrink-0">
-          <img src="/favicon.svg" alt="Neuron Note" className="w-8 h-8 flex-shrink-0" />
+          <img
+            src="/favicon.svg"
+            alt="Neuron Note"
+            className="w-8 h-8 flex-shrink-0"
+          />
           <AnimatePresence>
             {sidebarOpen && (
               <motion.span

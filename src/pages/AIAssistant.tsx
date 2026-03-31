@@ -44,9 +44,7 @@ export function AIAssistant() {
     <div className="h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-3 px-6 md:px-10 py-4 border-b border-surface-200/60 dark:border-surface-700/30 bg-white dark:bg-surface-900 flex-shrink-0">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-violet-500 flex items-center justify-center">
-          <Sparkles size={20} className="text-white" />
-        </div>
+        <img src="/favicon.svg" alt="Neuron AI" className="w-10 h-10" />
         <div>
           <h1 className="text-[17px] font-semibold text-surface-900 dark:text-white/95">
             AI Assistant

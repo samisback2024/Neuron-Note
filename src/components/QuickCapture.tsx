@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  Plus,
-  X,
-  FileText,
-  CheckSquare,
-  Bookmark,
-  Sparkles,
-} from "lucide-react";
+import { Plus, X, FileText, CheckSquare, Bookmark } from "lucide-react";
 import { useStore } from "../lib/store";
 import toast from "react-hot-toast";
 
@@ -72,7 +65,7 @@ export function QuickCapture() {
         onClick={() => setOpen(true)}
         className="fixed bottom-24 md:bottom-8 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-violet-500 text-white shadow-lg shadow-primary-500/30 hover:shadow-xl hover:shadow-primary-500/40 hover:scale-105 transition-all flex items-center justify-center"
       >
-        <Sparkles size={22} />
+        <img src="/favicon.svg" alt="Quick Capture" className="w-8 h-8" />
       </button>
 
       {/* Modal */}
