@@ -328,13 +328,19 @@ export const useStore = create<AppState>((set, get) => ({
 
   createNote: async (title, content) => {
     const user = get().user;
-    if (!user) return null;
+    if (!user) {
+      console.error("createNote: no user");
+      return null;
+    }
     const { data, error } = await supabase
       .from("notes")
       .insert({ user_id: user.id, title, content })
       .select()
       .single();
-    if (error) return null;
+    if (error) {
+      console.error("createNote error:", error);
+      return null;
+    }
     const note = data as Note;
     set((s) => ({ notes: [note, ...s.notes] }));
     return note;

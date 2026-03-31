@@ -1,85 +1,101 @@
 -- Note Collaborators: Real-time collaboration support
 -- Run this in the Supabase SQL Editor
 
--- 1. Create note_collaborators table
-create table if not exists public.note_collaborators (
-  id uuid primary key default gen_random_uuid(),
-  note_id uuid references public.notes(id) on delete cascade not null,
-  user_id uuid references auth.users on delete cascade not null,
-  role text not null default 'viewer' check (role in ('viewer', 'editor')),
-  created_at timestamptz not null default now(),
-  unique(note_id, user_id)
+-- 1. Create helper function (SECURITY DEFINER to avoid RLS recursion)
+CREATE OR REPLACE FUNCTION public.is_note_owner(p_note_id uuid)
+RETURNS boolean
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.notes 
+    WHERE id = p_note_id AND user_id = auth.uid()
+  );
+$$;
+
+-- 2. Create note_collaborators table
+CREATE TABLE IF NOT EXISTS public.note_collaborators (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  note_id uuid REFERENCES public.notes(id) ON DELETE CASCADE NOT NULL,
+  user_id uuid REFERENCES auth.users ON DELETE CASCADE NOT NULL,
+  role text NOT NULL DEFAULT 'viewer' CHECK (role IN ('viewer', 'editor')),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE(note_id, user_id)
 );
 
-create index idx_note_collaborators_note on public.note_collaborators(note_id);
-create index idx_note_collaborators_user on public.note_collaborators(user_id);
+CREATE INDEX IF NOT EXISTS idx_note_collaborators_note ON public.note_collaborators(note_id);
+CREATE INDEX IF NOT EXISTS idx_note_collaborators_user ON public.note_collaborators(user_id);
 
-alter table public.note_collaborators enable row level security;
+ALTER TABLE public.note_collaborators ENABLE ROW LEVEL SECURITY;
 
--- 2. RLS policies for note_collaborators
--- Only note owner can manage collaborators
-create policy "Owner can view collaborators"
-  on public.note_collaborators for select
-  using (
+-- 3. Update notes RLS policies
+DROP POLICY IF EXISTS "Users can CRUD own notes" ON public.notes;
+DROP POLICY IF EXISTS "Owner full access" ON public.notes;
+DROP POLICY IF EXISTS "Collaborators can view shared notes" ON public.notes;
+DROP POLICY IF EXISTS "Editors can update shared notes" ON public.notes;
+
+CREATE POLICY "Owner full access"
+  ON public.notes FOR ALL
+  USING (auth.uid() = user_id)
+  WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Collaborators can view shared notes"
+  ON public.notes FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.note_collaborators
+      WHERE note_collaborators.note_id = id
+        AND note_collaborators.user_id = auth.uid()
+    )
+  );
+
+CREATE POLICY "Editors can update shared notes"
+  ON public.notes FOR UPDATE
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.note_collaborators
+      WHERE note_collaborators.note_id = id
+        AND note_collaborators.user_id = auth.uid()
+        AND note_collaborators.role = 'editor'
+    )
+  );
+
+-- 4. note_collaborators RLS (uses is_note_owner to avoid recursion)
+DROP POLICY IF EXISTS "Owner can view collaborators" ON public.note_collaborators;
+DROP POLICY IF EXISTS "Owner can add collaborators" ON public.note_collaborators;
+DROP POLICY IF EXISTS "Owner can remove collaborators" ON public.note_collaborators;
+
+CREATE POLICY "Owner can view collaborators"
+  ON public.note_collaborators FOR SELECT
+  USING (
     auth.uid() = user_id
-    or exists (
-      select 1 from public.notes where notes.id = note_id and notes.user_id = auth.uid()
-    )
+    OR is_note_owner(note_id)
   );
 
-create policy "Owner can add collaborators"
-  on public.note_collaborators for insert
-  with check (
-    exists (
-      select 1 from public.notes where notes.id = note_id and notes.user_id = auth.uid()
-    )
-    and user_id != auth.uid()  -- cannot share with yourself
+CREATE POLICY "Owner can add collaborators"
+  ON public.note_collaborators FOR INSERT
+  WITH CHECK (
+    is_note_owner(note_id)
+    AND user_id != auth.uid()
   );
 
-create policy "Owner can remove collaborators"
-  on public.note_collaborators for delete
-  using (
-    exists (
-      select 1 from public.notes where notes.id = note_id and notes.user_id = auth.uid()
-    )
+CREATE POLICY "Owner can remove collaborators"
+  ON public.note_collaborators FOR DELETE
+  USING (
+    is_note_owner(note_id)
   );
 
--- 3. Update notes RLS: allow collaborators to SELECT and editors to UPDATE
--- First drop the old permissive "all" policy
-drop policy if exists "Users can CRUD own notes" on public.notes;
+-- 5. Allow profile lookup by email (for sharing)
+DROP POLICY IF EXISTS "Users can find profiles by email" ON public.profiles;
+CREATE POLICY "Users can find profiles by email"
+  ON public.profiles FOR SELECT
+  USING (true);
 
--- Owner can do everything
-create policy "Owner full access"
-  on public.notes for all
-  using (auth.uid() = user_id);
-
--- Collaborators can view shared notes
-create policy "Collaborators can view shared notes"
-  on public.notes for select
-  using (
-    exists (
-      select 1 from public.note_collaborators
-      where note_collaborators.note_id = notes.id
-        and note_collaborators.user_id = auth.uid()
-    )
-  );
-
--- Editors can update shared notes
-create policy "Editors can update shared notes"
-  on public.notes for update
-  using (
-    exists (
-      select 1 from public.note_collaborators
-      where note_collaborators.note_id = notes.id
-        and note_collaborators.user_id = auth.uid()
-        and note_collaborators.role = 'editor'
-    )
-  );
-
--- 4. Allow profile lookup by email (for sharing)
-create policy "Users can find profiles by email"
-  on public.profiles for select
-  using (true);
-
--- 5. Add note_collaborators to realtime
-alter publication supabase_realtime add table public.note_collaborators;
+-- 6. Add to realtime
+DO $$
+BEGIN
+  ALTER PUBLICATION supabase_realtime ADD TABLE public.note_collaborators;
+EXCEPTION WHEN duplicate_object THEN
+  NULL;
+END $$;
