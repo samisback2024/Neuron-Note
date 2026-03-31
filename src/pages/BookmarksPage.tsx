@@ -81,7 +81,7 @@ export function BookmarksPage() {
           </h1>
           <button
             onClick={() => setShowNew(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg btn-press"
           >
             <Plus size={15} />
             Add Bookmark
@@ -188,7 +188,7 @@ export function BookmarksPage() {
                   />
                   <button
                     onClick={handleCreate}
-                    className="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl transition-colors"
+                    className="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl btn-press"
                   >
                     Save Bookmark
                   </button>
@@ -224,7 +224,7 @@ export function BookmarksPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="group bg-white dark:bg-surface-800/80 rounded-xl p-4 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all flex items-start gap-4"
+                className="group bg-white dark:bg-surface-800/80 rounded-xl p-4 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover flex items-start gap-4"
               >
                 <div className="w-12 h-12 rounded-xl bg-surface-100 dark:bg-surface-700 flex items-center justify-center flex-shrink-0 overflow-hidden">
                   {bookmark.image ? (
@@ -290,7 +290,7 @@ export function BookmarksPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.03 }}
-                className="group bg-white dark:bg-surface-800/80 rounded-xl border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all overflow-hidden"
+                className="group bg-white dark:bg-surface-800/80 rounded-xl border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover overflow-hidden"
               >
                 <div className="h-32 bg-gradient-to-br from-surface-100 to-surface-200 dark:from-surface-700 dark:to-surface-800 flex items-center justify-center">
                   {bookmark.image ? (
@@ -348,7 +348,7 @@ export function BookmarksPage() {
                 return (
                   <div
                     key={col}
-                    className="bg-white dark:bg-surface-800/80 rounded-xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all cursor-pointer"
+                    className="bg-white dark:bg-surface-800/80 rounded-xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover cursor-pointer"
                   >
                     <div
                       className={`w-10 h-10 rounded-xl ${colors[i % 3]} mb-3`}

@@ -58,12 +58,12 @@ function ToggleRow({
       </div>
       <button
         onClick={onChange}
-        className={`relative w-11 h-6 rounded-full transition-colors shrink-0 ${
+        className={`relative w-11 h-6 rounded-full transition-colors duration-[180ms] shrink-0 ${
           enabled ? "bg-primary-500" : "bg-surface-300 dark:bg-surface-600"
         }`}
       >
         <div
-          className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+          className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-[180ms] ease-out ${
             enabled ? "translate-x-5.5" : "translate-x-0.5"
           }`}
         />
@@ -116,8 +116,9 @@ export function SettingsPage() {
   return (
     <div className="px-4 md:px-10 py-7 md:py-9 h-full">
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.24, ease: [0.2, 0, 0, 1] }}
         className="mx-auto max-w-[1080px] h-full"
       >
         {/* Header */}
@@ -461,10 +462,10 @@ export function SettingsPage() {
                   collaboration, and priority support.
                 </p>
                 <div className="flex items-center gap-3">
-                  <button className="px-5 py-2.5 bg-white text-primary-600 rounded-xl font-semibold text-[12.5px] hover:bg-white/90 transition-colors shadow-sm">
+                  <button className="px-5 py-2.5 bg-white text-primary-600 rounded-xl font-semibold text-[12.5px] hover:bg-white/90 shadow-sm btn-press">
                     Upgrade now
                   </button>
-                  <button className="px-5 py-2.5 bg-white/10 text-white rounded-xl font-medium text-[12.5px] hover:bg-white/20 transition-colors">
+                  <button className="px-5 py-2.5 bg-white/10 text-white rounded-xl font-medium text-[12.5px] hover:bg-white/20 btn-press">
                     Learn more
                   </button>
                 </div>

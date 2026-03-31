@@ -108,6 +108,13 @@ export function NoteEditor() {
     return () => unsubscribe();
   }, [id, loadNoteCollaborators, subscribeToNote, loadTrashedNotes]);
 
+  // Auto-focus editor on mount
+  useEffect(() => {
+    if (editor && !editor.isDestroyed && canEdit) {
+      setTimeout(() => editor.commands.focus("end"), 100);
+    }
+  }, [editor?.isDestroyed, canEdit]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Set editor editability based on permissions
   useEffect(() => {
     if (editor && !editor.isDestroyed) {
@@ -287,7 +294,7 @@ export function NoteEditor() {
               <button
                 key={i}
                 onClick={action}
-                className={`p-2 rounded-lg transition-colors flex-shrink-0 ${
+                className={`p-2 rounded-lg transition-all duration-[120ms] ease-out flex-shrink-0 btn-press ${
                   active
                     ? "bg-primary-50 dark:bg-primary-900/30 text-primary-500"
                     : "hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500"
@@ -328,20 +335,22 @@ export function NoteEditor() {
             </div>
           )}
 
-          {saving && (
-            <span className="text-xs text-primary-500 font-medium animate-pulse">
-              Saving...
-            </span>
-          )}
+          <div className="flex items-center gap-1.5 text-xs">
+            {saving ? (
+              <span className="text-primary-500 font-medium save-pulse flex items-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
+                Saving…
+              </span>
+            ) : lastSaved ? (
+              <span className="text-green-500 font-medium flex items-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                Saved
+              </span>
+            ) : null}
+          </div>
           <span className="text-xs text-surface-400">
             {wordCount} words · {readingTime} min read
           </span>
-          {lastSaved && (
-            <span className="text-xs text-surface-400 flex items-center gap-1">
-              <Clock size={12} />
-              {format(lastSaved, "h:mm a")}
-            </span>
-          )}
           <button
             onClick={() => setShareOpen(true)}
             className="p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500 transition-colors"
@@ -441,14 +450,16 @@ export function NoteEditor() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            transition={{ duration: 0.12 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
             onClick={() => setConfirmPermanentDelete(false)}
           >
             <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
+              initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden"
+              exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
+              className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden border border-surface-200/60 dark:border-surface-700/30"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="px-6 py-5">

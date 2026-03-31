@@ -71,7 +71,7 @@ export function Sidebar() {
       <motion.aside
         initial={false}
         animate={{ width: sidebarOpen ? 272 : 72 }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
+        transition={{ duration: 0.24, ease: [0.4, 0, 0.2, 1] }}
         className="hidden md:flex flex-col h-screen bg-white dark:bg-surface-900 border-r border-surface-200/80 dark:border-surface-700/40 overflow-hidden flex-shrink-0"
       >
         {/* Header */}
@@ -115,12 +115,20 @@ export function Sidebar() {
               <NavLink
                 key={item.to}
                 to={item.to}
-                className={`flex items-center gap-3 px-3.5 h-[44px] rounded-2xl text-[14px] font-medium transition-all duration-150 group ${
+                className={`relative flex items-center gap-3 px-3.5 h-[44px] rounded-2xl text-[14px] font-medium transition-all duration-[180ms] ease-out group ${
                   isActive
                     ? "bg-primary-500 text-white shadow-md shadow-primary-500/20"
                     : "text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800"
                 }`}
               >
+                {/* Active left accent */}
+                {isActive && (
+                  <motion.div
+                    layoutId="sidebar-active"
+                    className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-white/60"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
                 <item.icon size={18} className="flex-shrink-0" />
                 <AnimatePresence>
                   {sidebarOpen && (
@@ -128,15 +136,13 @@ export function Sidebar() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
+                      transition={{ duration: 0.12 }}
                       className="whitespace-nowrap"
                     >
                       {item.label}
                     </motion.span>
                   )}
                 </AnimatePresence>
-                {isActive && sidebarOpen && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white/60" />
-                )}
               </NavLink>
             );
           })}

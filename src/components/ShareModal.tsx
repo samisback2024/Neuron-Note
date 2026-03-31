@@ -39,14 +39,16 @@ export function ShareModal({ noteId, isOwner, onClose }: ShareModalProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      transition={{ duration: 0.12 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
-        initial={{ scale: 0.95, opacity: 0 }}
+        initial={{ scale: 0.96, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.95, opacity: 0 }}
-        className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
+        exit={{ scale: 0.96, opacity: 0 }}
+        transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
+        className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden border border-surface-200/60 dark:border-surface-700/30"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200/60 dark:border-surface-700/30">

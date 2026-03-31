@@ -60,7 +60,7 @@ export function NotesPage() {
           </div>
           <button
             onClick={handleCreate}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg btn-press"
           >
             <Plus size={15} />
             New Note
@@ -91,12 +91,12 @@ export function NotesPage() {
               />
             </div>
             <h3 className="text-[14px] font-semibold text-surface-900 dark:text-white/90 mb-1">
-              {search ? "No notes found" : "No notes yet"}
+              {search ? "No notes found" : "Start capturing your ideas"}
             </h3>
             <p className="text-surface-500 dark:text-surface-400 text-[12.5px] mb-4 max-w-xs mx-auto">
               {search
                 ? "Try a different search term"
-                : "Create your first note to get started"}
+                : "Your notes will appear here once you create them"}
             </p>
             {!search && (
               <button
@@ -116,7 +116,7 @@ export function NotesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
                 onClick={() => navigate(`/notes/${note.id}`)}
-                className="group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md hover:border-primary-200/60 dark:hover:border-primary-700/40 transition-all cursor-pointer"
+                className="group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover cursor-pointer"
               >
                 <h3 className="font-medium text-surface-900 dark:text-white/90 text-[13.5px] mb-2 truncate">
                   {note.title || "Untitled"}

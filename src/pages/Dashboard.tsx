@@ -13,7 +13,7 @@ import { useStore } from "../lib/store";
 import { format } from "date-fns";
 
 const fadeUp = {
-  initial: { opacity: 0, y: 16 },
+  initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
 };
 
@@ -42,7 +42,7 @@ export function Dashboard() {
     <div className="px-6 md:px-10 py-7 md:py-9">
       <div className="mx-auto max-w-[1080px]">
         {/* Welcome */}
-        <motion.div {...fadeUp} transition={{ delay: 0 }}>
+        <motion.div {...fadeUp} transition={{ delay: 0, duration: 0.24 }}>
           <h1 className="text-[28px] md:text-[36px] font-semibold text-surface-900 dark:text-white/95 leading-[1.1] tracking-[-0.01em]">
             {greeting}, {profile?.name?.split(" ")[0] || "there"}
           </h1>
@@ -54,7 +54,7 @@ export function Dashboard() {
         {/* Stats */}
         <motion.div
           {...fadeUp}
-          transition={{ delay: 0.1 }}
+          transition={{ delay: 0.06, duration: 0.24 }}
           className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8"
         >
           {[
@@ -76,7 +76,7 @@ export function Dashboard() {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover"
             >
               <div className="flex justify-between items-start">
                 <div>
@@ -206,7 +206,7 @@ export function Dashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.05 }}
                   onClick={() => navigate(`/notes/${note.id}`)}
-                  className="bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md hover:border-primary-200/60 dark:hover:border-primary-700/40 transition-all cursor-pointer"
+                  className="bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover cursor-pointer"
                 >
                   <h3 className="font-medium text-surface-900 dark:text-white/90 text-[13.5px]">
                     {note.title}

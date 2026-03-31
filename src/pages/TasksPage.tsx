@@ -96,7 +96,7 @@ export function TasksPage() {
           </h1>
           <button
             onClick={() => setShowNewTask(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg btn-press"
           >
             <Plus size={15} />
             New Task
@@ -221,11 +221,11 @@ export function TasksPage() {
               <h3 className="text-[14px] font-semibold text-surface-900 dark:text-white/90 mb-1">
                 {filter === "completed"
                   ? "No completed tasks"
-                  : "No tasks here"}
+                  : "You're all caught up"}
               </h3>
               <p className="text-surface-500 dark:text-surface-400 text-[12.5px] max-w-xs mx-auto">
                 {filter === "all"
-                  ? "Create your first task to get started"
+                  ? "Create your first task to stay on track"
                   : "Try a different filter"}
               </p>
             </div>
@@ -236,7 +236,7 @@ export function TasksPage() {
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="group bg-white dark:bg-surface-800/80 rounded-xl p-4 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all flex items-center gap-4"
+                className="group bg-white dark:bg-surface-800/80 rounded-xl p-4 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover flex items-center gap-4"
               >
                 <button
                   onClick={() =>

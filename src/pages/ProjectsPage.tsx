@@ -63,7 +63,7 @@ export function ProjectsPage() {
           </h1>
           <button
             onClick={() => setShowNew(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg btn-press shadow-sm"
           >
             <Plus size={16} />
             New Project
@@ -165,7 +165,7 @@ export function ProjectsPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all"
+                className="group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover"
               >
                 <div className="flex items-start gap-3 mb-4">
                   <div

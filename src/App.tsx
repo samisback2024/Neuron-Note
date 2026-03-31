@@ -104,8 +104,23 @@ export default function App() {
         position="bottom-right"
         toastOptions={{
           className:
-            "!bg-white dark:!bg-surface-800 !text-surface-900 dark:!text-surface-100 !shadow-lg !rounded-xl !text-sm",
+            "!bg-white dark:!bg-surface-800 !text-surface-900 dark:!text-surface-100 !shadow-lg !rounded-xl !text-sm !border !border-surface-200/60 dark:!border-surface-700/30",
           duration: 3000,
+          style: {
+            padding: "12px 16px",
+          },
+          success: {
+            iconTheme: {
+              primary: "#4f7df3",
+              secondary: "#fff",
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#ef4444",
+              secondary: "#fff",
+            },
+          },
         }}
       />
       <OnboardingTour />

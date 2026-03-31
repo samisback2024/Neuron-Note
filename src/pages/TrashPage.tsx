@@ -128,7 +128,7 @@ export function TrashPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.03 }}
                   onClick={() => navigate(`/notes/${note.id}`)}
-                  className="group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm hover:shadow-md transition-all cursor-pointer opacity-75 hover:opacity-100"
+                  className="group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover cursor-pointer opacity-75 hover:opacity-100"
                 >
                   <h3 className="font-medium text-surface-900 dark:text-white/90 text-[13.5px] mb-2 truncate">
                     {note.title || "Untitled"}
@@ -184,14 +184,16 @@ export function TrashPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            transition={{ duration: 0.12 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
             onClick={() => setConfirmId(null)}
           >
             <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
+              initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden"
+              exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
+              className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden border border-surface-200/60 dark:border-surface-700/30"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="px-6 py-5">
