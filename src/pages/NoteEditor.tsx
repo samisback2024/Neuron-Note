@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -7,7 +7,7 @@ import Highlight from "@tiptap/extension-highlight";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Typography from "@tiptap/extension-typography";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowLeft,
   Bold,
@@ -22,21 +22,40 @@ import {
   Clock,
   Save,
   Trash2,
+  Users,
 } from "lucide-react";
 import { useStore } from "../lib/store";
+import { ShareModal } from "../components/ShareModal";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 
 export function NoteEditor() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { notes, updateNote, deleteNote } = useStore();
+  const {
+    notes,
+    updateNote,
+    deleteNote,
+    user,
+    noteCollaborators,
+    loadNoteCollaborators,
+    subscribeToNote,
+  } = useStore();
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [shareOpen, setShareOpen] = useState(false);
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const note = notes.find((n) => n.id === id);
   const noteContent = note?.content;
   const [title, setTitle] = useState(note?.title ?? "");
+
+  const isOwner = note?.user_id === user?.id;
+  const canEdit =
+    isOwner ||
+    noteCollaborators.some(
+      (c) => c.user_id === user?.id && c.role === "editor",
+    );
 
   const editor = useEditor({
     extensions: [
@@ -70,6 +89,21 @@ export function NoteEditor() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [note?.id]);
 
+  // Load collaborators and subscribe to real-time updates
+  useEffect(() => {
+    if (!id) return;
+    loadNoteCollaborators(id);
+    const unsubscribe = subscribeToNote(id);
+    return () => unsubscribe();
+  }, [id, loadNoteCollaborators, subscribeToNote]);
+
+  // Set editor editability based on permissions
+  useEffect(() => {
+    if (editor && !editor.isDestroyed) {
+      editor.setEditable(canEdit);
+    }
+  }, [editor, canEdit]);
+
   const saveNote = useCallback(async () => {
     if (!id || !editor) return;
     setSaving(true);
@@ -81,15 +115,36 @@ export function NoteEditor() {
     setSaving(false);
   }, [id, title, editor, updateNote]);
 
-  // Auto-save every 3 seconds if content changes
+  // Debounced auto-save (500ms for responsive collaboration)
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (editor && !editor.isDestroyed) {
+    if (!editor || editor.isDestroyed || !canEdit) return;
+
+    const handler = () => {
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+      saveTimeoutRef.current = setTimeout(() => {
         saveNote();
-      }
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [saveNote, editor]);
+      }, 500);
+    };
+
+    editor.on("update", handler);
+    return () => {
+      editor.off("update", handler);
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    };
+  }, [saveNote, editor, canEdit]);
+
+  // Also debounce-save on title change
+  useEffect(() => {
+    if (!canEdit || !id) return;
+    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    saveTimeoutRef.current = setTimeout(() => {
+      saveNote();
+    }, 500);
+    return () => {
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title]);
 
   // Keyboard save
   useEffect(() => {
@@ -219,6 +274,39 @@ export function NoteEditor() {
         )}
 
         <div className="ml-auto flex items-center gap-3 flex-shrink-0">
+          {/* Collaborator avatars */}
+          {noteCollaborators.length > 0 && (
+            <div className="flex -space-x-2">
+              {noteCollaborators.slice(0, 4).map((c) => {
+                const initials = (c.profile?.name || c.profile?.email || "?")
+                  .split(" ")
+                  .map((w) => w[0])
+                  .join("")
+                  .slice(0, 2)
+                  .toUpperCase();
+                return (
+                  <div
+                    key={c.id}
+                    title={c.profile?.name || c.profile?.email}
+                    className="w-7 h-7 rounded-full bg-primary-100 dark:bg-primary-900/40 border-2 border-white dark:border-surface-900 flex items-center justify-center text-[10px] font-semibold text-primary-600 dark:text-primary-400"
+                  >
+                    {initials}
+                  </div>
+                );
+              })}
+              {noteCollaborators.length > 4 && (
+                <div className="w-7 h-7 rounded-full bg-surface-200 dark:bg-surface-700 border-2 border-white dark:border-surface-900 flex items-center justify-center text-[10px] font-medium text-surface-500">
+                  +{noteCollaborators.length - 4}
+                </div>
+              )}
+            </div>
+          )}
+
+          {saving && (
+            <span className="text-xs text-primary-500 font-medium animate-pulse">
+              Saving...
+            </span>
+          )}
           <span className="text-xs text-surface-400">
             {wordCount} words · {readingTime} min read
           </span>
@@ -229,21 +317,30 @@ export function NoteEditor() {
             </span>
           )}
           <button
+            onClick={() => setShareOpen(true)}
+            className="p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500 transition-colors"
+            title="Share note"
+          >
+            <Users size={16} />
+          </button>
+          <button
             onClick={() => {
               saveNote();
               toast.success("Saved");
             }}
-            disabled={saving}
-            className="p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500 transition-colors"
+            disabled={saving || !canEdit}
+            className="p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500 transition-colors disabled:opacity-40"
           >
             <Save size={16} />
           </button>
-          <button
-            onClick={handleDelete}
-            className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-surface-400 hover:text-red-500 transition-colors"
-          >
-            <Trash2 size={16} />
-          </button>
+          {isOwner && (
+            <button
+              onClick={handleDelete}
+              className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-surface-400 hover:text-red-500 transition-colors"
+            >
+              <Trash2 size={16} />
+            </button>
+          )}
         </div>
       </div>
 
@@ -254,7 +351,8 @@ export function NoteEditor() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Untitled"
-          className="w-full text-3xl font-bold text-surface-900 dark:text-white bg-transparent border-none focus:outline-none placeholder-surface-300 dark:placeholder-surface-600 mb-6"
+          disabled={!canEdit}
+          className="w-full text-3xl font-bold text-surface-900 dark:text-white bg-transparent border-none focus:outline-none placeholder-surface-300 dark:placeholder-surface-600 mb-6 disabled:opacity-60"
         />
         <div className="text-xs text-surface-400 mb-6 flex items-center gap-3">
           <span>
@@ -266,7 +364,23 @@ export function NoteEditor() {
           editor={editor}
           className="text-surface-800 dark:text-surface-200"
         />
+        {!canEdit && (
+          <div className="mt-6 text-xs text-surface-400 italic">
+            You have view-only access to this note.
+          </div>
+        )}
       </div>
+
+      {/* Share Modal */}
+      <AnimatePresence>
+        {shareOpen && id && (
+          <ShareModal
+            noteId={id}
+            isOwner={isOwner}
+            onClose={() => setShareOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

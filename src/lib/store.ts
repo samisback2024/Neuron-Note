@@ -79,6 +79,15 @@ export interface Tag {
   color: string;
 }
 
+export interface NoteCollaborator {
+  id: string;
+  note_id: string;
+  user_id: string;
+  role: "viewer" | "editor";
+  created_at: string;
+  profile?: { name: string; email: string; avatar_url: string | null };
+}
+
 /* ---- Store ---- */
 interface AppState {
   // Auth
@@ -164,6 +173,17 @@ interface AppState {
   // Tags
   tags: Tag[];
   loadTags: () => Promise<void>;
+
+  // Collaboration
+  noteCollaborators: NoteCollaborator[];
+  loadNoteCollaborators: (noteId: string) => Promise<void>;
+  shareNote: (
+    noteId: string,
+    email: string,
+    role: "viewer" | "editor",
+  ) => Promise<{ error: string | null }>;
+  removeCollaborator: (collaboratorId: string) => Promise<void>;
+  subscribeToNote: (noteId: string) => () => void;
 
   // Chat
   chatMessages: ChatMessage[];
@@ -270,12 +290,40 @@ export const useStore = create<AppState>((set, get) => ({
     const user = get().user;
     if (!user) return;
     set({ notesLoading: true });
-    const { data } = await supabase
+
+    // Fetch own notes
+    const { data: ownNotes } = await supabase
       .from("notes")
       .select("*")
       .eq("user_id", user.id)
       .order("updated_at", { ascending: false });
-    set({ notes: (data as Note[]) ?? [], notesLoading: false });
+
+    // Fetch notes shared with me
+    const { data: sharedLinks } = await supabase
+      .from("note_collaborators")
+      .select("note_id")
+      .eq("user_id", user.id);
+
+    let sharedNotes: Note[] = [];
+    if (sharedLinks && sharedLinks.length > 0) {
+      const sharedIds = sharedLinks.map((l) => l.note_id);
+      const { data } = await supabase
+        .from("notes")
+        .select("*")
+        .in("id", sharedIds)
+        .order("updated_at", { ascending: false });
+      sharedNotes = (data as Note[]) ?? [];
+    }
+
+    // Merge, deduplicate, sort by updated_at
+    const allNotes = [...((ownNotes as Note[]) ?? []), ...sharedNotes];
+    const unique = Array.from(new Map(allNotes.map((n) => [n.id, n])).values());
+    unique.sort(
+      (a, b) =>
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
+    );
+
+    set({ notes: unique, notesLoading: false });
   },
 
   createNote: async (title, content) => {
@@ -476,6 +524,87 @@ export const useStore = create<AppState>((set, get) => ({
       .select("*")
       .eq("user_id", user.id);
     set({ tags: (data as Tag[]) ?? [] });
+  },
+
+  // Collaboration
+  noteCollaborators: [],
+
+  loadNoteCollaborators: async (noteId) => {
+    const { data } = await supabase
+      .from("note_collaborators")
+      .select("*, profile:profiles(name, email, avatar_url)")
+      .eq("note_id", noteId);
+    const collabs = (data ?? []).map((c: Record<string, unknown>) => ({
+      ...c,
+      profile: Array.isArray(c.profile) ? c.profile[0] : c.profile,
+    })) as NoteCollaborator[];
+    set({ noteCollaborators: collabs });
+  },
+
+  shareNote: async (noteId, email, role) => {
+    const user = get().user;
+    if (!user) return { error: "Not authenticated" };
+
+    // Find user by email
+    const { data: targetProfile } = await supabase
+      .from("profiles")
+      .select("id, email")
+      .eq("email", email)
+      .single();
+
+    if (!targetProfile) return { error: "No user found with that email" };
+    if (targetProfile.id === user.id)
+      return { error: "You cannot share with yourself" };
+
+    const { error } = await supabase
+      .from("note_collaborators")
+      .insert({ note_id: noteId, user_id: targetProfile.id, role });
+
+    if (error) {
+      if (error.code === "23505")
+        return { error: "Already shared with this user" };
+      return { error: error.message };
+    }
+
+    // Reload collaborators
+    await get().loadNoteCollaborators(noteId);
+    return { error: null };
+  },
+
+  removeCollaborator: async (collaboratorId) => {
+    await supabase.from("note_collaborators").delete().eq("id", collaboratorId);
+    set((s) => ({
+      noteCollaborators: s.noteCollaborators.filter(
+        (c) => c.id !== collaboratorId,
+      ),
+    }));
+  },
+
+  subscribeToNote: (noteId) => {
+    const channel = supabase
+      .channel(`note-${noteId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "notes",
+          filter: `id=eq.${noteId}`,
+        },
+        (payload) => {
+          const updated = payload.new as Note;
+          set((s) => ({
+            notes: s.notes.map((n) =>
+              n.id === noteId ? { ...n, ...updated } : n,
+            ),
+          }));
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   },
 
   // Chat
