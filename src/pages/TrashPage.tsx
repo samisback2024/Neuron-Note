@@ -7,10 +7,9 @@ import {
   AlertTriangle,
   Clock,
   FileText,
-  X,
 } from "lucide-react";
 import { useStore } from "../lib/store";
-import { format, formatDistanceToNow, differenceInDays } from "date-fns";
+import { formatDistanceToNow, differenceInDays } from "date-fns";
 import toast from "react-hot-toast";
 
 export function TrashPage() {

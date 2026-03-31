@@ -236,10 +236,12 @@ export function QuickCapture() {
     return [...noteResults, ...filtered];
   }, [mode, query, actionCommands, navCommands, noteResults]);
 
-  // Keep selected index in bounds
-  useEffect(() => {
+  // Reset selected index when query or mode changes
+  const [resetKey, setResetKey] = useState({ query, mode });
+  if (resetKey.query !== query || resetKey.mode !== mode) {
+    setResetKey({ query, mode });
     setSelectedIndex(0);
-  }, [query, mode]);
+  }
 
   // Scroll selected item into view
   useEffect(() => {

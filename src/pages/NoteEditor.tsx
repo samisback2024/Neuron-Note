@@ -19,7 +19,6 @@ import {
   Code,
   Quote,
   CheckSquare,
-  Clock,
   Save,
   Trash2,
   Users,
