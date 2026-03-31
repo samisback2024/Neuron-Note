@@ -7,7 +7,6 @@ import {
   FolderKanban,
   Share2,
   Bookmark,
-  Sparkles,
   Settings,
   ChevronLeft,
   ChevronRight,
@@ -22,7 +21,6 @@ const navItems = [
   { to: "/projects", icon: FolderKanban, label: "Projects" },
   { to: "/knowledge-graph", icon: Share2, label: "Knowledge Graph" },
   { to: "/bookmarks", icon: Bookmark, label: "Bookmarks" },
-  { to: "/ai-assistant", icon: Sparkles, label: "AI Assistant" },
   { to: "/trash", icon: Trash2, label: "Trash" },
   { to: "/settings", icon: Settings, label: "Settings" },
 ];

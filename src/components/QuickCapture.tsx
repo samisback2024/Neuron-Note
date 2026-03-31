@@ -12,7 +12,6 @@ import {
   Inbox,
   FolderKanban,
   Share2,
-  Sparkles,
   Trash2,
   ArrowRight,
 } from "lucide-react";
@@ -138,16 +137,6 @@ export function QuickCapture() {
         icon: Bookmark,
         action: () => {
           navigate("/bookmarks");
-          close();
-        },
-        section: "Navigation",
-      },
-      {
-        id: "nav-ai",
-        label: "Go to AI Assistant",
-        icon: Sparkles,
-        action: () => {
-          navigate("/ai-assistant");
           close();
         },
         section: "Navigation",

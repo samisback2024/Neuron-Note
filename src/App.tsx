@@ -12,7 +12,6 @@ import { TasksPage } from "./pages/TasksPage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { KnowledgeGraph } from "./pages/KnowledgeGraph";
 import { BookmarksPage } from "./pages/BookmarksPage";
-import { AIAssistant } from "./pages/AIAssistant";
 import { SettingsPage } from "./pages/SettingsPage";
 import { TrashPage } from "./pages/TrashPage";
 import { OnboardingTour } from "./components/OnboardingTour";
@@ -44,7 +43,6 @@ export default function App() {
     loadBookmarks,
     loadNoteLinks,
     loadTags,
-    loadChatMessages,
     loadProfile,
     session,
   } = useStore();
@@ -74,7 +72,6 @@ export default function App() {
       loadBookmarks();
       loadNoteLinks();
       loadTags();
-      loadChatMessages();
     }
   }, [
     session,
@@ -85,7 +82,6 @@ export default function App() {
     loadBookmarks,
     loadNoteLinks,
     loadTags,
-    loadChatMessages,
   ]);
 
   useEffect(() => {
@@ -139,7 +135,6 @@ export default function App() {
                   <Route path="/projects" element={<ProjectsPage />} />
                   <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
                   <Route path="/bookmarks" element={<BookmarksPage />} />
-                  <Route path="/ai-assistant" element={<AIAssistant />} />
                   <Route path="/trash" element={<TrashPage />} />
                   <Route path="/settings" element={<SettingsPage />} />
                 </Routes>

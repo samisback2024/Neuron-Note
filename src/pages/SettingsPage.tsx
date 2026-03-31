@@ -6,10 +6,8 @@ import {
   User,
   Bell,
   Shield,
-  Zap,
   LogOut,
   Palette,
-  CreditCard,
   Menu,
 } from "lucide-react";
 import { useStore } from "../lib/store";
@@ -79,7 +77,6 @@ const sidebarItems = [
   { id: "account", icon: User, label: "Account" },
   { id: "notifications", icon: Bell, label: "Notifications" },
   { id: "privacy", icon: Shield, label: "Privacy & Security" },
-  { id: "billing", icon: CreditCard, label: "Billing" },
 ];
 
 /* ── Page ─────────────────────────────────────────────────── */
@@ -439,37 +436,6 @@ export function SettingsPage() {
                   />
                 </div>
               </SettingsCard>
-            </section>
-
-            {/* Billing / Upgrade */}
-            <section
-              ref={(el) => {
-                sectionRefs.current.billing = el;
-              }}
-            >
-              <div className="bg-gradient-to-br from-primary-500 via-primary-600 to-violet-600 rounded-2xl p-6 text-white shadow-lg shadow-primary-500/10">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center">
-                    <Zap size={16} />
-                  </div>
-                  <div>
-                    <h2 className="text-[15px] font-semibold">Neuron Pro</h2>
-                    <p className="text-xs text-white/60">Upgrade your plan</p>
-                  </div>
-                </div>
-                <p className="text-sm text-white/75 mb-5 leading-relaxed">
-                  Unlock unlimited notes, advanced AI features, real-time
-                  collaboration, and priority support.
-                </p>
-                <div className="flex items-center gap-3">
-                  <button className="px-5 py-2.5 bg-white text-primary-600 rounded-xl font-semibold text-[12.5px] hover:bg-white/90 shadow-sm btn-press">
-                    Upgrade now
-                  </button>
-                  <button className="px-5 py-2.5 bg-white/10 text-white rounded-xl font-medium text-[12.5px] hover:bg-white/20 btn-press">
-                    Learn more
-                  </button>
-                </div>
-              </div>
             </section>
 
             {/* Danger zone – mobile only (desktop uses sidebar sign-out) */}

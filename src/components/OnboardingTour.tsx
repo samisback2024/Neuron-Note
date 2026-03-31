@@ -6,7 +6,7 @@ const TOUR_STEPS = [
   {
     title: "Welcome to the Interactive Demo",
     description:
-      "Let's walk through Neuron Note's core features: creating notes, linking them, visualizing connections, and getting AI insights.",
+      "Let's walk through Neuron Note's core features: creating notes, linking them, visualizing connections, and staying organized.",
   },
   {
     title: "Create Notes",
@@ -37,11 +37,6 @@ const TOUR_STEPS = [
     title: "Save Bookmarks",
     description:
       "Save links with tags and collections. Build a curated library of resources.",
-  },
-  {
-    title: "AI Assistant",
-    description:
-      "Ask questions about your notes, get summaries, find connections, and generate ideas with AI.",
   },
   {
     title: "Quick Capture",

@@ -149,8 +149,8 @@ export function Dashboard() {
                   Experience the Full Workflow
                 </h3>
                 <p className="text-[12.5px] text-white/65 mt-1">
-                  Create a note → Link ideas → Visualize connections → Get AI
-                  insights
+                  Create a note → Link ideas → Visualize connections → Stay
+                  organized
                 </p>
               </div>
               <button

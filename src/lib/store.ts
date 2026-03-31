@@ -68,13 +68,6 @@ export interface NoteLink {
   target_id: string;
 }
 
-export interface ChatMessage {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  created_at: string;
-}
-
 export interface Tag {
   id: string;
   name: string;
@@ -118,9 +111,7 @@ interface AppState {
 
   // Sidebar
   sidebarOpen: boolean;
-  contextOpen: boolean;
   toggleSidebar: () => void;
-  toggleContext: () => void;
 
   // Notes
   notes: Note[];
@@ -194,12 +185,6 @@ interface AppState {
   ) => Promise<{ error: string | null }>;
   removeCollaborator: (collaboratorId: string) => Promise<void>;
   subscribeToNote: (noteId: string) => () => void;
-
-  // Chat
-  chatMessages: ChatMessage[];
-  chatLoading: boolean;
-  loadChatMessages: () => Promise<void>;
-  sendChatMessage: (content: string) => Promise<void>;
 
   // Onboarding
   tourActive: boolean;
@@ -289,9 +274,7 @@ export const useStore = create<AppState>((set, get) => ({
 
   // Sidebar
   sidebarOpen: true,
-  contextOpen: true,
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
-  toggleContext: () => set((s) => ({ contextOpen: !s.contextOpen })),
 
   // Notes
   notes: [],
@@ -677,98 +660,13 @@ export const useStore = create<AppState>((set, get) => ({
     };
   },
 
-  // Chat
-  chatMessages: [],
-  chatLoading: false,
-  loadChatMessages: async () => {
-    const user = get().user;
-    if (!user) return;
-    const { data } = await supabase
-      .from("chat_messages")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: true });
-    set({ chatMessages: (data as ChatMessage[]) ?? [] });
-  },
-
-  sendChatMessage: async (content) => {
-    const user = get().user;
-    if (!user) return;
-    set({ chatLoading: true });
-
-    // Save user message
-    const { data: userMsg } = await supabase
-      .from("chat_messages")
-      .insert({ user_id: user.id, role: "user" as const, content })
-      .select()
-      .single();
-
-    if (userMsg) {
-      set((s) => ({
-        chatMessages: [...s.chatMessages, userMsg as ChatMessage],
-      }));
-    }
-
-    // Call edge function for AI response
-    try {
-      const { data, error } = await supabase.functions.invoke("ai-chat", {
-        body: { message: content, userId: user.id },
-      });
-
-      let reply: string;
-      if (error) {
-        console.error("[AI Assistant] Edge function error:", error);
-        reply =
-          "Could not reach the AI service. Make sure the 'ai-chat' edge function is deployed and OPENAI_API_KEY is set. Check browser console for details.";
-      } else if (data?.error) {
-        console.warn(
-          "[AI Assistant] Function returned error:",
-          data.error,
-          data.detail,
-        );
-        reply = data.reply || "The AI service encountered a problem.";
-      } else {
-        reply =
-          data?.reply ?? "I received an empty response. Please try again.";
-      }
-
-      const { data: assistantMsg } = await supabase
-        .from("chat_messages")
-        .insert({
-          user_id: user.id,
-          role: "assistant" as const,
-          content: reply,
-        })
-        .select()
-        .single();
-
-      if (assistantMsg) {
-        set((s) => ({
-          chatMessages: [...s.chatMessages, assistantMsg as ChatMessage],
-        }));
-      }
-    } catch (err) {
-      console.error("[AI Assistant] Network/invocation error:", err);
-      const fallback: ChatMessage = {
-        id: crypto.randomUUID(),
-        role: "assistant",
-        content:
-          "Could not connect to the AI service. Verify the 'ai-chat' edge function is deployed and your Supabase project is running.",
-        created_at: new Date().toISOString(),
-      };
-      set((s) => ({ chatMessages: [...s.chatMessages, fallback] }));
-    }
-
-    set({ chatLoading: false });
-  },
-
   // Onboarding
   tourActive: false,
   tourStep: 0,
   startTour: () => set({ tourActive: true, tourStep: 0 }),
   nextTourStep: () =>
     set((s) => {
-      if (s.tourStep >= 8) return { tourActive: false, tourStep: 0 };
+      if (s.tourStep >= 7) return { tourActive: false, tourStep: 0 };
       return { tourStep: s.tourStep + 1 };
     }),
   endTour: () => {
