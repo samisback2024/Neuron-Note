@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useStore } from "./lib/store";
+import { useSettingsStore } from "./lib/settingsStore";
 import { supabase } from "./lib/supabase";
 import { AppLayout } from "./components/Layout/AppLayout";
 import { AuthPage } from "./pages/AuthPage";
@@ -12,7 +13,7 @@ import { TasksPage } from "./pages/TasksPage";
 import { ProjectsPage } from "./pages/ProjectsPage";
 import { KnowledgeGraph } from "./pages/KnowledgeGraph";
 import { BookmarksPage } from "./pages/BookmarksPage";
-import { SettingsPage } from "./pages/SettingsPage";
+import { SettingsPage } from "./pages/settings/SettingsPage";
 import { TrashPage } from "./pages/TrashPage";
 import { OnboardingTour } from "./components/OnboardingTour";
 import { QuickCapture } from "./components/QuickCapture";
@@ -38,7 +39,6 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 export default function App() {
   const {
     setSession,
-    theme,
     loadNotes,
     loadTasks,
     loadProjects,
@@ -49,9 +49,10 @@ export default function App() {
     session,
   } = useStore();
 
+  // Hydrate settings (theme, accent, density, etc.) on boot
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
+    useSettingsStore.getState().hydrate();
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -138,7 +139,7 @@ export default function App() {
                   <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
                   <Route path="/bookmarks" element={<BookmarksPage />} />
                   <Route path="/trash" element={<TrashPage />} />
-                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/settings/*" element={<SettingsPage />} />
                 </Routes>
               </AppLayout>
               <QuickCapture />

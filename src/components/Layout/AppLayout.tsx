@@ -9,13 +9,18 @@ interface AppLayoutProps {
 export function AppLayout({ children }: AppLayoutProps) {
   const location = useLocation();
 
+  // Group all settings sub-routes under one animation key
+  const animationKey = location.pathname.startsWith("/settings")
+    ? "/settings"
+    : location.pathname;
+
   return (
     <div className="h-screen overflow-hidden bg-surface-100 dark:bg-surface-900 md:grid md:grid-cols-[auto_1fr]">
       <Sidebar />
       <main className="min-w-0 overflow-y-auto pb-20 md:pb-0">
         <AnimatePresence mode="wait">
           <motion.div
-            key={location.pathname}
+            key={animationKey}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
