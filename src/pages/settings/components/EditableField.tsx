@@ -53,7 +53,7 @@ export function EditableField({
     setError(null);
     setSaving(true);
     try {
-      await onSave(trimmed);
+      await onSave?.(trimmed);
       setEditing(false);
     } catch {
       setError("Failed to save. Please try again.");
