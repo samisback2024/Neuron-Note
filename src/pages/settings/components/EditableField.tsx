@@ -6,7 +6,7 @@ interface Props {
   description?: string;
   value: string;
   placeholder?: string;
-  onSave: (value: string) => Promise<void> | void;
+  onSave?: (value: string) => Promise<void> | void;
   validate?: (value: string) => string | null;
   readOnly?: boolean;
 }
