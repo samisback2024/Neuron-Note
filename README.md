@@ -28,7 +28,7 @@ A full-stack productivity workspace for notes, tasks, projects, and knowledge ma
 
 ### Platform
 
-- **Authentication** — Email/password via Supabase Auth
+- **Authentication** — Email/password + Google One Tap via Supabase Auth
 - **Real-time Sync** — Live data sync across tabs using Supabase Realtime
 - **Collaboration** — Share notes with other users
 - **Dark Mode** — System-aware theme toggle
@@ -69,7 +69,41 @@ Create a `.env` file:
 ```
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
+VITE_GOOGLE_CLIENT_ID=your-google-web-client-id
 ```
+
+For Google One Tap, enable the **Google** provider in Supabase Auth and use a Web OAuth client ID from Google Cloud Console.
+
+### Google OAuth Setup (Required)
+
+If you see `Error 400: redirect_uri_mismatch`, configure Google and Supabase with these exact values:
+
+1. In **Supabase** → Authentication → Providers → Google:
+
+- Enable Google
+- Paste your Google Web **Client ID** and **Client Secret**
+
+2. In **Google Cloud Console** → APIs & Services → Credentials → your OAuth 2.0 Web Client:
+
+- Authorized redirect URIs must include:
+
+```
+https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback
+```
+
+Replace `YOUR_PROJECT_REF` with your Supabase project ref.
+
+3. In **Supabase** → Authentication → URL Configuration:
+
+- Set Site URL (for local dev): `http://localhost:5173`
+- Add Redirect URLs:
+  - `http://localhost:5173`
+  - your production URL (for example `https://neuron-note.vercel.app`)
+
+4. In **Google Cloud Console** Authorized JavaScript origins:
+
+- `http://localhost:5173`
+- your production origin
 
 Run the database schema in **Supabase SQL Editor** → `supabase/schema.sql`
 

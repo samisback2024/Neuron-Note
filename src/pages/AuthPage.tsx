@@ -1,18 +1,70 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useStore } from "../lib/store";
+import { googleClientId } from "../lib/config";
 import toast from "react-hot-toast";
 
 export function AuthPage() {
-  const { session, signIn, signUp } = useStore();
+  const {
+    session,
+    signIn,
+    signUp,
+    signInWithGoogleOneTap,
+    signInWithGoogleOAuth,
+  } = useStore();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const oneTapInitializedRef = useRef(false);
+
+  useEffect(() => {
+    if (!googleClientId || session || oneTapInitializedRef.current) return;
+
+    const initializeOneTap = () => {
+      if (!window.google?.accounts?.id || oneTapInitializedRef.current) return;
+
+      window.google.accounts.id.initialize({
+        client_id: googleClientId,
+        auto_select: true,
+        cancel_on_tap_outside: false,
+        context: "signin",
+        callback: async (response) => {
+          setGoogleLoading(true);
+          const { error } = await signInWithGoogleOneTap(response.credential);
+          if (error) toast.error(error);
+          setGoogleLoading(false);
+        },
+      });
+
+      window.google.accounts.id.prompt();
+      oneTapInitializedRef.current = true;
+    };
+
+    const existingScript = document.getElementById("google-identity-services");
+    if (existingScript) {
+      initializeOneTap();
+      return () => window.google?.accounts?.id.cancel();
+    }
+
+    const script = document.createElement("script");
+    script.id = "google-identity-services";
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    script.onload = initializeOneTap;
+    document.head.appendChild(script);
+
+    return () => {
+      script.onload = null;
+      window.google?.accounts?.id.cancel();
+    };
+  }, [session, signInWithGoogleOneTap]);
 
   if (session) return <Navigate to="/" replace />;
 
@@ -35,6 +87,22 @@ export function AuthPage() {
     }
 
     setLoading(false);
+  };
+
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+
+    if (googleClientId && window.google?.accounts?.id) {
+      window.google.accounts.id.prompt();
+      // One Tap callback controls loading completion.
+      return;
+    }
+
+    const { error } = await signInWithGoogleOAuth();
+    if (error) {
+      toast.error(error);
+      setGoogleLoading(false);
+    }
   };
 
   return (
@@ -88,6 +156,56 @@ export function AuthPage() {
               ? "Start building your second brain"
               : "Sign in to your workspace"}
           </p>
+
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={googleLoading}
+            className="w-full py-3.5 rounded-xl border border-surface-300 dark:border-surface-700 bg-white dark:bg-surface-800 text-surface-900 dark:text-white font-semibold text-sm transition-colors hover:bg-surface-50 dark:hover:bg-surface-700 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {googleLoading ? (
+              <div className="w-5 h-5 border-2 border-surface-500 border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <>
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="w-[18px] h-[18px]"
+                >
+                  <path
+                    d="M21.805 10.023H12v3.955h5.6c-.242 1.272-.967 2.35-2.058 3.073v2.548h3.322c1.944-1.79 3.061-4.426 3.061-7.599 0-.66-.059-1.294-.12-1.977Z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 22c2.767 0 5.086-.914 6.781-2.401l-3.322-2.548c-.924.624-2.106.993-3.459.993-2.66 0-4.914-1.79-5.72-4.2H2.86v2.628A9.996 9.996 0 0 0 12 22Z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M6.28 13.844A5.994 5.994 0 0 1 5.96 12c0-.64.115-1.264.32-1.844V7.528H2.86A9.996 9.996 0 0 0 2 12c0 1.612.386 3.138 1.06 4.472l3.22-2.628Z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.956c1.507 0 2.86.518 3.925 1.534l2.943-2.943C17.08 2.886 14.76 2 12 2A9.996 9.996 0 0 0 2.86 7.528l3.42 2.628c.806-2.41 3.06-4.2 5.72-4.2Z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                Continue with Google
+              </>
+            )}
+          </button>
+
+          {!googleClientId && (
+            <p className="mt-2 text-xs text-surface-500">
+              One Tap is not configured, but Google sign-in will still work via
+              redirect.
+            </p>
+          )}
+
+          <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-wide text-surface-400">
+            <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
+            <span>Or continue with email</span>
+            <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (

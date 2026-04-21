@@ -97,6 +97,10 @@ interface AppState {
     email: string,
     password: string,
   ) => Promise<{ error: string | null }>;
+  signInWithGoogleOneTap: (
+    idToken: string,
+  ) => Promise<{ error: string | null }>;
+  signInWithGoogleOAuth: () => Promise<{ error: string | null }>;
   signUp: (
     email: string,
     password: string,
@@ -226,6 +230,39 @@ export const useStore = create<AppState>((set, get) => ({
     return { error: error?.message ?? null };
   },
 
+  signInWithGoogleOneTap: async (idToken) => {
+    const { data, error } = await supabase.auth.signInWithIdToken({
+      provider: "google",
+      token: idToken,
+    });
+
+    if (!error && data.user) {
+      const metadata = data.user.user_metadata ?? {};
+      const fallbackName =
+        metadata.full_name ||
+        metadata.name ||
+        data.user.email?.split("@")[0] ||
+        "Neuron User";
+
+      await supabase.from("profiles").upsert({
+        id: data.user.id,
+        name: fallbackName,
+        email: data.user.email ?? "",
+        avatar_url: metadata.avatar_url || metadata.picture || null,
+        workspace: "Personal",
+      });
+    }
+
+    return { error: error?.message ?? null };
+  },
+
+  signInWithGoogleOAuth: async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    return { error: error?.message ?? null };
+  },
+
   signUp: async (email, password, name) => {
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -256,7 +293,29 @@ export const useStore = create<AppState>((set, get) => ({
       .select("*")
       .eq("id", user.id)
       .single();
-    if (data) set({ profile: data as Profile });
+
+    if (data) {
+      set({ profile: data as Profile });
+      return;
+    }
+
+    const metadata = user.user_metadata ?? {};
+    const fallbackName =
+      metadata.full_name ||
+      metadata.name ||
+      user.email?.split("@")[0] ||
+      "Neuron User";
+
+    const newProfile: Profile = {
+      id: user.id,
+      name: fallbackName,
+      email: user.email ?? "",
+      avatar_url: metadata.avatar_url || metadata.picture || null,
+      workspace: "Personal",
+    };
+
+    await supabase.from("profiles").upsert(newProfile);
+    set({ profile: newProfile });
   },
 
   updateProfile: async (updates) => {
