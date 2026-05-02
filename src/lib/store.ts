@@ -161,6 +161,8 @@ interface AppState {
       | "updated_at"
       | "tasks_total"
       | "tasks_done"
+      | "is_trashed"
+      | "trashed_at"
     >,
   ) => Promise<Project | null>;
   updateProject: (id: string, updates: Partial<Project>) => Promise<void>;

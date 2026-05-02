@@ -101,7 +101,8 @@ export function TrashPage() {
               Trash
             </h1>
             <p className="text-[12.5px] text-surface-500 dark:text-surface-400 mt-0.5">
-              {totalItems} deleted {totalItems === 1 ? "item" : "items"} · Auto-deletes after 30 days
+              {totalItems} deleted {totalItems === 1 ? "item" : "items"} ·
+              Auto-deletes after 30 days
             </p>
           </div>
         </div>
@@ -132,12 +133,12 @@ export function TrashPage() {
               Trash is empty
             </h3>
             <p className="text-zinc-500 dark:text-zinc-400 text-[12.5px] max-w-xs mx-auto">
-              Deleted notes and projects will appear here for 30 days before being permanently removed.
+              Deleted notes and projects will appear here for 30 days before
+              being permanently removed.
             </p>
           </div>
         ) : (
           <div className="space-y-8">
-
             {/* ── Projects section ── */}
             {filteredProjects.length > 0 && (
               <div>
@@ -179,7 +180,10 @@ export function TrashPage() {
                           <span>
                             Deleted{" "}
                             {project.trashed_at
-                              ? formatDistanceToNow(new Date(project.trashed_at), { addSuffix: true })
+                              ? formatDistanceToNow(
+                                  new Date(project.trashed_at),
+                                  { addSuffix: true },
+                                )
                               : "recently"}
                           </span>
                           <span className="text-red-400 dark:text-red-500 ml-auto">
@@ -238,14 +242,18 @@ export function TrashPage() {
                           {note.title || "Untitled"}
                         </h3>
                         <p className="text-[12px] text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed mb-3">
-                          {note.content?.replace(/<[^>]*>/g, "").substring(0, 200) || "Empty note..."}
+                          {note.content
+                            ?.replace(/<[^>]*>/g, "")
+                            .substring(0, 200) || "Empty note..."}
                         </p>
                         <div className="flex items-center gap-2 text-[10.5px] text-zinc-400 mb-3">
                           <Clock size={11} />
                           <span>
                             Deleted{" "}
                             {note.trashed_at
-                              ? formatDistanceToNow(new Date(note.trashed_at), { addSuffix: true })
+                              ? formatDistanceToNow(new Date(note.trashed_at), {
+                                  addSuffix: true,
+                                })
                               : "recently"}
                           </span>
                           <span className="text-red-400 dark:text-red-500 ml-auto">
@@ -280,13 +288,18 @@ export function TrashPage() {
             )}
 
             {/* No search results */}
-            {filteredNotes.length === 0 && filteredProjects.length === 0 && search && (
-              <div className="bg-white dark:bg-zinc-900/70 rounded-2xl py-10 px-6 border border-zinc-200 dark:border-zinc-800 text-center">
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">No results for "{search}"</p>
-              </div>
-            )}
+            {filteredNotes.length === 0 &&
+              filteredProjects.length === 0 &&
+              search && (
+                <div className="bg-white dark:bg-zinc-900/70 rounded-2xl py-10 px-6 border border-zinc-200 dark:border-zinc-800 text-center">
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    No results for "{search}"
+                  </p>
+                </div>
+              )}
           </div>
         )}
+      </div>
 
       {/* Permanent Delete Confirmation Modal */}
       <AnimatePresence>
@@ -317,7 +330,8 @@ export function TrashPage() {
                   </h3>
                 </div>
                 <p className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                  This {confirmType} will be permanently deleted and cannot be recovered.
+                  This {confirmType} will be permanently deleted and cannot be
+                  recovered.
                 </p>
               </div>
               <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-zinc-200 dark:border-zinc-800">

@@ -23,9 +23,6 @@ AS $$
 $$;
 
 -- 4. Schedule cleanup via pg_cron (runs daily at 3 AM UTC)
--- Note: pg_cron must be enabled in Supabase Dashboard > Database > Extensions
-SELECT cron.schedule(
-  'cleanup-trashed-notes',
-  '0 3 * * *',
-  $$SELECT public.cleanup_trashed_notes()$$
-);
+-- Requires pg_cron extension: Supabase Dashboard → Database → Extensions → pg_cron
+-- After enabling pg_cron, run the line below:
+-- SELECT cron.schedule('cleanup-trashed-notes', '0 3 * * *', $$SELECT public.cleanup_trashed_notes()$$);
