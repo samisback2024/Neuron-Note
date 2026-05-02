@@ -81,6 +81,8 @@ create table if not exists public.projects (
   color text not null default '#4F7DF3',
   due_date date,
   members integer not null default 1,
+  is_trashed boolean not null default false,
+  trashed_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

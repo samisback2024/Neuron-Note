@@ -45,6 +45,8 @@ export interface Project {
   color: string;
   due_date: string | null;
   members: number;
+  is_trashed: boolean;
+  trashed_at: string | null;
   created_at: string;
   updated_at: string;
   tasks_total?: number;
@@ -163,6 +165,13 @@ interface AppState {
   ) => Promise<Project | null>;
   updateProject: (id: string, updates: Partial<Project>) => Promise<void>;
   deleteProject: (id: string) => Promise<void>;
+
+  // Project Trash
+  trashedProjects: Project[];
+  trashedProjectsLoading: boolean;
+  loadTrashedProjects: () => Promise<void>;
+  restoreProject: (id: string) => Promise<void>;
+  permanentlyDeleteProject: (id: string) => Promise<void>;
 
   // Bookmarks
   bookmarks: Bookmark[];
@@ -543,6 +552,7 @@ export const useStore = create<AppState>((set, get) => ({
       .from("projects")
       .select("*")
       .eq("user_id", user.id)
+      .eq("is_trashed", false)
       .order("created_at", { ascending: false });
     if (data) {
       const projects = data as Project[];
@@ -566,7 +576,12 @@ export const useStore = create<AppState>((set, get) => ({
     if (!user) return null;
     const { data, error } = await supabase
       .from("projects")
-      .insert({ ...project, user_id: user.id })
+      .insert({
+        ...project,
+        user_id: user.id,
+        is_trashed: false,
+        trashed_at: null,
+      })
       .select()
       .single();
     if (error) return null;
@@ -583,8 +598,62 @@ export const useStore = create<AppState>((set, get) => ({
   },
 
   deleteProject: async (id) => {
+    const now = new Date().toISOString();
+    await supabase
+      .from("projects")
+      .update({ is_trashed: true, trashed_at: now })
+      .eq("id", id);
+    set((s) => ({
+      projects: s.projects.filter((p) => p.id !== id),
+      trashedProjects: [
+        {
+          ...s.projects.find((p) => p.id === id)!,
+          is_trashed: true,
+          trashed_at: now,
+        },
+        ...s.trashedProjects,
+      ].filter(Boolean),
+    }));
+  },
+
+  // Project Trash
+  trashedProjects: [],
+  trashedProjectsLoading: false,
+  loadTrashedProjects: async () => {
+    const user = get().user;
+    if (!user) return;
+    set({ trashedProjectsLoading: true });
+    const { data } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("is_trashed", true)
+      .order("trashed_at", { ascending: false });
+    set({
+      trashedProjects: (data as Project[]) ?? [],
+      trashedProjectsLoading: false,
+    });
+  },
+
+  restoreProject: async (id) => {
+    await supabase
+      .from("projects")
+      .update({ is_trashed: false, trashed_at: null })
+      .eq("id", id);
+    const proj = get().trashedProjects.find((p) => p.id === id);
+    set((s) => ({
+      trashedProjects: s.trashedProjects.filter((p) => p.id !== id),
+      projects: proj
+        ? [{ ...proj, is_trashed: false, trashed_at: null }, ...s.projects]
+        : s.projects,
+    }));
+  },
+
+  permanentlyDeleteProject: async (id) => {
     await supabase.from("projects").delete().eq("id", id);
-    set((s) => ({ projects: s.projects.filter((p) => p.id !== id) }));
+    set((s) => ({
+      trashedProjects: s.trashedProjects.filter((p) => p.id !== id),
+    }));
   },
 
   // Bookmarks
