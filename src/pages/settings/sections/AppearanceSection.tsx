@@ -89,7 +89,9 @@ export function AppearanceSection() {
                     <p className="text-sm font-medium text-surface-900 dark:text-zinc-50">
                       {opt.label}
                     </p>
-                    <p className="text-[11px] text-surface-500 dark:text-zinc-500">{opt.desc}</p>
+                    <p className="text-[11px] text-surface-500 dark:text-zinc-500">
+                      {opt.desc}
+                    </p>
                   </div>
                 </button>
               );
