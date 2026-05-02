@@ -32,7 +32,7 @@ export function KnowledgeGraph() {
   const { notes, noteLinks } = useStore();
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animRef = useRef<number>(0);
+  const animRef = useRef<number | null>(null);
   const [search, setSearch] = useState("");
   const [zoom, setZoom] = useState(1);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
@@ -213,7 +213,7 @@ export function KnowledgeGraph() {
 
     return () => {
       window.removeEventListener("resize", resize);
-      cancelAnimationFrame(animRef.current);
+      if (animRef.current !== null) cancelAnimationFrame(animRef.current);
     };
   }, [draw]);
 

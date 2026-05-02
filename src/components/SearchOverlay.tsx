@@ -47,11 +47,9 @@ export function SearchOverlay() {
   }, [query, notes]);
 
   // Reset selection when results change
-  const [prevLen, setPrevLen] = useState(0);
-  if (prevLen !== results.length) {
-    setPrevLen(results.length);
+  useEffect(() => {
     setSelected(0);
-  }
+  }, [results.length]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") close();

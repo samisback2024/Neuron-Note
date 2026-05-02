@@ -33,6 +33,7 @@ interface GoogleAccountsId {
   initialize: (config: {
     client_id: string;
     nonce?: string;
+    use_fedcm_for_prompt?: boolean;
     callback: (response: GoogleCredentialResponse) => void;
     auto_select?: boolean;
     cancel_on_tap_outside?: boolean;

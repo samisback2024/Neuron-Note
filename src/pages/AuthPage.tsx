@@ -6,6 +6,20 @@ import { useStore } from "../lib/store";
 import { googleClientId } from "../lib/config";
 import toast from "react-hot-toast";
 
+async function generateNonce(): Promise<[string, string]> {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  const rawNonce = btoa(String.fromCharCode(...array));
+  const hashBuffer = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(rawNonce),
+  );
+  const hashedNonce = Array.from(new Uint8Array(hashBuffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+  return [rawNonce, hashedNonce];
+}
+
 export function AuthPage() {
   const {
     session,
@@ -24,20 +38,6 @@ export function AuthPage() {
   const oneTapInitializedRef = useRef(false);
   const nonceRef = useRef("");
 
-  const generateNonce = async (): Promise<[string, string]> => {
-    const array = new Uint8Array(32);
-    crypto.getRandomValues(array);
-    const rawNonce = btoa(String.fromCharCode(...array));
-    const hashBuffer = await crypto.subtle.digest(
-      "SHA-256",
-      new TextEncoder().encode(rawNonce),
-    );
-    const hashedNonce = Array.from(new Uint8Array(hashBuffer))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-    return [rawNonce, hashedNonce];
-  };
-
   useEffect(() => {
     if (!googleClientId || session || oneTapInitializedRef.current) return;
 
@@ -50,6 +50,7 @@ export function AuthPage() {
       window.google.accounts.id.initialize({
         client_id: googleClientId,
         nonce: hashedNonce,
+        use_fedcm_for_prompt: true,
         auto_select: true,
         cancel_on_tap_outside: false,
         context: "signin",
