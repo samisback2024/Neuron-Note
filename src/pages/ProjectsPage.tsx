@@ -82,7 +82,9 @@ export function ProjectsPage() {
   };
 
   // Auto-save title/description on blur
-  const saveField = async (field: "title" | "description" | "color" | "due_date") => {
+  const saveField = async (
+    field: "title" | "description" | "color" | "due_date",
+  ) => {
     if (!selectedId) return;
     const updates: Record<string, string> = {
       title: editTitle,
@@ -97,14 +99,14 @@ export function ProjectsPage() {
   useEffect(() => {
     if (!selectedId) return;
     updateProject(selectedId, { color: editColor });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editColor]);
 
   // Sync editDue whenever it changes
   useEffect(() => {
     if (!selectedId) return;
     updateProject(selectedId, { due_date: editDue || null });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editDue]);
 
   const handleCreateProject = async () => {
@@ -229,7 +231,9 @@ export function ProjectsPage() {
                   {/* Progress */}
                   <div className="mb-4">
                     <div className="flex justify-between text-xs mb-1.5">
-                      <span className="text-zinc-500 dark:text-zinc-400">Progress</span>
+                      <span className="text-zinc-500 dark:text-zinc-400">
+                        Progress
+                      </span>
                       <span className="font-semibold text-surface-900 dark:text-zinc-50">
                         {progress}%
                       </span>
@@ -238,7 +242,11 @@ export function ProjectsPage() {
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${progress}%` }}
-                        transition={{ duration: 0.7, ease: "easeOut", delay: i * 0.04 }}
+                        transition={{
+                          duration: 0.7,
+                          ease: "easeOut",
+                          delay: i * 0.04,
+                        }}
                         className="h-full rounded-full"
                         style={{ backgroundColor: project.color }}
                       />
@@ -273,7 +281,9 @@ export function ProjectsPage() {
               <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
                 <Plus size={18} className="text-zinc-400" />
               </div>
-              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">New Project</p>
+              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                New Project
+              </p>
             </motion.button>
           </div>
         )}
@@ -326,7 +336,9 @@ export function ProjectsPage() {
                   className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition resize-none"
                 />
                 <div>
-                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-2">Color</p>
+                  <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-2">
+                    Color
+                  </p>
                   <div className="flex gap-2">
                     {PROJECT_COLORS.map((c) => (
                       <button
@@ -406,7 +418,9 @@ export function ProjectsPage() {
               <div className="flex-1 overflow-y-auto px-6 py-5 space-y-6">
                 {/* Description */}
                 <div>
-                  <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">Description</p>
+                  <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">
+                    Description
+                  </p>
                   <textarea
                     value={editDesc}
                     onChange={(e) => setEditDesc(e.target.value)}
@@ -420,7 +434,9 @@ export function ProjectsPage() {
                 {/* Color & Due date */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">Color</p>
+                    <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">
+                      Color
+                    </p>
                     <div className="flex flex-wrap gap-2">
                       {PROJECT_COLORS.map((c) => (
                         <button
@@ -433,7 +449,9 @@ export function ProjectsPage() {
                     </div>
                   </div>
                   <div>
-                    <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">Due date</p>
+                    <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">
+                      Due date
+                    </p>
                     <input
                       type="date"
                       value={editDue}
@@ -445,7 +463,9 @@ export function ProjectsPage() {
 
                 {/* Progress */}
                 <div>
-                  <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">Progress</p>
+                  <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">
+                    Progress
+                  </p>
                   <div className="flex items-center gap-3">
                     <div className="flex-1 h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                       <div
@@ -458,18 +478,26 @@ export function ProjectsPage() {
                     </div>
                     <span className="text-sm font-semibold text-surface-900 dark:text-zinc-50 w-10 text-right">
                       {projectTasks.length > 0
-                        ? Math.round((projectTasks.filter((t) => t.completed).length / projectTasks.length) * 100)
-                        : 0}%
+                        ? Math.round(
+                            (projectTasks.filter((t) => t.completed).length /
+                              projectTasks.length) *
+                              100,
+                          )
+                        : 0}
+                      %
                     </span>
                   </div>
                   <p className="text-xs text-zinc-400 mt-1">
-                    {projectTasks.filter((t) => t.completed).length} of {projectTasks.length} tasks completed
+                    {projectTasks.filter((t) => t.completed).length} of{" "}
+                    {projectTasks.length} tasks completed
                   </p>
                 </div>
 
                 {/* Tasks */}
                 <div>
-                  <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-3">Tasks</p>
+                  <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-3">
+                    Tasks
+                  </p>
 
                   {/* Add task input */}
                   <div className="flex gap-2 mb-3">
@@ -503,11 +531,16 @@ export function ProjectsPage() {
                         className="group flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800/60 transition-colors"
                       >
                         <button
-                          onClick={() => updateTask(task.id, { completed: !task.completed })}
+                          onClick={() =>
+                            updateTask(task.id, { completed: !task.completed })
+                          }
                           className="flex-shrink-0 text-zinc-300 dark:text-zinc-600 hover:text-primary-500 transition-colors"
                         >
                           {task.completed ? (
-                            <CheckCircle2 size={17} className="text-primary-500" />
+                            <CheckCircle2
+                              size={17}
+                              className="text-primary-500"
+                            />
                           ) : (
                             <Circle size={17} />
                           )}
@@ -546,7 +579,9 @@ export function ProjectsPage() {
               <div className="px-6 py-4 border-t border-zinc-100 dark:border-zinc-800 flex-shrink-0">
                 {confirmDelete ? (
                   <div className="flex items-center gap-3">
-                    <p className="text-xs text-red-500 flex-1">Delete this project?</p>
+                    <p className="text-xs text-red-500 flex-1">
+                      Delete this project?
+                    </p>
                     <button
                       onClick={() => setConfirmDelete(false)}
                       className="px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
@@ -575,249 +610,5 @@ export function ProjectsPage() {
         )}
       </AnimatePresence>
     </>
-  );
-}
-
-
-const PROJECT_COLORS = [
-  "#4F7DF3",
-  "#8B7CF6",
-  "#3DDC97",
-  "#F59E0B",
-  "#EF4444",
-  "#EC4899",
-];
-
-export function ProjectsPage() {
-  const { projects, projectsLoading, tasks, createProject } = useStore();
-  const [showNew, setShowNew] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [color, setColor] = useState(PROJECT_COLORS[0]);
-  const [dueDate, setDueDate] = useState("");
-
-  const handleCreate = async () => {
-    if (!title.trim()) return;
-    await createProject({
-      title,
-      description,
-      color,
-      due_date: dueDate || null,
-      members: 1,
-    });
-    setTitle("");
-    setDescription("");
-    setColor(PROJECT_COLORS[0]);
-    setDueDate("");
-    setShowNew(false);
-    toast.success("Project created");
-  };
-
-  if (projectsLoading) {
-    return (
-      <div className="px-6 md:px-10 py-7 md:py-9">
-        <div className="mx-auto max-w-[1080px]">
-          <div className="skeleton h-8 w-32 mb-6" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="skeleton h-52 rounded-3xl" />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="px-6 md:px-10 py-7 md:py-9">
-      <div className="mx-auto max-w-[1080px]">
-        <div className="flex items-center justify-between mb-1">
-          <h1 className="text-[20px] font-semibold text-surface-900 dark:text-white/95">
-            Projects
-          </h1>
-          <button
-            onClick={() => setShowNew(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-[12.5px] font-medium rounded-lg btn-press shadow-sm"
-          >
-            <Plus size={16} />
-            New Project
-          </button>
-        </div>
-        <p className="text-[12.5px] text-surface-500 dark:text-surface-400 mb-6">
-          {projects.length} active projects
-        </p>
-
-        {/* New Project Modal */}
-        <AnimatePresence>
-          {showNew && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-              onClick={(e) => e.target === e.currentTarget && setShowNew(false)}
-            >
-              <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
-                className="bg-white dark:bg-surface-800 rounded-2xl p-6 w-full max-w-md shadow-2xl"
-              >
-                <div className="flex items-center justify-between mb-5">
-                  <h3 className="text-lg font-semibold text-surface-900 dark:text-white">
-                    New Project
-                  </h3>
-                  <button
-                    onClick={() => setShowNew(false)}
-                    className="text-surface-400 hover:text-surface-600"
-                  >
-                    <X size={18} />
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Project name"
-                    autoFocus
-                    className="w-full px-4 py-3 rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-900 text-surface-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-                  />
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Description"
-                    rows={3}
-                    className="w-full px-4 py-3 rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-900 text-surface-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30 resize-none"
-                  />
-                  <div>
-                    <label className="text-xs font-medium text-surface-500 mb-2 block">
-                      Color
-                    </label>
-                    <div className="flex gap-2">
-                      {PROJECT_COLORS.map((c) => (
-                        <button
-                          key={c}
-                          onClick={() => setColor(c)}
-                          className={`w-8 h-8 rounded-full transition-all ${color === c ? "ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-surface-800" : ""}`}
-                          style={{ backgroundColor: c }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <input
-                    type="date"
-                    value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-900 text-surface-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-                  />
-                  <button
-                    onClick={handleCreate}
-                    className="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl transition-colors"
-                  >
-                    Create Project
-                  </button>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {projects.map((project, i) => {
-            const projectTasks = tasks.filter(
-              (t) => t.project_id === project.id,
-            );
-            const done = projectTasks.filter((t) => t.completed).length;
-            const total = projectTasks.length;
-            const progress = total > 0 ? Math.round((done / total) * 100) : 0;
-
-            return (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="group bg-white dark:bg-surface-800/80 rounded-2xl p-5 border border-surface-200/60 dark:border-surface-700/30 shadow-sm card-hover"
-              >
-                <div className="flex items-start gap-3 mb-4">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
-                    style={{ backgroundColor: project.color }}
-                  >
-                    {project.title.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-semibold text-surface-900 dark:text-white text-sm truncate">
-                      {project.title}
-                    </h3>
-                    <p className="text-xs text-surface-500 line-clamp-2 mt-0.5">
-                      {project.description || "No description"}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Progress */}
-                <div className="mb-3">
-                  <div className="flex justify-between text-xs mb-1.5">
-                    <span className="text-surface-500">Progress</span>
-                    <span className="font-medium text-surface-700 dark:text-surface-300">
-                      {progress}%
-                    </span>
-                  </div>
-                  <div className="h-2 bg-surface-100 dark:bg-surface-700 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${progress}%` }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                      className="h-full rounded-full"
-                      style={{ backgroundColor: project.color }}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-between text-xs text-surface-500 mb-4">
-                  <span>Tasks</span>
-                  <span>
-                    {done}/{total}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-surface-400 pt-3 border-t border-surface-100 dark:border-surface-700/50">
-                  <span className="flex items-center gap-1">
-                    <Users size={12} />
-                    {project.members}
-                  </span>
-                  {project.due_date && (
-                    <span className="flex items-center gap-1">
-                      <Calendar size={12} />
-                      {format(new Date(project.due_date), "MMM d")}
-                    </span>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
-
-          {/* Create Project Card */}
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            onClick={() => setShowNew(true)}
-            className="flex flex-col items-center justify-center bg-surface-50 dark:bg-surface-800/50 rounded-2xl p-8 border-2 border-dashed border-surface-300 dark:border-surface-700 hover:border-primary-400 dark:hover:border-primary-600 hover:bg-primary-50/30 dark:hover:bg-primary-900/10 transition-all min-h-[220px]"
-          >
-            <div className="w-12 h-12 rounded-full bg-surface-200 dark:bg-surface-700 flex items-center justify-center mb-3">
-              <Plus size={24} className="text-surface-400" />
-            </div>
-            <p className="font-medium text-surface-600 dark:text-surface-400 text-sm">
-              Create Project
-            </p>
-            <p className="text-xs text-surface-400 mt-1">Start a new project</p>
-          </motion.button>
-        </div>
-      </div>
-    </div>
   );
 }
