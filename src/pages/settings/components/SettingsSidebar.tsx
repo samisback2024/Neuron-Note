@@ -1,3 +1,4 @@
+// eslint-disable-next-line react-refresh/only-export-components
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Palette,

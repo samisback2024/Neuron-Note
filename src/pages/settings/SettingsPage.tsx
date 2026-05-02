@@ -66,10 +66,10 @@ export function SettingsPage() {
             />
           </button>
           <div>
-              className="text-[18px] font-semibold text-surface-900 dark:text-zinc-50"
+            <h1 className="text-[18px] font-semibold text-surface-900 dark:text-zinc-50">
               Settings
             </h1>
-              className="text-[12.5px] text-surface-500 dark:text-zinc-400">
+            <p className="text-[12.5px] text-surface-500 dark:text-zinc-400">
               Manage your account and preferences
             </p>
           </div>

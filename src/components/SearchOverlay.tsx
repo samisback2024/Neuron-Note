@@ -46,10 +46,7 @@ export function SearchOverlay() {
       .slice(0, 8);
   }, [query, notes]);
 
-  // Reset selection when results change
-  useEffect(() => {
-    setSelected(0);
-  }, [results.length]);
+  // Reset selection when results change — done inline in the onChange handler
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") close();
@@ -108,7 +105,10 @@ export function SearchOverlay() {
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setSelected(0);
+                }}
                 onKeyDown={handleKeyDown}
                 placeholder="Search notes by title or content…"
                 className="flex-1 bg-transparent text-surface-900 dark:text-white placeholder-surface-400 dark:placeholder-surface-500 focus:outline-none text-[14px]"
