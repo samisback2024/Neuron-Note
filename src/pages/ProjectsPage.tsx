@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+﻿import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Plus,
@@ -215,7 +215,7 @@ export function ProjectsPage() {
                       {project.title.charAt(0).toUpperCase()}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-surface-900 dark:text-zinc-50 text-sm truncate">
+                      <h3 className="font-semibold text-zinc-900 dark:text-zinc-50 text-sm truncate">
                         {project.title}
                       </h3>
                       <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
@@ -234,7 +234,7 @@ export function ProjectsPage() {
                       <span className="text-zinc-500 dark:text-zinc-400">
                         Progress
                       </span>
-                      <span className="font-semibold text-surface-900 dark:text-zinc-50">
+                      <span className="font-semibold text-zinc-900 dark:text-zinc-50">
                         {progress}%
                       </span>
                     </div>
@@ -289,7 +289,7 @@ export function ProjectsPage() {
         )}
       </PageShell>
 
-      {/* ── New Project Modal ── */}
+      {/* â”€â”€ New Project Modal â”€â”€ */}
       <AnimatePresence>
         {showNew && (
           <motion.div
@@ -308,7 +308,7 @@ export function ProjectsPage() {
               className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 w-full max-w-md shadow-2xl"
             >
               <div className="flex items-center justify-between mb-5">
-                <h3 className="text-base font-semibold text-surface-900 dark:text-zinc-50">
+                <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
                   New Project
                 </h3>
                 <button
@@ -326,14 +326,14 @@ export function ProjectsPage() {
                   onKeyDown={(e) => e.key === "Enter" && handleCreateProject()}
                   placeholder="Project name"
                   autoFocus
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
                 />
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Description (optional)"
                   rows={2}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition resize-none"
                 />
                 <div>
                   <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-2">
@@ -354,7 +354,7 @@ export function ProjectsPage() {
                   type="date"
                   value={dueDate}
                   onChange={(e) => setDueDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-surface-900 dark:text-zinc-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
                 />
                 <button
                   onClick={handleCreateProject}
@@ -369,7 +369,7 @@ export function ProjectsPage() {
         )}
       </AnimatePresence>
 
-      {/* ── Project Detail Panel ── */}
+      {/* â”€â”€ Project Detail Panel â”€â”€ */}
       <AnimatePresence>
         {selectedProject && (
           <>
@@ -403,7 +403,7 @@ export function ProjectsPage() {
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
                   onBlur={() => saveField("title")}
-                  className="flex-1 text-base font-semibold text-surface-900 dark:text-zinc-50 bg-transparent focus:outline-none border-b-2 border-transparent focus:border-primary-500/50 transition-colors"
+                  className="flex-1 text-base font-semibold text-zinc-900 dark:text-zinc-50 bg-transparent focus:outline-none border-b-2 border-transparent focus:border-primary-500/50 transition-colors"
                   placeholder="Project name"
                 />
                 <button
@@ -425,9 +425,9 @@ export function ProjectsPage() {
                     value={editDesc}
                     onChange={(e) => setEditDesc(e.target.value)}
                     onBlur={() => saveField("description")}
-                    placeholder="Add a description…"
+                    placeholder="Add a descriptionâ€¦"
                     rows={3}
-                    className="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition resize-none"
+                    className="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition resize-none"
                   />
                 </div>
 
@@ -456,7 +456,7 @@ export function ProjectsPage() {
                       type="date"
                       value={editDue}
                       onChange={(e) => setEditDue(e.target.value)}
-                      className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-surface-900 dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition"
+                      className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition"
                     />
                   </div>
                 </div>
@@ -476,7 +476,7 @@ export function ProjectsPage() {
                         }}
                       />
                     </div>
-                    <span className="text-sm font-semibold text-surface-900 dark:text-zinc-50 w-10 text-right">
+                    <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 w-10 text-right">
                       {projectTasks.length > 0
                         ? Math.round(
                             (projectTasks.filter((t) => t.completed).length /
@@ -506,8 +506,8 @@ export function ProjectsPage() {
                       value={newTaskTitle}
                       onChange={(e) => setNewTaskTitle(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
-                      placeholder="Add a task… (Enter)"
-                      className="flex-1 px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
+                      placeholder="Add a taskâ€¦ (Enter)"
+                      className="flex-1 px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
                     />
                     <button
                       onClick={handleAddTask}
@@ -522,7 +522,7 @@ export function ProjectsPage() {
                   <div className="space-y-1">
                     {projectTasks.length === 0 && (
                       <p className="text-xs text-zinc-400 dark:text-zinc-500 py-3 text-center">
-                        No tasks yet — add one above
+                        No tasks yet â€” add one above
                       </p>
                     )}
                     {projectTasks.map((task) => (
@@ -546,7 +546,7 @@ export function ProjectsPage() {
                           )}
                         </button>
                         <span
-                          className={`flex-1 text-sm ${task.completed ? "line-through text-zinc-400 dark:text-zinc-500" : "text-surface-900 dark:text-zinc-50"}`}
+                          className={`flex-1 text-sm ${task.completed ? "line-through text-zinc-400 dark:text-zinc-500" : "text-zinc-900 dark:text-zinc-50"}`}
                         >
                           {task.title}
                         </span>
@@ -575,7 +575,7 @@ export function ProjectsPage() {
                 </div>
               </div>
 
-              {/* Panel footer — danger zone */}
+              {/* Panel footer â€” danger zone */}
               <div className="px-6 py-4 border-t border-zinc-100 dark:border-zinc-800 flex-shrink-0">
                 {confirmDelete ? (
                   <div className="flex items-center gap-3">

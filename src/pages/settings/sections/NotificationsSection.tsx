@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+﻿import { useState, useCallback } from "react";
 import { Bell, Info } from "lucide-react";
 import { SettingSection } from "../components/SettingSection";
 import { ToggleRow } from "../components/ToggleRow";
@@ -64,7 +64,7 @@ export function NotificationsSection() {
       title="Notifications"
       description="Choose what you want to be notified about"
     >
-      <div className="divide-y divide-surface-100 dark:divide-surface-700/40">
+      <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
         <ToggleRow
           label="Email notifications"
           description="Receive updates and alerts via email"
@@ -95,7 +95,7 @@ export function NotificationsSection() {
                 Browser notifications are blocked
               </p>
               <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-0.5">
-                To enable, open your browser settings → Site settings →
+                To enable, open your browser settings â†’ Site settings â†’
                 Notifications, and allow notifications for this site.
               </p>
             </div>
@@ -134,7 +134,7 @@ export function NotificationsSection() {
             updateNotifications({ securityAlerts: v });
             if (!v) {
               toast("We recommend keeping security alerts enabled", {
-                icon: "⚠️",
+                icon: "âš ï¸",
                 duration: 4000,
               });
             }

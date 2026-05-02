@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 
 interface Props {
@@ -26,11 +26,11 @@ export function SettingSection({
         <div>
           <h2
             id={`settings-${title.toLowerCase().replace(/\s+/g, "-")}`}
-            className="text-[15px] font-semibold text-surface-900 dark:text-zinc-50"
+            className="text-[15px] font-semibold text-zinc-900 dark:text-zinc-50"
           >
             {title}
           </h2>
-          <p className="text-xs text-surface-500 dark:text-zinc-400">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
             {description}
           </p>
         </div>

@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+﻿import { NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Inbox,
@@ -44,7 +44,7 @@ export function Sidebar() {
               className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-[11px] transition-colors ${
                 isActive
                   ? "text-primary-500"
-                  : "text-surface-500 dark:text-surface-400"
+                  : "text-zinc-500 dark:text-zinc-400"
               }`}
             >
               <item.icon size={18} />
@@ -57,7 +57,7 @@ export function Sidebar() {
           className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-[11px] transition-colors ${
             location.pathname === "/settings"
               ? "text-primary-500"
-              : "text-surface-500 dark:text-surface-400"
+              : "text-zinc-500 dark:text-zinc-400"
           }`}
         >
           <Settings size={18} />
@@ -85,7 +85,7 @@ export function Sidebar() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="font-semibold text-surface-900 dark:text-white text-[17px] whitespace-nowrap tracking-tight"
+                className="font-semibold text-zinc-900 dark:text-white text-[17px] whitespace-nowrap tracking-tight"
               >
                 Neuron Note
               </motion.span>
@@ -116,7 +116,7 @@ export function Sidebar() {
                 className={`relative flex items-center gap-3 px-3.5 h-[44px] rounded-2xl text-[14px] font-medium transition-all duration-[180ms] ease-out group ${
                   isActive
                     ? "bg-primary-500 text-white shadow-md shadow-primary-500/20"
-                    : "text-surface-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/70"
+                    : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/70"
                 }`}
               >
                 {/* Active left accent */}
@@ -160,10 +160,10 @@ export function Sidebar() {
                   exit={{ opacity: 0 }}
                   className="min-w-0"
                 >
-                  <p className="text-[13px] font-medium text-surface-900 dark:text-white truncate">
+                  <p className="text-[13px] font-medium text-zinc-900 dark:text-white truncate">
                     {profile?.name || "User"}
                   </p>
-                  <p className="text-[11px] text-surface-500 truncate">
+                  <p className="text-[11px] text-zinc-500 truncate">
                     {profile?.workspace || "Personal"} Workspace
                   </p>
                 </motion.div>

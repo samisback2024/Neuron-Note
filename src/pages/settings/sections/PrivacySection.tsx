@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Shield, Lock, Monitor, ShieldCheck } from "lucide-react";
 import { SettingSection } from "../components/SettingSection";
 import { SettingRow } from "../components/SettingRow";
@@ -64,19 +64,19 @@ export function PrivacySection() {
         title="Privacy & Security"
         description="Protect your data and account"
       >
-        <div className="divide-y divide-surface-100 dark:divide-surface-700/40">
+        <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
           {/* Active session */}
           <div className="py-3.5 first:pt-0">
-            <p className="text-[12.5px] font-medium text-surface-600 dark:text-surface-400 mb-3">
+            <p className="text-[12.5px] font-medium text-zinc-600 dark:text-zinc-400 mb-3">
               Active session
             </p>
             {currentSession && (
-              <div className="flex items-center gap-3 p-3 bg-surface-50 dark:bg-surface-700/30 rounded-xl">
+              <div className="flex items-center gap-3 p-3 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl">
                 <div className="w-9 h-9 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center shrink-0">
                   <Monitor size={16} className="text-green-500" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-surface-900 dark:text-white">
+                  <p className="text-sm font-medium text-zinc-900 dark:text-white">
                     {currentSession.browser}
                   </p>
                   <p className="text-xs text-green-600 dark:text-green-400">
@@ -112,15 +112,15 @@ export function PrivacySection() {
 
           {/* Data encryption info */}
           <div className="py-3.5">
-            <div className="flex items-start gap-3 p-3 bg-surface-50 dark:bg-surface-700/30 rounded-xl">
+            <div className="flex items-start gap-3 p-3 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl">
               <div className="w-8 h-8 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center shrink-0 mt-0.5">
                 <Lock size={14} className="text-primary-500" />
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-medium text-surface-900 dark:text-white">
+                <p className="text-sm font-medium text-zinc-900 dark:text-white">
                   Data encryption
                 </p>
-                <p className="text-xs text-surface-500 dark:text-surface-400 mt-0.5">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
                   Your data is encrypted in transit (TLS) and at rest on our
                   servers. All connections to the database use encrypted
                   channels.

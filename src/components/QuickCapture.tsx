@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+﻿import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -56,7 +56,7 @@ export function QuickCapture() {
           setOpen(true);
         }
       }
-      // Cmd/Ctrl + N → new note
+      // Cmd/Ctrl + N â†’ new note
       if ((e.metaKey || e.ctrlKey) && e.key === "n" && !open) {
         e.preventDefault();
         createNote("Untitled Note", "").then((note) => {
@@ -377,11 +377,11 @@ export function QuickCapture() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.96, y: -8, opacity: 0 }}
               transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
-              className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden border border-surface-200/60 dark:border-surface-700/30"
+              className="bg-white dark:bg-zinc-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800"
             >
               {/* Input */}
-              <div className="flex items-center gap-3 px-4 py-3.5 border-b border-surface-200/60 dark:border-surface-700/30">
-                <Search size={18} className="text-surface-400 flex-shrink-0" />
+              <div className="flex items-center gap-3 px-4 py-3.5 border-b border-zinc-200 dark:border-zinc-800">
+                <Search size={18} className="text-zinc-400 flex-shrink-0" />
                 {mode !== "command" && (
                   <button
                     onClick={() => {
@@ -405,9 +405,9 @@ export function QuickCapture() {
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder={placeholders[mode]}
-                  className="flex-1 bg-transparent text-surface-900 dark:text-white placeholder-surface-400 dark:placeholder-surface-500 focus:outline-none text-[14px]"
+                  className="flex-1 bg-transparent text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none text-[14px]"
                 />
-                <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-surface-100 dark:bg-surface-700 text-[10px] text-surface-400 font-mono">
+                <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-700 text-[10px] text-zinc-400 font-mono">
                   ESC
                 </kbd>
               </div>
@@ -420,14 +420,14 @@ export function QuickCapture() {
                 >
                   {allItems.length === 0 && query && (
                     <div className="px-4 py-8 text-center">
-                      <p className="text-sm text-surface-500">
+                      <p className="text-sm text-zinc-500">
                         No results for &ldquo;{query}&rdquo;
                       </p>
                     </div>
                   )}
                   {[...sections.entries()].map(([section, items]) => (
                     <div key={section}>
-                      <p className="px-4 py-1.5 text-[10.5px] font-semibold text-surface-400 uppercase tracking-wider">
+                      <p className="px-4 py-1.5 text-[10.5px] font-semibold text-zinc-400 uppercase tracking-wider">
                         {section}
                       </p>
                       {items.map(({ item, globalIndex }) => (
@@ -439,7 +439,7 @@ export function QuickCapture() {
                           className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors duration-75 ${
                             selectedIndex === globalIndex
                               ? "bg-primary-50 dark:bg-primary-900/15 text-primary-600 dark:text-primary-400"
-                              : "text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700/40"
+                              : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/40"
                           }`}
                         >
                           <item.icon
@@ -463,9 +463,9 @@ export function QuickCapture() {
               {/* Create mode hint */}
               {mode !== "command" && (
                 <div className="px-4 py-6 text-center">
-                  <p className="text-sm text-surface-500 dark:text-surface-400">
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
                     Type and press{" "}
-                    <kbd className="px-1.5 py-0.5 rounded bg-surface-100 dark:bg-surface-700 text-[11px] font-mono">
+                    <kbd className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-700 text-[11px] font-mono">
                       Enter
                     </kbd>{" "}
                     to create
@@ -474,24 +474,24 @@ export function QuickCapture() {
               )}
 
               {/* Footer */}
-              <div className="flex items-center justify-between px-4 py-2.5 border-t border-surface-200/60 dark:border-surface-700/30 bg-surface-50/50 dark:bg-surface-900/30">
-                <div className="flex items-center gap-3 text-[10.5px] text-surface-400">
+              <div className="flex items-center justify-between px-4 py-2.5 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/30">
+                <div className="flex items-center gap-3 text-[10.5px] text-zinc-400">
                   <span className="flex items-center gap-1">
-                    <kbd className="px-1 py-0.5 rounded bg-surface-200 dark:bg-surface-700 font-mono text-[10px]">
-                      ↑↓
+                    <kbd className="px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
+                      â†‘â†“
                     </kbd>
                     navigate
                   </span>
                   <span className="flex items-center gap-1">
-                    <kbd className="px-1 py-0.5 rounded bg-surface-200 dark:bg-surface-700 font-mono text-[10px]">
-                      ↵
+                    <kbd className="px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
+                      â†µ
                     </kbd>
                     select
                   </span>
                 </div>
-                <span className="text-[10.5px] text-surface-400">
-                  <kbd className="px-1.5 py-0.5 rounded bg-surface-200 dark:bg-surface-700 font-mono text-[10px]">
-                    ⌘K
+                <span className="text-[10.5px] text-zinc-400">
+                  <kbd className="px-1.5 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
+                    âŒ˜K
                   </kbd>
                 </span>
               </div>

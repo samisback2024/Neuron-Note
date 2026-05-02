@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from "lucide-react";
@@ -132,7 +132,7 @@ export function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-surface-100 dark:bg-surface-900">
+    <div className="min-h-screen flex bg-zinc-100 dark:bg-zinc-900">
       {/* Left branding panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-500 via-primary-600 to-violet-600 p-12 flex-col justify-between">
         <div className="flex items-center gap-3">
@@ -169,15 +169,15 @@ export function AuthPage() {
         >
           <div className="lg:hidden flex items-center gap-3 mb-8">
             <img src="/favicon.svg" alt="Neuron Note" className="w-10 h-10" />
-            <span className="text-2xl font-bold text-surface-900 dark:text-white">
+            <span className="text-2xl font-bold text-zinc-900 dark:text-white">
               Neuron Note
             </span>
           </div>
 
-          <h2 className="text-3xl font-bold text-surface-900 dark:text-white mb-2">
+          <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
             {isSignUp ? "Create your account" : "Welcome back"}
           </h2>
-          <p className="text-surface-500 mb-8">
+          <p className="text-zinc-500 mb-8">
             {isSignUp
               ? "Start building your second brain"
               : "Sign in to your workspace"}
@@ -187,10 +187,10 @@ export function AuthPage() {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={googleLoading}
-            className="w-full py-3.5 rounded-xl border border-surface-300 dark:border-surface-700 bg-white dark:bg-surface-800 text-surface-900 dark:text-white font-semibold text-sm transition-colors hover:bg-surface-50 dark:hover:bg-surface-700 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-semibold text-sm transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-700 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {googleLoading ? (
-              <div className="w-5 h-5 border-2 border-surface-500 border-t-transparent rounded-full animate-spin" />
+              <div className="w-5 h-5 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
             ) : (
               <>
                 <svg
@@ -221,16 +221,16 @@ export function AuthPage() {
           </button>
 
           {!googleClientId && (
-            <p className="mt-2 text-xs text-surface-500">
+            <p className="mt-2 text-xs text-zinc-500">
               One Tap is not configured, but Google sign-in will still work via
               redirect.
             </p>
           )}
 
-          <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-wide text-surface-400">
-            <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
+          <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-wide text-zinc-400">
+            <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-700" />
             <span>Or continue with email</span>
-            <div className="h-px flex-1 bg-surface-200 dark:bg-surface-700" />
+            <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-700" />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -238,7 +238,7 @@ export function AuthPage() {
               <div className="relative">
                 <User
                   size={18}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-400"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
                 />
                 <input
                   type="text"
@@ -246,14 +246,14 @@ export function AuthPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-surface-300 dark:border-surface-700 bg-white dark:bg-surface-800 text-surface-900 dark:text-white placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm"
+                  className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm"
                 />
               </div>
             )}
             <div className="relative">
               <Mail
                 size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-400"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
               />
               <input
                 type="email"
@@ -261,13 +261,13 @@ export function AuthPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-surface-300 dark:border-surface-700 bg-white dark:bg-surface-800 text-surface-900 dark:text-white placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm"
+                className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm"
               />
             </div>
             <div className="relative">
               <Lock
                 size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-400"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
               />
               <input
                 type={showPassword ? "text" : "password"}
@@ -276,12 +276,12 @@ export function AuthPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full pl-12 pr-12 py-3.5 rounded-xl border border-surface-300 dark:border-surface-700 bg-white dark:bg-surface-800 text-surface-900 dark:text-white placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm"
+                className="w-full pl-12 pr-12 py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-surface-400 hover:text-surface-600"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -303,7 +303,7 @@ export function AuthPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-surface-500 mt-6">
+          <p className="text-center text-sm text-zinc-500 mt-6">
             {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
             <button
               onClick={() => setIsSignUp(!isSignUp)}

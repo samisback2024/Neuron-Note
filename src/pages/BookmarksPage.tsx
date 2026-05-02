@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Plus,
@@ -99,8 +99,8 @@ export function BookmarksPage() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search bookmarks by title, URL, or tag…"
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-surface-900 dark:text-zinc-50 text-sm placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition shadow-sm"
+            placeholder="Search bookmarks by title, URL, or tagâ€¦"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 text-sm placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition shadow-sm"
           />
         </div>
         <div className="flex items-center bg-zinc-100 dark:bg-zinc-800/80 rounded-xl p-1 gap-0.5">
@@ -109,7 +109,7 @@ export function BookmarksPage() {
             title="List view"
             className={`p-2 rounded-lg transition-colors ${
               viewMode === "list"
-                ? "bg-white dark:bg-zinc-700 shadow-sm text-surface-900 dark:text-zinc-50"
+                ? "bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-50"
                 : "text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
             }`}
           >
@@ -120,7 +120,7 @@ export function BookmarksPage() {
             title="Grid view"
             className={`p-2 rounded-lg transition-colors ${
               viewMode === "grid"
-                ? "bg-white dark:bg-zinc-700 shadow-sm text-surface-900 dark:text-zinc-50"
+                ? "bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-50"
                 : "text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
             }`}
           >
@@ -148,7 +148,7 @@ export function BookmarksPage() {
               className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 w-full max-w-md shadow-2xl"
             >
               <div className="flex items-center justify-between mb-5">
-                <h3 className="text-base font-semibold text-surface-900 dark:text-zinc-50">
+                <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
                   Add Bookmark
                 </h3>
                 <button
@@ -165,35 +165,35 @@ export function BookmarksPage() {
                   onChange={(e) => setUrl(e.target.value)}
                   placeholder="URL *"
                   autoFocus
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
                 />
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Title"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
                 />
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Description"
                   rows={2}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition resize-none"
                 />
                 <input
                   type="text"
                   value={newTags}
                   onChange={(e) => setNewTags(e.target.value)}
                   placeholder="Tags (comma-separated)"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
                 />
                 <input
                   type="text"
                   value={collection}
                   onChange={(e) => setCollection(e.target.value)}
                   placeholder="Collection (optional)"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-surface-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition"
                 />
                 <button
                   onClick={handleCreate}
@@ -256,7 +256,7 @@ export function BookmarksPage() {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-surface-900 dark:text-zinc-50 truncate">
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 truncate">
                   {bookmark.title}
                 </p>
                 {bookmark.description && (
@@ -334,7 +334,7 @@ export function BookmarksPage() {
               </div>
               <div className="p-4">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="text-sm font-semibold text-surface-900 dark:text-zinc-50 truncate">
+                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 truncate">
                     {bookmark.title}
                   </h3>
                   <button
@@ -387,7 +387,7 @@ export function BookmarksPage() {
       {/* Collections */}
       {collections.length > 0 && (
         <section>
-          <h2 className="text-base font-semibold text-surface-900 dark:text-zinc-50 mb-4">
+          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50 mb-4">
             Collections
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -409,7 +409,7 @@ export function BookmarksPage() {
                   <div
                     className={`w-9 h-9 rounded-xl ${colors[i % 4]} mb-3 opacity-80`}
                   />
-                  <p className="font-medium text-surface-900 dark:text-zinc-50 text-sm">
+                  <p className="font-medium text-zinc-900 dark:text-zinc-50 text-sm">
                     {col}
                   </p>
                   <p className="text-xs text-zinc-400 mt-0.5">

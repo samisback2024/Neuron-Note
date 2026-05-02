@@ -1,4 +1,4 @@
-import { useId } from "react";
+﻿import { useId } from "react";
 
 interface Props {
   label: string;
@@ -23,14 +23,14 @@ export function ToggleRow({
         <p
           className={`text-sm font-medium ${
             disabled
-              ? "text-surface-400 dark:text-surface-500"
-              : "text-surface-900 dark:text-zinc-50"
+              ? "text-zinc-400 dark:text-zinc-500"
+              : "text-zinc-900 dark:text-zinc-50"
           }`}
         >
           {label}
         </p>
         {description && (
-          <p className="text-xs text-surface-500 dark:text-zinc-400 mt-0.5">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
             {description}
           </p>
         )}

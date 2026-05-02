@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { Menu } from "lucide-react";
@@ -62,14 +62,14 @@ export function SettingsPage() {
           >
             <Menu
               size={18}
-              className="text-surface-600 dark:text-surface-400"
+              className="text-zinc-600 dark:text-zinc-400"
             />
           </button>
           <div>
-            <h1 className="text-[18px] font-semibold text-surface-900 dark:text-zinc-50">
+            <h1 className="text-[18px] font-semibold text-zinc-900 dark:text-zinc-50">
               Settings
             </h1>
-            <p className="text-[12.5px] text-surface-500 dark:text-zinc-400">
+            <p className="text-[12.5px] text-zinc-500 dark:text-zinc-400">
               Manage your account and preferences
             </p>
           </div>

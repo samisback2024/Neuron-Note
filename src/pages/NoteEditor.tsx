@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+﻿import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -203,7 +203,7 @@ export function NoteEditor() {
   if (!note) {
     return (
       <div className="p-8 text-center">
-        <p className="text-surface-500">Note not found</p>
+        <p className="text-zinc-500">Note not found</p>
         <button
           onClick={() => navigate("/notes")}
           className="mt-4 text-primary-500 hover:text-primary-600 text-sm font-medium"
@@ -228,18 +228,18 @@ export function NoteEditor() {
       className="h-full flex flex-col"
     >
       {/* Toolbar */}
-      <div className="flex items-center gap-2 px-4 md:px-8 py-3 border-b border-surface-200 dark:border-surface-700/50 bg-white dark:bg-surface-900 flex-shrink-0 overflow-x-auto">
+      <div className="flex items-center gap-2 px-4 md:px-8 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex-shrink-0 overflow-x-auto">
         <button
           onClick={() => {
             saveNote();
             navigate("/notes");
           }}
-          className="p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500 transition-colors flex-shrink-0"
+          className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 transition-colors flex-shrink-0"
         >
           <ArrowLeft size={18} />
         </button>
 
-        <div className="h-6 w-px bg-surface-200 dark:bg-surface-700 mx-1" />
+        <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1" />
 
         {editor && (
           <>
@@ -298,7 +298,7 @@ export function NoteEditor() {
                 className={`p-2 rounded-lg transition-all duration-[120ms] ease-out flex-shrink-0 btn-press ${
                   active
                     ? "bg-primary-50 dark:bg-primary-900/30 text-primary-500"
-                    : "hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500"
+                    : "hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500"
                 }`}
               >
                 <Icon size={16} />
@@ -322,14 +322,14 @@ export function NoteEditor() {
                   <div
                     key={c.id}
                     title={c.profile?.name || c.profile?.email}
-                    className="w-7 h-7 rounded-full bg-primary-100 dark:bg-primary-900/40 border-2 border-white dark:border-surface-900 flex items-center justify-center text-[10px] font-semibold text-primary-600 dark:text-primary-400"
+                    className="w-7 h-7 rounded-full bg-primary-100 dark:bg-primary-900/40 border-2 border-white dark:border-zinc-950 flex items-center justify-center text-[10px] font-semibold text-primary-600 dark:text-primary-400"
                   >
                     {initials}
                   </div>
                 );
               })}
               {noteCollaborators.length > 4 && (
-                <div className="w-7 h-7 rounded-full bg-surface-200 dark:bg-surface-700 border-2 border-white dark:border-surface-900 flex items-center justify-center text-[10px] font-medium text-surface-500">
+                <div className="w-7 h-7 rounded-full bg-zinc-200 dark:bg-zinc-800 border-2 border-white dark:border-zinc-950 flex items-center justify-center text-[10px] font-medium text-zinc-500">
                   +{noteCollaborators.length - 4}
                 </div>
               )}
@@ -340,7 +340,7 @@ export function NoteEditor() {
             {saving ? (
               <span className="text-primary-500 font-medium save-pulse flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-                Saving…
+                Savingâ€¦
               </span>
             ) : lastSaved ? (
               <span className="text-green-500 font-medium flex items-center gap-1">
@@ -349,12 +349,12 @@ export function NoteEditor() {
               </span>
             ) : null}
           </div>
-          <span className="text-xs text-surface-400">
-            {wordCount} words · {readingTime} min read
+          <span className="text-xs text-zinc-400">
+            {wordCount} words Â· {readingTime} min read
           </span>
           <button
             onClick={() => setShareOpen(true)}
-            className="p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500 transition-colors"
+            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 transition-colors"
             title="Share note"
           >
             <Users size={16} />
@@ -368,7 +368,7 @@ export function NoteEditor() {
             className={`p-2 rounded-lg transition-colors ${
               note?.is_pinned
                 ? "bg-primary-50 dark:bg-primary-900/30 text-primary-500"
-                : "hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500"
+                : "hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500"
             }`}
             title={note?.is_pinned ? "Unpin note" : "Pin note"}
           >
@@ -380,14 +380,14 @@ export function NoteEditor() {
               toast.success("Saved");
             }}
             disabled={saving || !canEdit}
-            className="p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500 transition-colors disabled:opacity-40"
+            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 transition-colors disabled:opacity-40"
           >
             <Save size={16} />
           </button>
           {isOwner && (
             <button
               onClick={handleDelete}
-              className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-surface-400 hover:text-red-500 transition-colors"
+              className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-zinc-400 hover:text-red-500 transition-colors"
             >
               <Trash2 size={16} />
             </button>
@@ -429,9 +429,9 @@ export function NoteEditor() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Untitled"
           disabled={!canEdit}
-          className="w-full text-3xl font-bold text-surface-900 dark:text-white bg-transparent border-none focus:outline-none placeholder-surface-300 dark:placeholder-surface-600 mb-6 disabled:opacity-60"
+          className="w-full text-3xl font-bold text-zinc-900 dark:text-white bg-transparent border-none focus:outline-none placeholder-zinc-300 dark:placeholder-zinc-500 mb-6 disabled:opacity-60"
         />
-        <div className="text-xs text-surface-400 mb-6 flex items-center gap-3">
+        <div className="text-xs text-zinc-400 mb-6 flex items-center gap-3">
           <span>
             Last edited{" "}
             {format(new Date(note.updated_at), "MMM d, yyyy h:mm a")}
@@ -439,10 +439,10 @@ export function NoteEditor() {
         </div>
         <EditorContent
           editor={editor}
-          className="text-surface-800 dark:text-surface-200"
+          className="text-zinc-800 dark:text-zinc-200"
         />
         {!canEdit && (
-          <div className="mt-6 text-xs text-surface-400 italic">
+          <div className="mt-6 text-xs text-zinc-400 italic">
             You have view-only access to this note.
           </div>
         )}
@@ -475,7 +475,7 @@ export function NoteEditor() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.96, opacity: 0 }}
               transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
-              className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden border border-surface-200/60 dark:border-surface-700/30"
+              className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="px-6 py-5">
@@ -483,19 +483,19 @@ export function NoteEditor() {
                   <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center flex-shrink-0">
                     <AlertTriangle size={20} className="text-red-500" />
                   </div>
-                  <h3 className="text-[16px] font-semibold text-surface-900 dark:text-white/95">
+                  <h3 className="text-[16px] font-semibold text-zinc-900 dark:text-zinc-50">
                     Delete permanently?
                   </h3>
                 </div>
-                <p className="text-[13px] text-surface-500 dark:text-surface-400 leading-relaxed">
+                <p className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   This note will be permanently deleted. This action cannot be
                   undone.
                 </p>
               </div>
-              <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-surface-200/60 dark:border-surface-700/30">
+              <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-zinc-200 dark:border-zinc-800">
                 <button
                   onClick={() => setConfirmPermanentDelete(false)}
-                  className="px-4 py-2 rounded-lg text-[12.5px] font-medium text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors"
+                  className="px-4 py-2 rounded-lg text-[12.5px] font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                 >
                   Cancel
                 </button>

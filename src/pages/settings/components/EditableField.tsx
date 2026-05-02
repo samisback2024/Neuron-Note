@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useId } from "react";
+﻿import { useState, useRef, useEffect, useId } from "react";
 import { Check, X, Loader2 } from "lucide-react";
 
 interface Props {
@@ -77,16 +77,16 @@ export function EditableField({
     return (
       <div className="flex items-center justify-between gap-4 py-3.5 first:pt-0 last:pb-0">
         <div className="min-w-0">
-          <p className="text-sm font-medium text-surface-900 dark:text-white">
+          <p className="text-sm font-medium text-zinc-900 dark:text-white">
             {label}
           </p>
           {description && (
-            <p className="text-xs text-surface-500 dark:text-surface-400 mt-0.5">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
               {description}
             </p>
           )}
         </div>
-        <span className="text-sm text-surface-500 dark:text-surface-400 truncate max-w-[220px]">
+        <span className="text-sm text-zinc-500 dark:text-zinc-400 truncate max-w-[220px]">
           {value || "Not set"}
         </span>
       </div>
@@ -97,11 +97,11 @@ export function EditableField({
     <div className="py-3.5 first:pt-0 last:pb-0">
       <div className="flex items-center justify-between gap-4">
         <label htmlFor={id} className="min-w-0 shrink-0">
-          <p className="text-sm font-medium text-surface-900 dark:text-white">
+          <p className="text-sm font-medium text-zinc-900 dark:text-white">
             {label}
           </p>
           {description && (
-            <p className="text-xs text-surface-500 dark:text-surface-400 mt-0.5">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
               {description}
             </p>
           )}
@@ -123,10 +123,10 @@ export function EditableField({
               disabled={saving}
               aria-invalid={!!error}
               aria-describedby={error ? `${id}-error` : undefined}
-              className={`text-sm text-right text-surface-900 dark:text-white bg-surface-50 dark:bg-surface-700/50 rounded-lg px-3 py-1.5 border focus:outline-none focus:ring-1 w-48 transition-colors ${
+              className={`text-sm text-right text-zinc-900 dark:text-white bg-zinc-50 dark:bg-zinc-800 rounded-lg px-3 py-1.5 border focus:outline-none focus:ring-1 w-48 transition-colors ${
                 error
                   ? "border-red-400 focus:border-red-500 focus:ring-red-500/20"
-                  : "border-surface-200 dark:border-surface-600 focus:border-primary-500 focus:ring-primary-500/20"
+                  : "border-zinc-200 dark:border-zinc-700 focus:border-primary-500 focus:ring-primary-500/20"
               }`}
             />
             <button
@@ -145,7 +145,7 @@ export function EditableField({
               onClick={handleCancel}
               disabled={saving}
               aria-label="Cancel"
-              className="p-1.5 rounded-lg text-surface-500 hover:bg-surface-100 dark:hover:bg-surface-700/50 disabled:opacity-40 transition-colors"
+              className="p-1.5 rounded-lg text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-40 transition-colors"
             >
               <X size={14} />
             </button>
@@ -153,7 +153,7 @@ export function EditableField({
         ) : (
           <button
             onClick={() => setEditing(true)}
-            className="text-sm text-surface-700 dark:text-surface-300 bg-surface-50 dark:bg-surface-700/50 rounded-lg px-3 py-1.5 border border-surface-200 dark:border-surface-600 hover:border-surface-300 dark:hover:border-surface-500 transition-colors truncate max-w-[220px] text-right"
+            className="text-sm text-zinc-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 rounded-lg px-3 py-1.5 border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-500 transition-colors truncate max-w-[220px] text-right"
           >
             {value || placeholder || "Set value"}
           </button>

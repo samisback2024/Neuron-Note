@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+﻿/* eslint-disable react-refresh/only-export-components */
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Palette,
@@ -47,7 +47,7 @@ export function SettingsSidebar({ open, onClose }: Props) {
     <nav
       className={`${
         open ? "block" : "hidden"
-      } md:block w-full md:w-[220px] shrink-0 absolute md:relative z-10 md:z-auto bg-white dark:bg-surface-800 md:bg-transparent md:dark:bg-transparent rounded-xl md:rounded-none p-3 md:p-0 border md:border-0 border-surface-200/60 dark:border-surface-700/30 shadow-lg md:shadow-none left-4 right-4 md:left-auto md:right-auto`}
+      } md:block w-full md:w-[220px] shrink-0 absolute md:relative z-10 md:z-auto bg-white dark:bg-zinc-800 md:bg-transparent md:dark:bg-transparent rounded-xl md:rounded-none p-3 md:p-0 border md:border-0 border-zinc-200 dark:border-zinc-800 shadow-lg md:shadow-none left-4 right-4 md:left-auto md:right-auto`}
       aria-label="Settings navigation"
     >
       <ul className="space-y-0.5" role="list">
@@ -61,7 +61,7 @@ export function SettingsSidebar({ open, onClose }: Props) {
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                   active
                     ? "bg-primary-50 dark:bg-primary-900/15 text-primary-600 dark:text-primary-400"
-                    : "text-surface-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/70 hover:text-surface-900 dark:hover:text-zinc-50"
+                    : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/70 hover:text-zinc-900 dark:hover:text-zinc-50"
                 }`}
               >
                 <item.icon size={16} />

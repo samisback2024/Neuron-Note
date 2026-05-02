@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { User, KeyRound, LogOut } from "lucide-react";
 import { SettingSection } from "../components/SettingSection";
 import { SettingRow } from "../components/SettingRow";
@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 export function AccountSection() {
   const { profile, updateProfile, signOut } = useStore();
 
-  /* ── Password change state ── */
+  /* â”€â”€ Password change state â”€â”€ */
   const [pwModalOpen, setPwModalOpen] = useState(false);
   const [currentPw, setCurrentPw] = useState("");
   const [newPw, setNewPw] = useState("");
@@ -66,7 +66,7 @@ export function AccountSection() {
     }
   };
 
-  /* ── Avatar ── */
+  /* â”€â”€ Avatar â”€â”€ */
   const initials =
     profile?.name
       ?.split(" ")
@@ -83,7 +83,7 @@ export function AccountSection() {
         description="Manage your profile and credentials"
       >
         {/* Avatar */}
-        <div className="flex items-center gap-4 mb-5 pb-5 border-b border-surface-100 dark:border-surface-700/40">
+        <div className="flex items-center gap-4 mb-5 pb-5 border-b border-zinc-100 dark:border-zinc-800">
           <div className="w-14 h-14 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400 font-semibold text-lg shrink-0">
             {profile?.avatar_url ? (
               <img
@@ -96,16 +96,16 @@ export function AccountSection() {
             )}
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-surface-900 dark:text-white truncate">
+            <p className="text-sm font-medium text-zinc-900 dark:text-white truncate">
               {profile?.name || "User"}
             </p>
-            <p className="text-xs text-surface-500 dark:text-surface-400 truncate">
-              {profile?.email || "—"}
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+              {profile?.email || "â€”"}
             </p>
           </div>
         </div>
 
-        <div className="divide-y divide-surface-100 dark:divide-surface-700/40">
+        <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
           <EditableField
             label="Display name"
             description="How others see you"
@@ -146,7 +146,7 @@ export function AccountSection() {
         </div>
 
         {/* Mobile sign-out */}
-        <div className="mt-5 pt-5 border-t border-surface-100 dark:border-surface-700/40 md:hidden">
+        <div className="mt-5 pt-5 border-t border-zinc-100 dark:border-zinc-800 md:hidden">
           <button
             onClick={signOut}
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-sm font-medium transition-colors"
@@ -157,7 +157,7 @@ export function AccountSection() {
         </div>
       </SettingSection>
 
-      {/* ── Password change modal ── */}
+      {/* â”€â”€ Password change modal â”€â”€ */}
       {pwModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div
@@ -169,19 +169,19 @@ export function AccountSection() {
               }
             }}
           />
-          <div className="relative bg-white dark:bg-surface-800 rounded-2xl shadow-xl border border-surface-200/60 dark:border-surface-700/30 w-full max-w-md p-6">
+          <div className="relative bg-white dark:bg-zinc-800 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 w-full max-w-md p-6">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-9 h-9 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center">
                 <KeyRound size={16} className="text-primary-500" />
               </div>
-              <h3 className="text-[15px] font-semibold text-surface-900 dark:text-white">
+              <h3 className="text-[15px] font-semibold text-zinc-900 dark:text-white">
                 Change password
               </h3>
             </div>
 
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-medium text-surface-600 dark:text-surface-400 mb-1 block">
+                <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1 block">
                   Current password
                 </label>
                 <input
@@ -189,11 +189,11 @@ export function AccountSection() {
                   value={currentPw}
                   onChange={(e) => setCurrentPw(e.target.value)}
                   autoComplete="current-password"
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-surface-200 dark:border-surface-600 bg-surface-50 dark:bg-surface-700/50 text-surface-900 dark:text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20"
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-surface-600 dark:text-surface-400 mb-1 block">
+                <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1 block">
                   New password
                 </label>
                 <input
@@ -201,11 +201,11 @@ export function AccountSection() {
                   value={newPw}
                   onChange={(e) => setNewPw(e.target.value)}
                   autoComplete="new-password"
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-surface-200 dark:border-surface-600 bg-surface-50 dark:bg-surface-700/50 text-surface-900 dark:text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20"
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-surface-600 dark:text-surface-400 mb-1 block">
+                <label className="text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1 block">
                   Confirm new password
                 </label>
                 <input
@@ -213,7 +213,7 @@ export function AccountSection() {
                   value={confirmPw}
                   onChange={(e) => setConfirmPw(e.target.value)}
                   autoComplete="new-password"
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-surface-200 dark:border-surface-600 bg-surface-50 dark:bg-surface-700/50 text-surface-900 dark:text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20"
                 />
               </div>
               {pwError && (
@@ -233,7 +233,7 @@ export function AccountSection() {
                   setConfirmPw("");
                 }}
                 disabled={pwLoading}
-                className="px-4 py-2 text-sm font-medium text-surface-700 dark:text-surface-300 bg-surface-100 dark:bg-surface-700/50 hover:bg-surface-200 dark:hover:bg-surface-700 rounded-xl transition-colors"
+                className="px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-colors"
               >
                 Cancel
               </button>
@@ -245,7 +245,7 @@ export function AccountSection() {
                 {pwLoading ? (
                   <span className="flex items-center gap-2">
                     <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Updating…
+                    Updatingâ€¦
                   </span>
                 ) : (
                   "Update password"

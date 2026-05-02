@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 
 interface Props {
   label: string;
@@ -24,14 +24,14 @@ export function SettingRow({
           <p
             className={`text-sm font-medium ${
               comingSoon
-                ? "text-surface-400 dark:text-surface-500"
-                : "text-surface-900 dark:text-zinc-50"
+                ? "text-zinc-400 dark:text-zinc-500"
+                : "text-zinc-900 dark:text-zinc-50"
             }`}
           >
             {label}
           </p>
           {description && (
-            <p className="text-xs text-surface-500 dark:text-zinc-400 mt-0.5">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
               {description}
             </p>
           )}

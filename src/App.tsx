@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+﻿import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useStore } from "./lib/store";
@@ -24,10 +24,10 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { session, authLoading } = useStore();
   if (authLoading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-surface-100 dark:bg-surface-900">
+      <div className="h-screen flex items-center justify-center bg-zinc-100 dark:bg-zinc-900">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-3 border-primary-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-surface-500 text-sm">Loading Neuron...</p>
+          <p className="text-zinc-500 text-sm">Loading Neuron...</p>
         </div>
       </div>
     );
@@ -103,7 +103,7 @@ export default function App() {
         position="bottom-right"
         toastOptions={{
           className:
-            "!bg-white dark:!bg-surface-800 !text-surface-900 dark:!text-surface-100 !shadow-lg !rounded-xl !text-sm !border !border-surface-200/60 dark:!border-surface-700/30",
+            "!bg-white dark:!bg-zinc-800 !text-zinc-900 dark:!text-zinc-100 !shadow-lg !rounded-xl !text-sm !border !border-zinc-200 dark:!border-zinc-800",
           duration: 3000,
           style: {
             padding: "12px 16px",

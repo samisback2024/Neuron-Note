@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo, useCallback } from "react";
+﻿import { useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { Search, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
@@ -262,12 +262,12 @@ export function KnowledgeGraph() {
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-surface-200/60 dark:border-surface-700/30 bg-white dark:bg-surface-900 flex-shrink-0">
+      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex-shrink-0">
         <div>
-          <h1 className="text-[18px] font-semibold text-surface-900 dark:text-white/95">
+          <h1 className="text-[18px] font-semibold text-zinc-900 dark:text-white/95">
             Knowledge Graph
           </h1>
-          <p className="text-[12.5px] text-surface-500 dark:text-surface-400 mt-0.5">
+          <p className="text-[12.5px] text-zinc-500 dark:text-zinc-400 mt-0.5">
             Visualize connections between your notes
           </p>
         </div>
@@ -275,29 +275,29 @@ export function KnowledgeGraph() {
           <div className="relative">
             <Search
               size={14}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
             />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search nodes..."
-              className="pl-9 pr-4 py-2 rounded-xl border border-surface-200/60 dark:border-surface-700/30 bg-surface-50 dark:bg-surface-800 text-surface-900 dark:text-white text-xs shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 w-48"
+              className="pl-9 pr-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 w-48"
             />
           </div>
-          <div className="flex items-center gap-1 bg-surface-100 dark:bg-surface-800 rounded-lg p-1">
+          <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg p-1">
             <button
               onClick={() => setZoom((z) => Math.max(0.3, z - 0.1))}
-              className="p-1.5 rounded hover:bg-white dark:hover:bg-surface-700 text-surface-500 transition-colors"
+              className="p-1.5 rounded hover:bg-white dark:hover:bg-zinc-700 text-zinc-500 transition-colors"
             >
               <ZoomOut size={14} />
             </button>
-            <span className="text-xs font-medium text-surface-600 dark:text-surface-400 px-2 min-w-[40px] text-center">
+            <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400 px-2 min-w-[40px] text-center">
               {Math.round(zoom * 100)}%
             </span>
             <button
               onClick={() => setZoom((z) => Math.min(3, z + 0.1))}
-              className="p-1.5 rounded hover:bg-white dark:hover:bg-surface-700 text-surface-500 transition-colors"
+              className="p-1.5 rounded hover:bg-white dark:hover:bg-zinc-700 text-zinc-500 transition-colors"
             >
               <ZoomIn size={14} />
             </button>
@@ -307,7 +307,7 @@ export function KnowledgeGraph() {
               setZoom(1);
               setPanOffset({ x: 0, y: 0 });
             }}
-            className="p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-500 transition-colors"
+            className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 transition-colors"
           >
             <Maximize2 size={14} />
           </button>
@@ -318,17 +318,17 @@ export function KnowledgeGraph() {
       <div className="flex-1 relative">
         {notes.length === 0 ? (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-white dark:bg-surface-800/80 rounded-2xl border border-surface-200/60 dark:border-surface-700/30 shadow-sm p-10 text-center max-w-sm">
-              <div className="w-12 h-12 rounded-xl bg-surface-100 dark:bg-surface-700/50 flex items-center justify-center mx-auto mb-4">
+            <div className="bg-white dark:bg-zinc-900/70 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-10 text-center max-w-sm">
+              <div className="w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center mx-auto mb-4">
                 <Search
                   size={22}
-                  className="text-surface-400 dark:text-surface-500"
+                  className="text-zinc-400 dark:text-zinc-500"
                 />
               </div>
-              <h3 className="text-[14px] font-semibold text-surface-900 dark:text-white/90 mb-1.5">
+              <h3 className="text-[14px] font-semibold text-zinc-900 dark:text-white/90 mb-1.5">
                 No notes to visualize
               </h3>
-              <p className="text-[12.5px] text-surface-500 dark:text-surface-400">
+              <p className="text-[12.5px] text-zinc-500 dark:text-zinc-400">
                 Create notes and link them to see your knowledge graph
               </p>
             </div>
@@ -363,9 +363,9 @@ export function KnowledgeGraph() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-6 left-6 bg-white dark:bg-surface-800/80 rounded-xl p-4 border border-surface-200/60 dark:border-surface-700/30 shadow-sm"
+          className="absolute bottom-6 left-6 bg-white dark:bg-zinc-900/70 rounded-xl p-4 border border-zinc-200 dark:border-zinc-800 shadow-sm"
         >
-          <h4 className="text-xs font-semibold text-surface-900 dark:text-white mb-2">
+          <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">
             Categories
           </h4>
           <div className="space-y-1.5">
@@ -377,7 +377,7 @@ export function KnowledgeGraph() {
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: color }}
                   />
-                  <span className="text-xs text-surface-600 dark:text-surface-400">
+                  <span className="text-xs text-zinc-600 dark:text-zinc-400">
                     {label}
                   </span>
                 </div>

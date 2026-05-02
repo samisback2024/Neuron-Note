@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "motion/react";
+﻿import { motion, AnimatePresence } from "motion/react";
 import { X, ArrowRight } from "lucide-react";
 import { useStore } from "../lib/store";
 
@@ -63,7 +63,7 @@ export function OnboardingTour() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="bg-white dark:bg-surface-800 rounded-2xl p-7 w-full max-w-md shadow-2xl"
+            className="bg-white dark:bg-zinc-800 rounded-2xl p-7 w-full max-w-md shadow-2xl"
           >
             {/* Progress dots */}
             <div className="flex items-center gap-1.5 mb-5">
@@ -75,30 +75,30 @@ export function OnboardingTour() {
                       ? "w-6 bg-primary-500"
                       : i < tourStep
                         ? "w-3 bg-primary-300"
-                        : "w-3 bg-surface-200 dark:bg-surface-700"
+                        : "w-3 bg-zinc-200 dark:bg-zinc-700"
                   }`}
                 />
               ))}
             </div>
 
             <div className="flex items-start justify-between mb-2">
-              <h3 className="text-xl font-bold text-surface-900 dark:text-white pr-8">
+              <h3 className="text-xl font-bold text-zinc-900 dark:text-white pr-8">
                 {TOUR_STEPS[tourStep].title}
               </h3>
               <button
                 onClick={endTour}
-                className="p-1 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-700 text-surface-400 transition-colors flex-shrink-0"
+                className="p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-400 transition-colors flex-shrink-0"
               >
                 <X size={18} />
               </button>
             </div>
 
-            <p className="text-sm text-surface-600 dark:text-surface-400 leading-relaxed mb-6">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
               {TOUR_STEPS[tourStep].description}
             </p>
 
             <div className="flex items-center justify-between">
-              <span className="text-xs text-surface-400">
+              <span className="text-xs text-zinc-400">
                 Step {tourStep + 1} of {TOUR_STEPS.length}
               </span>
               <button

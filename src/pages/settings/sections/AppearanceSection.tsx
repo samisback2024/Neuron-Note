@@ -1,4 +1,4 @@
-import { Sun, Moon, Monitor, Palette } from "lucide-react";
+﻿import { Sun, Moon, Monitor, Palette } from "lucide-react";
 import { SettingSection } from "../components/SettingSection";
 import { ToggleRow } from "../components/ToggleRow";
 import {
@@ -52,7 +52,7 @@ export function AppearanceSection() {
       >
         {/* Theme */}
         <div>
-          <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
+          <p className="text-[12.5px] font-medium text-zinc-500 dark:text-zinc-400 mb-3">
             Theme
           </p>
           <div className="grid grid-cols-3 gap-3">
@@ -81,15 +81,15 @@ export function AppearanceSection() {
                       className={
                         active
                           ? "text-primary-500"
-                          : "text-surface-500 dark:text-zinc-400"
+                          : "text-zinc-500 dark:text-zinc-400"
                       }
                     />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-surface-900 dark:text-zinc-50">
+                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
                       {opt.label}
                     </p>
-                    <p className="text-[11px] text-surface-500 dark:text-zinc-500">
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-500">
                       {opt.desc}
                     </p>
                   </div>
@@ -101,7 +101,7 @@ export function AppearanceSection() {
 
         {/* Accent color */}
         <div className="mt-6">
-          <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
+          <p className="text-[12.5px] font-medium text-zinc-500 dark:text-zinc-400 mb-3">
             Accent color
           </p>
           <div className="flex flex-wrap gap-3">
@@ -129,7 +129,7 @@ export function AppearanceSection() {
 
         {/* Density */}
         <div className="mt-6">
-          <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
+          <p className="text-[12.5px] font-medium text-zinc-500 dark:text-zinc-400 mb-3">
             Density
           </p>
           <div className="grid grid-cols-2 gap-3">
@@ -146,10 +146,10 @@ export function AppearanceSection() {
                       : "border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600"
                   }`}
                 >
-                  <p className="text-sm font-medium text-surface-900 dark:text-zinc-50">
+                  <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
                     {opt.label}
                   </p>
-                  <p className="text-[11px] text-surface-500 dark:text-zinc-500 mt-0.5">
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-500 mt-0.5">
                     {opt.desc}
                   </p>
                 </button>
@@ -170,7 +170,7 @@ export function AppearanceSection() {
 
         {/* Live preview */}
         <div className="mt-5 pt-5 border-t border-zinc-100 dark:border-zinc-800">
-          <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
+          <p className="text-[12.5px] font-medium text-zinc-500 dark:text-zinc-400 mb-3">
             Preview
           </p>
           <div className="bg-zinc-50 dark:bg-zinc-800/80 rounded-xl p-4 border border-zinc-200 dark:border-zinc-700/60">
@@ -195,8 +195,8 @@ export function AppearanceSection() {
             </div>
           </div>
           <p className="text-[11px] text-zinc-400 mt-2 text-center">
-            {resolvedTheme === "dark" ? "Dark" : "Light"} theme ·{" "}
-            {ACCENT_LABELS[accentColor]} accent ·{" "}
+            {resolvedTheme === "dark" ? "Dark" : "Light"} theme Â·{" "}
+            {ACCENT_LABELS[accentColor]} accent Â·{" "}
             {density === "compact" ? "Compact" : "Comfortable"} density
           </p>
         </div>

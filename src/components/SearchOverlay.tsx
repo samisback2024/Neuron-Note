@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+﻿import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Search, FileText, X } from "lucide-react";
@@ -46,7 +46,7 @@ export function SearchOverlay() {
       .slice(0, 8);
   }, [query, notes]);
 
-  // Reset selection when results change — done inline in the onChange handler
+  // Reset selection when results change â€” done inline in the onChange handler
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") close();
@@ -96,11 +96,11 @@ export function SearchOverlay() {
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.96, y: -8, opacity: 0 }}
             transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}
-            className="bg-white dark:bg-surface-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden border border-surface-200/60 dark:border-surface-700/30"
+            className="bg-white dark:bg-zinc-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800"
           >
             {/* Input */}
-            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-surface-200/60 dark:border-surface-700/30">
-              <Search size={18} className="text-surface-400 flex-shrink-0" />
+            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-zinc-200 dark:border-zinc-800">
+              <Search size={18} className="text-zinc-400 flex-shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
@@ -110,8 +110,8 @@ export function SearchOverlay() {
                   setSelected(0);
                 }}
                 onKeyDown={handleKeyDown}
-                placeholder="Search notes by title or content…"
-                className="flex-1 bg-transparent text-surface-900 dark:text-white placeholder-surface-400 dark:placeholder-surface-500 focus:outline-none text-[14px]"
+                placeholder="Search notes by title or contentâ€¦"
+                className="flex-1 bg-transparent text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none text-[14px]"
               />
               {query && (
                 <button
@@ -119,12 +119,12 @@ export function SearchOverlay() {
                     setQuery("");
                     inputRef.current?.focus();
                   }}
-                  className="p-1 rounded-md hover:bg-surface-100 dark:hover:bg-surface-700 text-surface-400"
+                  className="p-1 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-400"
                 >
                   <X size={14} />
                 </button>
               )}
-              <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-surface-100 dark:bg-surface-700 text-[10px] text-surface-400 font-mono">
+              <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-700 text-[10px] text-zinc-400 font-mono">
                 ESC
               </kbd>
             </div>
@@ -133,7 +133,7 @@ export function SearchOverlay() {
             <div className="max-h-[340px] overflow-y-auto">
               {query && results.length === 0 && (
                 <div className="px-4 py-10 text-center">
-                  <p className="text-sm text-surface-500">
+                  <p className="text-sm text-zinc-500">
                     No notes matching &ldquo;{query}&rdquo;
                   </p>
                 </div>
@@ -152,24 +152,24 @@ export function SearchOverlay() {
                     className={`w-full flex items-start gap-3 px-4 py-3 text-left transition-colors duration-75 ${
                       selected === i
                         ? "bg-primary-50 dark:bg-primary-900/15"
-                        : "hover:bg-surface-50 dark:hover:bg-surface-700/40"
+                        : "hover:bg-zinc-50 dark:hover:bg-zinc-800/40"
                     }`}
                   >
                     <FileText
                       size={15}
-                      className="text-surface-400 mt-0.5 flex-shrink-0"
+                      className="text-zinc-400 mt-0.5 flex-shrink-0"
                     />
                     <div className="min-w-0">
                       <p
                         className={`text-[13px] font-medium truncate ${
                           selected === i
                             ? "text-primary-600 dark:text-primary-400"
-                            : "text-surface-900 dark:text-white"
+                            : "text-zinc-900 dark:text-white"
                         }`}
                       >
                         {highlight(note.title || "Untitled", query)}
                       </p>
-                      <p className="text-[11.5px] text-surface-500 dark:text-surface-400 line-clamp-1 mt-0.5">
+                      <p className="text-[11.5px] text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
                         {highlight(plain, query)}
                       </p>
                     </div>
@@ -178,7 +178,7 @@ export function SearchOverlay() {
               })}
               {!query && (
                 <div className="px-4 py-10 text-center">
-                  <p className="text-sm text-surface-400">
+                  <p className="text-sm text-zinc-400">
                     Start typing to search your notes
                   </p>
                 </div>
@@ -186,22 +186,22 @@ export function SearchOverlay() {
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between px-4 py-2.5 border-t border-surface-200/60 dark:border-surface-700/30 bg-surface-50/50 dark:bg-surface-900/30">
-              <div className="flex items-center gap-3 text-[10.5px] text-surface-400">
+            <div className="flex items-center justify-between px-4 py-2.5 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/30">
+              <div className="flex items-center gap-3 text-[10.5px] text-zinc-400">
                 <span className="flex items-center gap-1">
-                  <kbd className="px-1 py-0.5 rounded bg-surface-200 dark:bg-surface-700 font-mono text-[10px]">
-                    ↑↓
+                  <kbd className="px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
+                    â†‘â†“
                   </kbd>
                   navigate
                 </span>
                 <span className="flex items-center gap-1">
-                  <kbd className="px-1 py-0.5 rounded bg-surface-200 dark:bg-surface-700 font-mono text-[10px]">
-                    ↵
+                  <kbd className="px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
+                    â†µ
                   </kbd>
                   open
                 </span>
               </div>
-              <span className="text-[10.5px] text-surface-400">
+              <span className="text-[10.5px] text-zinc-400">
                 {results.length > 0 && (
                   <span>
                     {results.length} result{results.length !== 1 && "s"}

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 
 interface EmptyStateProps {
@@ -21,10 +21,10 @@ export function EmptyState({
           <Icon size={24} className="text-zinc-400 dark:text-zinc-500" />
         </div>
         <div className="space-y-1">
-          <h2 className="text-base font-semibold text-surface-900 dark:text-zinc-50">
+          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
             {title}
           </h2>
-          <p className="text-sm text-surface-500 dark:text-zinc-400 max-w-xs mx-auto">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-xs mx-auto">
             {description}
           </p>
         </div>

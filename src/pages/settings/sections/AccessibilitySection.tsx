@@ -1,4 +1,4 @@
-import { Accessibility } from "lucide-react";
+﻿import { Accessibility } from "lucide-react";
 import { SettingSection } from "../components/SettingSection";
 import { SettingRow } from "../components/SettingRow";
 import { ToggleRow } from "../components/ToggleRow";
@@ -24,7 +24,7 @@ export function AccessibilitySection() {
       title="Accessibility"
       description="Make Neuron work better for you"
     >
-      <div className="divide-y divide-surface-100 dark:divide-surface-700/40">
+      <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
         <ToggleRow
           label="Reduce motion"
           description="Minimize animations and transitions"
@@ -51,10 +51,10 @@ export function AccessibilitySection() {
         <div className="py-3.5">
           <div className="flex items-center justify-between gap-4 mb-3">
             <div className="min-w-0">
-              <p className="text-sm font-medium text-surface-900 dark:text-white">
+              <p className="text-sm font-medium text-zinc-900 dark:text-white">
                 Text size
               </p>
-              <p className="text-xs text-surface-500 dark:text-surface-400 mt-0.5">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
                 Adjust the base font size across the app
               </p>
             </div>
@@ -70,7 +70,7 @@ export function AccessibilitySection() {
                   className={`py-2 px-3 rounded-xl text-sm font-medium transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     active
                       ? "bg-primary-500 text-white shadow-sm"
-                      : "bg-surface-100 dark:bg-surface-700/50 text-surface-700 dark:text-surface-300 hover:bg-surface-200 dark:hover:bg-surface-700"
+                      : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700"
                   }`}
                 >
                   {opt.label}
@@ -92,7 +92,7 @@ export function AccessibilitySection() {
 
         {/* Shortcuts reference */}
         <div className="py-3.5">
-          <p className="text-[12.5px] font-medium text-surface-600 dark:text-surface-400 mb-3">
+          <p className="text-[12.5px] font-medium text-zinc-600 dark:text-zinc-400 mb-3">
             Keyboard shortcuts
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -106,12 +106,12 @@ export function AccessibilitySection() {
             ].map((shortcut) => (
               <div
                 key={shortcut.keys}
-                className="flex items-center justify-between p-2.5 bg-surface-50 dark:bg-surface-700/30 rounded-lg"
+                className="flex items-center justify-between p-2.5 bg-zinc-50 dark:bg-zinc-800/30 rounded-lg"
               >
-                <span className="text-xs text-surface-600 dark:text-surface-400">
+                <span className="text-xs text-zinc-600 dark:text-zinc-400">
                   {shortcut.action}
                 </span>
-                <kbd className="text-[11px] font-mono font-medium text-surface-700 dark:text-surface-300 bg-white dark:bg-surface-600 px-2 py-0.5 rounded border border-surface-200 dark:border-surface-500 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]">
+                <kbd className="text-[11px] font-mono font-medium text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-700 px-2 py-0.5 rounded border border-zinc-200 dark:border-zinc-600 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]">
                   {shortcut.keys}
                 </kbd>
               </div>

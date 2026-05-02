@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 
 interface SectionCardProps {
   children: ReactNode;
@@ -29,11 +29,11 @@ export function SectionCardHeader({
   return (
     <div className="flex items-start justify-between gap-4 px-6 pt-6 pb-4 border-b border-zinc-100 dark:border-zinc-800">
       <div className="space-y-0.5 min-w-0">
-        <h2 className="text-base font-semibold text-surface-900 dark:text-zinc-50">
+        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
           {title}
         </h2>
         {description && (
-          <p className="text-sm text-surface-500 dark:text-zinc-400">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
             {description}
           </p>
         )}
