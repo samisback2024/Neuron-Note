@@ -15,7 +15,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     : location.pathname;
 
   return (
-    <div className="h-screen overflow-hidden bg-surface-100 dark:bg-surface-900 md:grid md:grid-cols-[auto_1fr]">
+    <div className="h-screen overflow-hidden bg-zinc-50 dark:bg-zinc-950 md:grid md:grid-cols-[auto_1fr]">
       <Sidebar />
       <main className="min-w-0 overflow-y-auto pb-20 md:pb-0">
         <AnimatePresence mode="wait">

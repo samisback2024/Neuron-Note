@@ -60,7 +60,7 @@ export function SettingsSidebar({ open, onClose }: Props) {
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                   active
                     ? "bg-primary-50 dark:bg-primary-900/15 text-primary-600 dark:text-primary-400"
-                    : "text-surface-600 dark:text-surface-400 hover:bg-surface-50 dark:hover:bg-surface-700/40 hover:text-surface-900 dark:hover:text-white"
+                    : "text-surface-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/70 hover:text-surface-900 dark:hover:text-zinc-50"
                 }`}
               >
                 <item.icon size={16} />
@@ -71,7 +71,7 @@ export function SettingsSidebar({ open, onClose }: Props) {
         })}
       </ul>
 
-      <div className="mt-6 pt-4 border-t border-surface-200/60 dark:border-surface-700/30">
+      <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-800">
         <button
           onClick={signOut}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"

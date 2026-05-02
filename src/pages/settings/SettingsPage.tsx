@@ -46,7 +46,7 @@ export function SettingsPage() {
   const ActiveComponent = SECTION_COMPONENTS[activeSection];
 
   return (
-    <div className="px-4 md:px-10 py-7 md:py-9 h-full">
+    <div className="px-4 md:px-8 py-6 md:py-8 h-full">
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -57,7 +57,7 @@ export function SettingsPage() {
         <div className="flex items-center gap-3 mb-6">
           <button
             onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-700/50 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
             aria-label="Toggle settings menu"
           >
             <Menu
@@ -66,10 +66,10 @@ export function SettingsPage() {
             />
           </button>
           <div>
-            <h1 className="text-[20px] font-semibold text-surface-900 dark:text-white/95">
+              className="text-[18px] font-semibold text-surface-900 dark:text-zinc-50"
               Settings
             </h1>
-            <p className="text-[12.5px] text-surface-500 dark:text-surface-400">
+              className="text-[12.5px] text-surface-500 dark:text-zinc-400">
               Manage your account and preferences
             </p>
           </div>

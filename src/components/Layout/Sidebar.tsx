@@ -32,7 +32,7 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile bottom navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-surface-800 border-t border-surface-200 dark:border-surface-700 flex justify-around items-center h-14 px-2">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex justify-around items-center h-14 px-2">
         {navItems.slice(0, 5).map((item) => {
           const isActive =
             location.pathname === item.to ||
@@ -70,7 +70,7 @@ export function Sidebar() {
         initial={false}
         animate={{ width: sidebarOpen ? 272 : 72 }}
         transition={{ duration: 0.24, ease: [0.4, 0, 0.2, 1] }}
-        className="hidden md:flex flex-col h-screen bg-white dark:bg-surface-900 border-r border-surface-200/80 dark:border-surface-700/40 overflow-hidden flex-shrink-0"
+        className="hidden md:flex flex-col h-screen bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800 overflow-hidden flex-shrink-0"
       >
         {/* Header */}
         <div className="flex items-center gap-3 px-5 h-[60px] flex-shrink-0">
@@ -93,7 +93,7 @@ export function Sidebar() {
           </AnimatePresence>
           <button
             onClick={toggleSidebar}
-            className="ml-auto p-1.5 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 text-surface-400 transition-colors flex-shrink-0"
+            className="ml-auto p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 transition-colors flex-shrink-0"
           >
             {sidebarOpen ? (
               <ChevronLeft size={15} />
@@ -116,7 +116,7 @@ export function Sidebar() {
                 className={`relative flex items-center gap-3 px-3.5 h-[44px] rounded-2xl text-[14px] font-medium transition-all duration-[180ms] ease-out group ${
                   isActive
                     ? "bg-primary-500 text-white shadow-md shadow-primary-500/20"
-                    : "text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800"
+                    : "text-surface-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/70"
                 }`}
               >
                 {/* Active left accent */}
@@ -147,7 +147,7 @@ export function Sidebar() {
         </nav>
 
         {/* User section */}
-        <div className="px-3 py-4 border-t border-surface-200/80 dark:border-surface-700/40 flex-shrink-0">
+        <div className="px-3 py-4 border-t border-zinc-200 dark:border-zinc-800 flex-shrink-0">
           <div className="flex items-center gap-3 px-3 py-2">
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-400 to-violet-400 flex items-center justify-center text-white text-xs font-semibold flex-shrink-0">
               {profile?.name?.charAt(0)?.toUpperCase() || "U"}

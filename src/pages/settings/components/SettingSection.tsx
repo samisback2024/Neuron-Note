@@ -16,7 +16,7 @@ export function SettingSection({
 }: Props) {
   return (
     <section
-      className="bg-white dark:bg-surface-800/80 rounded-2xl border border-surface-200/60 dark:border-surface-700/30 shadow-sm"
+      className="bg-white dark:bg-zinc-900/70 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm"
       aria-labelledby={`settings-${title.toLowerCase().replace(/\s+/g, "-")}`}
     >
       <div className="flex items-center gap-3 p-5 md:p-6 pb-0 md:pb-0">
@@ -26,11 +26,11 @@ export function SettingSection({
         <div>
           <h2
             id={`settings-${title.toLowerCase().replace(/\s+/g, "-")}`}
-            className="text-[15px] font-semibold text-surface-900 dark:text-white"
+            className="text-[15px] font-semibold text-surface-900 dark:text-zinc-50"
           >
             {title}
           </h2>
-          <p className="text-xs text-surface-500 dark:text-surface-400">
+          <p className="text-xs text-surface-500 dark:text-zinc-400">
             {description}
           </p>
         </div>

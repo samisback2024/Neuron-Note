@@ -25,13 +25,13 @@ export function SettingRow({
             className={`text-sm font-medium ${
               comingSoon
                 ? "text-surface-400 dark:text-surface-500"
-                : "text-surface-900 dark:text-white"
+                : "text-surface-900 dark:text-zinc-50"
             }`}
           >
             {label}
           </p>
           {description && (
-            <p className="text-xs text-surface-500 dark:text-surface-400 mt-0.5">
+            <p className="text-xs text-surface-500 dark:text-zinc-400 mt-0.5">
               {description}
             </p>
           )}
@@ -39,7 +39,7 @@ export function SettingRow({
         <div className="shrink-0 flex items-center gap-2">
           {comingSoon ? (
             <span
-              className="text-[11px] font-medium text-surface-400 dark:text-surface-500 bg-surface-100 dark:bg-surface-700/50 px-2.5 py-1 rounded-full select-none"
+              className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-full select-none"
               title="This feature is planned for a future release"
             >
               Coming soon

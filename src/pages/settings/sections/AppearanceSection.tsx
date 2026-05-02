@@ -52,7 +52,7 @@ export function AppearanceSection() {
       >
         {/* Theme */}
         <fieldset>
-          <legend className="text-[12.5px] font-medium text-surface-600 dark:text-surface-400 mb-3">
+          <legend className="text-[12.5px] font-medium text-surface-600 dark:text-zinc-400 mb-3">
             Theme
           </legend>
           <div className="grid grid-cols-3 gap-3">
@@ -66,14 +66,14 @@ export function AppearanceSection() {
                   className={`p-3 md:p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     active
                       ? "border-primary-500 bg-primary-50/50 dark:bg-primary-900/10 shadow-sm"
-                      : "border-surface-200 dark:border-surface-700 hover:border-surface-300 dark:hover:border-surface-600"
+                      : "border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600"
                   }`}
                 >
                   <div
                     className={`w-9 h-9 rounded-lg flex items-center justify-center ${
                       active
                         ? "bg-primary-100 dark:bg-primary-900/20"
-                        : "bg-surface-100 dark:bg-surface-700"
+                        : "bg-zinc-100 dark:bg-zinc-700"
                     }`}
                   >
                     <opt.icon
@@ -81,12 +81,12 @@ export function AppearanceSection() {
                       className={
                         active
                           ? "text-primary-500"
-                          : "text-surface-500 dark:text-surface-400"
+                          : "text-surface-500 dark:text-zinc-400"
                       }
                     />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-surface-900 dark:text-white">
+                    <p className="text-sm font-medium text-surface-900 dark:text-zinc-50">
                       {opt.label}
                     </p>
                     <p className="text-[11px] text-surface-500">{opt.desc}</p>
@@ -99,7 +99,7 @@ export function AppearanceSection() {
 
         {/* Accent color */}
         <fieldset className="mt-6">
-          <legend className="text-[12.5px] font-medium text-surface-600 dark:text-surface-400 mb-3">
+          <legend className="text-[12.5px] font-medium text-surface-600 dark:text-zinc-400 mb-3">
             Accent color
           </legend>
           <div className="flex flex-wrap gap-3">
@@ -127,7 +127,7 @@ export function AppearanceSection() {
 
         {/* Density */}
         <fieldset className="mt-6">
-          <legend className="text-[12.5px] font-medium text-surface-600 dark:text-surface-400 mb-3">
+          <legend className="text-[12.5px] font-medium text-surface-600 dark:text-zinc-400 mb-3">
             Density
           </legend>
           <div className="grid grid-cols-2 gap-3">
@@ -141,10 +141,10 @@ export function AppearanceSection() {
                   className={`p-3 rounded-xl border-2 transition-all text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     active
                       ? "border-primary-500 bg-primary-50/50 dark:bg-primary-900/10 shadow-sm"
-                      : "border-surface-200 dark:border-surface-700 hover:border-surface-300 dark:hover:border-surface-600"
+                      : "border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600"
                   }`}
                 >
-                  <p className="text-sm font-medium text-surface-900 dark:text-white">
+                  <p className="text-sm font-medium text-surface-900 dark:text-zinc-50">
                     {opt.label}
                   </p>
                   <p className="text-[11px] text-surface-500 mt-0.5">
@@ -157,7 +157,7 @@ export function AppearanceSection() {
         </fieldset>
 
         {/* Reduced motion */}
-        <div className="mt-5 pt-5 border-t border-surface-100 dark:border-surface-700/40">
+        <div className="mt-5 pt-5 border-t border-zinc-100 dark:border-zinc-800">
           <ToggleRow
             label="Reduce motion"
             description="Minimize animations throughout the interface"
@@ -169,29 +169,29 @@ export function AppearanceSection() {
 
       {/* Live preview */}
       <div
-        className="rounded-2xl border border-surface-200/60 dark:border-surface-700/30 p-5 md:p-6"
+        className="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 md:p-6"
         aria-label="Appearance preview"
       >
-        <p className="text-[12.5px] font-medium text-surface-500 dark:text-surface-400 mb-3">
+        <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
           Preview
         </p>
-        <div className="bg-surface-50 dark:bg-surface-800 rounded-xl p-4 border border-surface-200/60 dark:border-surface-700/30">
+        <div className="bg-zinc-50 dark:bg-zinc-800 rounded-xl p-4 border border-zinc-200 dark:border-zinc-700">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-8 h-8 rounded-full bg-primary-500" />
             <div>
               <div className="h-3 w-24 bg-primary-200 dark:bg-primary-800 rounded-full" />
-              <div className="h-2 w-16 bg-surface-200 dark:bg-surface-700 rounded-full mt-1.5" />
+              <div className="h-2 w-16 bg-zinc-200 dark:bg-zinc-700 rounded-full mt-1.5" />
             </div>
           </div>
           <div className="space-y-2">
-            <div className="h-2.5 w-full bg-surface-200 dark:bg-surface-700 rounded-full" />
-            <div className="h-2.5 w-3/4 bg-surface-200 dark:bg-surface-700 rounded-full" />
+            <div className="h-2.5 w-full bg-zinc-200 dark:bg-zinc-700 rounded-full" />
+            <div className="h-2.5 w-3/4 bg-zinc-200 dark:bg-zinc-700 rounded-full" />
           </div>
           <div className="flex gap-2 mt-3">
             <span className="px-3 py-1 bg-primary-500 text-white text-[11px] font-medium rounded-lg">
               Primary
             </span>
-            <span className="px-3 py-1 bg-surface-200 dark:bg-surface-600 text-surface-700 dark:text-surface-300 text-[11px] font-medium rounded-lg">
+            <span className="px-3 py-1 bg-zinc-200 dark:bg-zinc-600 text-zinc-700 dark:text-zinc-300 text-[11px] font-medium rounded-lg">
               Secondary
             </span>
           </div>
