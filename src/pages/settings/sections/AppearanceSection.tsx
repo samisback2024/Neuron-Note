@@ -51,10 +51,10 @@ export function AppearanceSection() {
         description="Customize the look and feel"
       >
         {/* Theme */}
-        <fieldset>
-          <legend className="text-[12.5px] font-medium text-surface-600 dark:text-zinc-400 mb-3">
+        <div>
+          <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
             Theme
-          </legend>
+          </p>
           <div className="grid grid-cols-3 gap-3">
             {THEME_OPTIONS.map((opt) => {
               const active = themeMode === opt.value;
@@ -89,19 +89,19 @@ export function AppearanceSection() {
                     <p className="text-sm font-medium text-surface-900 dark:text-zinc-50">
                       {opt.label}
                     </p>
-                    <p className="text-[11px] text-surface-500">{opt.desc}</p>
+                    <p className="text-[11px] text-surface-500 dark:text-zinc-500">{opt.desc}</p>
                   </div>
                 </button>
               );
             })}
           </div>
-        </fieldset>
+        </div>
 
         {/* Accent color */}
-        <fieldset className="mt-6">
-          <legend className="text-[12.5px] font-medium text-surface-600 dark:text-zinc-400 mb-3">
+        <div className="mt-6">
+          <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
             Accent color
-          </legend>
+          </p>
           <div className="flex flex-wrap gap-3">
             {(Object.keys(ACCENT_PALETTES) as AccentColor[]).map((color) => {
               const active = accentColor === color;
@@ -123,13 +123,13 @@ export function AppearanceSection() {
               );
             })}
           </div>
-        </fieldset>
+        </div>
 
         {/* Density */}
-        <fieldset className="mt-6">
-          <legend className="text-[12.5px] font-medium text-surface-600 dark:text-zinc-400 mb-3">
+        <div className="mt-6">
+          <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
             Density
-          </legend>
+          </p>
           <div className="grid grid-cols-2 gap-3">
             {DENSITY_OPTIONS.map((opt) => {
               const active = density === opt.value;
@@ -147,14 +147,14 @@ export function AppearanceSection() {
                   <p className="text-sm font-medium text-surface-900 dark:text-zinc-50">
                     {opt.label}
                   </p>
-                  <p className="text-[11px] text-surface-500 mt-0.5">
+                  <p className="text-[11px] text-surface-500 dark:text-zinc-500 mt-0.5">
                     {opt.desc}
                   </p>
                 </button>
               );
             })}
           </div>
-        </fieldset>
+        </div>
 
         {/* Reduced motion */}
         <div className="mt-5 pt-5 border-t border-zinc-100 dark:border-zinc-800">
@@ -165,43 +165,40 @@ export function AppearanceSection() {
             onChange={setReducedMotion}
           />
         </div>
-      </SettingSection>
 
-      {/* Live preview */}
-      <div
-        className="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 md:p-6"
-        aria-label="Appearance preview"
-      >
-        <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
-          Preview
-        </p>
-        <div className="bg-zinc-50 dark:bg-zinc-800 rounded-xl p-4 border border-zinc-200 dark:border-zinc-700">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full bg-primary-500" />
-            <div>
-              <div className="h-3 w-24 bg-primary-200 dark:bg-primary-800 rounded-full" />
-              <div className="h-2 w-16 bg-zinc-200 dark:bg-zinc-700 rounded-full mt-1.5" />
+        {/* Live preview */}
+        <div className="mt-5 pt-5 border-t border-zinc-100 dark:border-zinc-800">
+          <p className="text-[12.5px] font-medium text-surface-500 dark:text-zinc-400 mb-3">
+            Preview
+          </p>
+          <div className="bg-zinc-50 dark:bg-zinc-800/80 rounded-xl p-4 border border-zinc-200 dark:border-zinc-700/60">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 rounded-full bg-primary-500" />
+              <div>
+                <div className="h-3 w-24 bg-primary-200 dark:bg-primary-800 rounded-full" />
+                <div className="h-2 w-16 bg-zinc-200 dark:bg-zinc-700 rounded-full mt-1.5" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="h-2.5 w-full bg-zinc-200 dark:bg-zinc-700 rounded-full" />
+              <div className="h-2.5 w-3/4 bg-zinc-200 dark:bg-zinc-700 rounded-full" />
+            </div>
+            <div className="flex gap-2 mt-3">
+              <span className="px-3 py-1 bg-primary-500 text-white text-[11px] font-medium rounded-lg">
+                Primary
+              </span>
+              <span className="px-3 py-1 bg-zinc-200 dark:bg-zinc-600 text-zinc-700 dark:text-zinc-300 text-[11px] font-medium rounded-lg">
+                Secondary
+              </span>
             </div>
           </div>
-          <div className="space-y-2">
-            <div className="h-2.5 w-full bg-zinc-200 dark:bg-zinc-700 rounded-full" />
-            <div className="h-2.5 w-3/4 bg-zinc-200 dark:bg-zinc-700 rounded-full" />
-          </div>
-          <div className="flex gap-2 mt-3">
-            <span className="px-3 py-1 bg-primary-500 text-white text-[11px] font-medium rounded-lg">
-              Primary
-            </span>
-            <span className="px-3 py-1 bg-zinc-200 dark:bg-zinc-600 text-zinc-700 dark:text-zinc-300 text-[11px] font-medium rounded-lg">
-              Secondary
-            </span>
-          </div>
+          <p className="text-[11px] text-zinc-400 mt-2 text-center">
+            {resolvedTheme === "dark" ? "Dark" : "Light"} theme ·{" "}
+            {ACCENT_LABELS[accentColor]} accent ·{" "}
+            {density === "compact" ? "Compact" : "Comfortable"} density
+          </p>
         </div>
-        <p className="text-[11px] text-surface-400 mt-2 text-center">
-          {resolvedTheme === "dark" ? "Dark" : "Light"} theme ·{" "}
-          {ACCENT_LABELS[accentColor]} accent ·{" "}
-          {density === "compact" ? "Compact" : "Comfortable"} density
-        </p>
-      </div>
+      </SettingSection>
     </div>
   );
 }
