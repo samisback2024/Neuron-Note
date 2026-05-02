@@ -22,21 +22,43 @@ export function AuthPage() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const oneTapInitializedRef = useRef(false);
+  const nonceRef = useRef("");
+
+  const generateNonce = async (): Promise<[string, string]> => {
+    const array = new Uint8Array(32);
+    crypto.getRandomValues(array);
+    const rawNonce = btoa(String.fromCharCode(...array));
+    const hashBuffer = await crypto.subtle.digest(
+      "SHA-256",
+      new TextEncoder().encode(rawNonce),
+    );
+    const hashedNonce = Array.from(new Uint8Array(hashBuffer))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return [rawNonce, hashedNonce];
+  };
 
   useEffect(() => {
     if (!googleClientId || session || oneTapInitializedRef.current) return;
 
-    const initializeOneTap = () => {
+    const initializeOneTap = async () => {
       if (!window.google?.accounts?.id || oneTapInitializedRef.current) return;
+
+      const [rawNonce, hashedNonce] = await generateNonce();
+      nonceRef.current = rawNonce;
 
       window.google.accounts.id.initialize({
         client_id: googleClientId,
+        nonce: hashedNonce,
         auto_select: true,
         cancel_on_tap_outside: false,
         context: "signin",
         callback: async (response) => {
           setGoogleLoading(true);
-          const { error } = await signInWithGoogleOneTap(response.credential);
+          const { error } = await signInWithGoogleOneTap(
+            response.credential,
+            nonceRef.current,
+          );
           if (error) toast.error(error);
           setGoogleLoading(false);
         },
@@ -93,8 +115,11 @@ export function AuthPage() {
     setGoogleLoading(true);
 
     if (googleClientId && window.google?.accounts?.id) {
-      window.google.accounts.id.prompt();
-      // One Tap callback controls loading completion.
+      window.google.accounts.id.prompt((notification) => {
+        if (notification.isDismissedMoment()) {
+          setGoogleLoading(false);
+        }
+      });
       return;
     }
 

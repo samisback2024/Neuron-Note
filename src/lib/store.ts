@@ -99,6 +99,7 @@ interface AppState {
   ) => Promise<{ error: string | null }>;
   signInWithGoogleOneTap: (
     idToken: string,
+    nonce?: string,
   ) => Promise<{ error: string | null }>;
   signInWithGoogleOAuth: () => Promise<{ error: string | null }>;
   signUp: (
@@ -230,10 +231,11 @@ export const useStore = create<AppState>((set, get) => ({
     return { error: error?.message ?? null };
   },
 
-  signInWithGoogleOneTap: async (idToken) => {
+  signInWithGoogleOneTap: async (idToken, nonce) => {
     const { data, error } = await supabase.auth.signInWithIdToken({
       provider: "google",
       token: idToken,
+      ...(nonce ? { nonce } : {}),
     });
 
     if (!error && data.user) {
