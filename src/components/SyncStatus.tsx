@@ -1,6 +1,6 @@
 ﻿import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Wifi, WifiOff } from "lucide-react";
+import { WifiOff } from "lucide-react";
 import { useStore } from "../lib/store";
 
 export function SyncStatus() {

@@ -36,6 +36,7 @@ export function NoteEditor() {
   const navigate = useNavigate();
   const {
     notes,
+    notesLoading,
     updateNote,
     deleteNote,
     togglePin,
@@ -53,6 +54,8 @@ export function NoteEditor() {
   const [shareOpen, setShareOpen] = useState(false);
   const [confirmPermanentDelete, setConfirmPermanentDelete] = useState(false);
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Track whether the title has changed since the note was first loaded
+  const titleInitializedRef = useRef(false);
 
   const note =
     notes.find((n) => n.id === id) || trashedNotes.find((n) => n.id === id);
@@ -152,9 +155,14 @@ export function NoteEditor() {
     };
   }, [saveNote, editor, canEdit]);
 
-  // Also debounce-save on title change
+  // Also debounce-save on title change (skip the very first render/load)
   useEffect(() => {
     if (!canEdit || !id) return;
+    // Skip the initial population of the title from the loaded note
+    if (!titleInitializedRef.current) {
+      titleInitializedRef.current = true;
+      return;
+    }
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => {
       saveNote();
@@ -201,6 +209,16 @@ export function NoteEditor() {
   };
 
   if (!note) {
+    if (notesLoading) {
+      return (
+        <div className="h-full flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-zinc-500">Loading note…</p>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="p-8 text-center">
         <p className="text-zinc-500">Note not found</p>
@@ -246,55 +264,66 @@ export function NoteEditor() {
             {[
               {
                 icon: Bold,
+                label: "Bold",
                 action: () => editor.chain().focus().toggleBold().run(),
                 active: editor.isActive("bold"),
               },
               {
                 icon: Italic,
+                label: "Italic",
                 action: () => editor.chain().focus().toggleItalic().run(),
                 active: editor.isActive("italic"),
               },
               {
                 icon: Heading1,
+                label: "Heading 1",
                 action: () =>
                   editor.chain().focus().toggleHeading({ level: 1 }).run(),
                 active: editor.isActive("heading", { level: 1 }),
               },
               {
                 icon: Heading2,
+                label: "Heading 2",
                 action: () =>
                   editor.chain().focus().toggleHeading({ level: 2 }).run(),
                 active: editor.isActive("heading", { level: 2 }),
               },
               {
                 icon: List,
+                label: "Bullet List",
                 action: () => editor.chain().focus().toggleBulletList().run(),
                 active: editor.isActive("bulletList"),
               },
               {
                 icon: ListOrdered,
+                label: "Ordered List",
                 action: () => editor.chain().focus().toggleOrderedList().run(),
                 active: editor.isActive("orderedList"),
               },
               {
                 icon: CheckSquare,
+                label: "Task List",
                 action: () => editor.chain().focus().toggleTaskList().run(),
                 active: editor.isActive("taskList"),
               },
               {
                 icon: Code,
+                label: "Code Block",
                 action: () => editor.chain().focus().toggleCodeBlock().run(),
                 active: editor.isActive("codeBlock"),
               },
               {
                 icon: Quote,
+                label: "Blockquote",
                 action: () => editor.chain().focus().toggleBlockquote().run(),
                 active: editor.isActive("blockquote"),
               },
-            ].map(({ icon: Icon, action, active }, i) => (
+            ].map(({ icon: Icon, label, action, active }, i) => (
               <button
                 key={i}
                 onClick={action}
+                aria-label={label}
+                title={label}
                 className={`p-2 rounded-lg transition-all duration-[120ms] ease-out flex-shrink-0 btn-press ${
                   active
                     ? "bg-primary-50 dark:bg-primary-900/30 text-primary-500"

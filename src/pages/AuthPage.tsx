@@ -23,6 +23,7 @@ async function generateNonce(): Promise<[string, string]> {
 export function AuthPage() {
   const {
     session,
+    authLoading,
     signIn,
     signUp,
     signInWithGoogleOneTap,
@@ -88,6 +89,14 @@ export function AuthPage() {
       window.google?.accounts?.id.cancel();
     };
   }, [session, signInWithGoogleOneTap]);
+
+  if (authLoading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-zinc-100 dark:bg-zinc-900">
+        <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   if (session) return <Navigate to="/" replace />;
 

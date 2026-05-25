@@ -56,6 +56,8 @@ export function ProjectsPage() {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [confirmDelete, setConfirmDelete] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
+  // Guard against firing useEffects during the initial panel open population
+  const panelInitializingRef = useRef(false);
 
   const selectedProject = projects.find((p) => p.id === selectedId) ?? null;
   const projectTasks = selectedProject
@@ -66,6 +68,7 @@ export function ProjectsPage() {
   const openProject = (id: string) => {
     const p = projects.find((proj) => proj.id === id);
     if (!p) return;
+    panelInitializingRef.current = true;
     setSelectedId(id);
     setEditTitle(p.title);
     setEditDesc(p.description ?? "");
@@ -73,6 +76,10 @@ export function ProjectsPage() {
     setEditDue(p.due_date ?? "");
     setConfirmDelete(false);
     setNewTaskTitle("");
+    // Allow effects to run after the state batch settles
+    setTimeout(() => {
+      panelInitializingRef.current = false;
+    }, 0);
   };
 
   // Close panel
@@ -95,16 +102,16 @@ export function ProjectsPage() {
     await updateProject(selectedId, { [field]: updates[field] });
   };
 
-  // Sync editColor whenever it changes (immediate)
+  // Sync editColor whenever it changes (skip initial population)
   useEffect(() => {
-    if (!selectedId) return;
+    if (!selectedId || panelInitializingRef.current) return;
     updateProject(selectedId, { color: editColor });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editColor]);
 
-  // Sync editDue whenever it changes
+  // Sync editDue whenever it changes (skip initial population)
   useEffect(() => {
-    if (!selectedId) return;
+    if (!selectedId || panelInitializingRef.current) return;
     updateProject(selectedId, { due_date: editDue || null });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editDue]);
@@ -262,7 +269,10 @@ export function ProjectsPage() {
                     {project.due_date && (
                       <span className="flex items-center gap-1">
                         <Calendar size={11} />
-                        {format(new Date(project.due_date), "MMM d")}
+                        {format(
+                          new Date(project.due_date + "T00:00:00"),
+                          "MMM d",
+                        )}
                       </span>
                     )}
                   </div>

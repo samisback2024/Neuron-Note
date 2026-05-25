@@ -401,19 +401,13 @@ export const useStore = create<AppState>((set, get) => ({
 
   createNote: async (title, content) => {
     const user = get().user;
-    if (!user) {
-      console.error("createNote: no user");
-      return null;
-    }
+    if (!user) return null;
     const { data, error } = await supabase
       .from("notes")
       .insert({ user_id: user.id, title, content })
       .select()
       .single();
-    if (error) {
-      console.error("createNote error:", error);
-      return null;
-    }
+    if (error) return null;
     const note = data as Note;
     set((s) => ({ notes: [note, ...s.notes] }));
     return note;
@@ -447,9 +441,10 @@ export const useStore = create<AppState>((set, get) => ({
 
   deleteNote: async (id) => {
     // Soft delete: move to trash
+    const now = new Date().toISOString();
     await supabase
       .from("notes")
-      .update({ is_trashed: true, trashed_at: new Date().toISOString() })
+      .update({ is_trashed: true, trashed_at: now })
       .eq("id", id);
     set((s) => ({ notes: s.notes.filter((n) => n.id !== id) }));
   },
@@ -471,14 +466,9 @@ export const useStore = create<AppState>((set, get) => ({
     set({ trashedNotes: (data as Note[]) ?? [], trashedLoading: false });
   },
 
+  // trashNote is an alias for deleteNote kept for backwards compat
   trashNote: async (id) => {
-    await supabase
-      .from("notes")
-      .update({ is_trashed: true, trashed_at: new Date().toISOString() })
-      .eq("id", id);
-    set((s) => ({
-      notes: s.notes.filter((n) => n.id !== id),
-    }));
+    await get().deleteNote(id);
   },
 
   restoreNote: async (id) => {
@@ -605,17 +595,18 @@ export const useStore = create<AppState>((set, get) => ({
       .from("projects")
       .update({ is_trashed: true, trashed_at: now })
       .eq("id", id);
-    set((s) => ({
-      projects: s.projects.filter((p) => p.id !== id),
-      trashedProjects: [
-        {
-          ...s.projects.find((p) => p.id === id)!,
-          is_trashed: true,
-          trashed_at: now,
-        },
-        ...s.trashedProjects,
-      ].filter(Boolean),
-    }));
+    set((s) => {
+      const found = s.projects.find((p) => p.id === id);
+      return {
+        projects: s.projects.filter((p) => p.id !== id),
+        trashedProjects: found
+          ? [
+              { ...found, is_trashed: true, trashed_at: now },
+              ...s.trashedProjects,
+            ]
+          : s.trashedProjects,
+      };
+    });
   },
 
   // Project Trash

@@ -1,4 +1,5 @@
-﻿import { useNavigate } from "react-router-dom";
+﻿import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import {
   FileText,
@@ -32,6 +33,7 @@ export function Dashboard() {
     togglePin,
   } = useStore();
   const navigate = useNavigate();
+  const [captureValue, setCaptureValue] = useState("");
 
   const today = new Date();
   const greeting =
@@ -151,12 +153,14 @@ export function Dashboard() {
         </div>
         <input
           type="text"
+          value={captureValue}
+          onChange={(e) => setCaptureValue(e.target.value)}
           placeholder="Quick capture — type an idea, or #task Buy groceries"
           className="flex-1 bg-transparent text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none text-[13.5px]"
           onKeyDown={(e) => {
-            if (e.key === "Enter" && (e.target as HTMLInputElement).value) {
-              handleQuickCapture((e.target as HTMLInputElement).value);
-              (e.target as HTMLInputElement).value = "";
+            if (e.key === "Enter" && captureValue.trim()) {
+              handleQuickCapture(captureValue);
+              setCaptureValue("");
             }
           }}
         />

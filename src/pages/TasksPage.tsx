@@ -271,7 +271,7 @@ export function TasksPage() {
                   {task.due_date && (
                     <span className="text-xs text-zinc-400 flex items-center gap-1">
                       <Calendar size={10} />
-                      {format(new Date(task.due_date), "MMM d")}
+                      {format(new Date(task.due_date + "T00:00:00"), "MMM d")}
                     </span>
                   )}
                 </div>

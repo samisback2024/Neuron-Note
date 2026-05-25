@@ -41,9 +41,20 @@ export function BookmarksPage() {
 
   const handleCreate = async () => {
     if (!url.trim()) return;
+    // Basic URL validation
+    let normalizedUrl = url.trim();
+    if (!/^https?:\/\//i.test(normalizedUrl)) {
+      normalizedUrl = `https://${normalizedUrl}`;
+    }
+    try {
+      new URL(normalizedUrl);
+    } catch {
+      toast.error("Please enter a valid URL");
+      return;
+    }
     await createBookmark({
-      url,
-      title: title || url,
+      url: normalizedUrl,
+      title: title || normalizedUrl,
       description,
       image: null,
       tags: newTags

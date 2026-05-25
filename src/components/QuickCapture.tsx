@@ -48,6 +48,13 @@ export function QuickCapture() {
   // Keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const inInput =
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable;
+
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         if (open) {
@@ -56,8 +63,8 @@ export function QuickCapture() {
           setOpen(true);
         }
       }
-      // Cmd/Ctrl + N â†’ new note
-      if ((e.metaKey || e.ctrlKey) && e.key === "n" && !open) {
+      // Cmd/Ctrl + N → new note (only when not typing in an input)
+      if ((e.metaKey || e.ctrlKey) && e.key === "n" && !open && !inInput) {
         e.preventDefault();
         createNote("Untitled Note", "").then((note) => {
           if (note) {
@@ -320,16 +327,25 @@ export function QuickCapture() {
         toast.success("Task created");
         close();
       } else if (mode === "bookmark" && query.trim()) {
-        createBookmark({
-          url: query,
-          title: query,
-          description: "",
-          image: null,
-          tags: [],
-          collection: null,
-        });
-        toast.success("Bookmark saved");
-        close();
+        let normalizedUrl = query.trim();
+        if (!/^https?:\/\//i.test(normalizedUrl)) {
+          normalizedUrl = `https://${normalizedUrl}`;
+        }
+        try {
+          new URL(normalizedUrl);
+          createBookmark({
+            url: normalizedUrl,
+            title: normalizedUrl,
+            description: "",
+            image: null,
+            tags: [],
+            collection: null,
+          });
+          toast.success("Bookmark saved");
+          close();
+        } catch {
+          toast.error("Please enter a valid URL");
+        }
       }
     }
   };
