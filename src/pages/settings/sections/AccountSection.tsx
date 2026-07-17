@@ -3,7 +3,6 @@ import { User, KeyRound, LogOut } from "lucide-react";
 import { SettingSection } from "../components/SettingSection";
 import { SettingRow } from "../components/SettingRow";
 import { EditableField } from "../components/EditableField";
-import { ConfirmDialog } from "../components/ConfirmDialog";
 import { useStore } from "../../../lib/store";
 import { supabase } from "../../../lib/supabase";
 import toast from "react-hot-toast";

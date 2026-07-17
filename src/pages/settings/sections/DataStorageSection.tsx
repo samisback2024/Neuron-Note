@@ -1,5 +1,5 @@
 ﻿import { useState, useMemo } from "react";
-import { Database, Download, Trash2, AlertTriangle } from "lucide-react";
+import { Database, Download, AlertTriangle } from "lucide-react";
 import { SettingSection } from "../components/SettingSection";
 import { SettingRow } from "../components/SettingRow";
 import { ConfirmDialog } from "../components/ConfirmDialog";

@@ -10,7 +10,6 @@ import {
   Plus,
   PlayCircle,
   Pin,
-  Search,
 } from "lucide-react";
 import { useStore } from "../lib/store";
 import { format, isToday } from "date-fns";
