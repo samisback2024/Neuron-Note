@@ -57,12 +57,17 @@ export function AuthPage() {
         context: "signin",
         callback: async (response) => {
           setGoogleLoading(true);
-          const { error } = await signInWithGoogleOneTap(
-            response.credential,
-            nonceRef.current,
-          );
-          if (error) toast.error(error);
-          setGoogleLoading(false);
+          try {
+            const { error } = await signInWithGoogleOneTap(
+              response.credential,
+              nonceRef.current,
+            );
+            if (error) toast.error(error);
+          } catch {
+            toast.error("Google sign-in failed. Please try again.");
+          } finally {
+            setGoogleLoading(false);
+          }
         },
       });
 
@@ -125,8 +130,15 @@ export function AuthPage() {
     setGoogleLoading(true);
 
     if (googleClientId && window.google?.accounts?.id) {
-      window.google.accounts.id.prompt((notification) => {
+      window.google.accounts.id.prompt(async (notification) => {
         if (notification.isDismissedMoment()) {
+          setGoogleLoading(false);
+          return;
+        }
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          // One Tap couldn't show (blocked cookies, rate-limited, etc.) — fall back to redirect
+          const { error } = await signInWithGoogleOAuth();
+          if (error) toast.error(error);
           setGoogleLoading(false);
         }
       });
