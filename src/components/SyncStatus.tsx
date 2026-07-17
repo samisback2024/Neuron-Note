@@ -27,7 +27,7 @@ export function SyncStatus() {
           className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-800 dark:bg-zinc-700 text-white text-[12px] font-medium shadow-lg"
         >
           <WifiOff size={13} className="text-yellow-400" />
-          <span>Offline â€” changes will sync when reconnected</span>
+          <span>Offline — changes will sync when reconnected</span>
         </motion.div>
       )}
     </AnimatePresence>

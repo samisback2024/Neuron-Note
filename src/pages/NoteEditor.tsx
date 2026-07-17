@@ -369,7 +369,7 @@ export function NoteEditor() {
             {saving ? (
               <span className="text-primary-500 font-medium save-pulse flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-                Savingâ€¦
+                Saving…
               </span>
             ) : lastSaved ? (
               <span className="text-green-500 font-medium flex items-center gap-1">
@@ -379,7 +379,7 @@ export function NoteEditor() {
             ) : null}
           </div>
           <span className="text-xs text-zinc-400">
-            {wordCount} words Â· {readingTime} min read
+            {wordCount} words · {readingTime} min read
           </span>
           <button
             onClick={() => setShareOpen(true)}

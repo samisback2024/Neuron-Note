@@ -101,7 +101,7 @@ export function TrashPage() {
               Trash
             </h1>
             <p className="text-[12.5px] text-zinc-500 dark:text-zinc-400 mt-0.5">
-              {totalItems} deleted {totalItems === 1 ? "item" : "items"} Â·
+              {totalItems} deleted {totalItems === 1 ? "item" : "items"} ·
               Auto-deletes after 30 days
             </p>
           </div>

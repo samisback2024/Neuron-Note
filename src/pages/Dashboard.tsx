@@ -165,7 +165,7 @@ export function Dashboard() {
         />
         <div className="hidden md:flex items-center gap-1.5 flex-shrink-0">
           <kbd className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-[10px] text-zinc-400 font-mono">
-            âŒ˜/
+            ⌘/
           </kbd>
           <span className="text-[10.5px] text-zinc-400">search</span>
         </div>
@@ -190,7 +190,7 @@ export function Dashboard() {
                 Experience the Full Workflow
               </h3>
               <p className="text-[12.5px] text-white/65 mt-1">
-                Create a note â†’ Link ideas â†’ Visualize connections â†’ Stay
+                Create a note → Link ideas → Visualize connections → Stay
                 organized
               </p>
             </div>

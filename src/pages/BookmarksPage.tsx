@@ -110,7 +110,7 @@ export function BookmarksPage() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search bookmarks by title, URL, or tagâ€¦"
+            placeholder="Search bookmarks by title, URL, or tag…"
             className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 text-sm placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/50 transition shadow-sm"
           />
         </div>

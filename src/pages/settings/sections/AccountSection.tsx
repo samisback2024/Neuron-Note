@@ -99,7 +99,7 @@ export function AccountSection() {
               {profile?.name || "User"}
             </p>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
-              {profile?.email || "â€”"}
+              {profile?.email || "—"}
             </p>
           </div>
         </div>
@@ -244,7 +244,7 @@ export function AccountSection() {
                 {pwLoading ? (
                   <span className="flex items-center gap-2">
                     <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Updatingâ€¦
+                    Updating…
                   </span>
                 ) : (
                   "Update password"

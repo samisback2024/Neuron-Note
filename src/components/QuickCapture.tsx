@@ -494,20 +494,20 @@ export function QuickCapture() {
                 <div className="flex items-center gap-3 text-[10.5px] text-zinc-400">
                   <span className="flex items-center gap-1">
                     <kbd className="px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
-                      â†‘â†“
+                      ↑↓
                     </kbd>
                     navigate
                   </span>
                   <span className="flex items-center gap-1">
                     <kbd className="px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
-                      â†µ
+                      ↵
                     </kbd>
                     select
                   </span>
                 </div>
                 <span className="text-[10.5px] text-zinc-400">
                   <kbd className="px-1.5 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
-                    âŒ˜K
+                    ⌘K
                   </kbd>
                 </span>
               </div>

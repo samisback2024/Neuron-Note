@@ -95,7 +95,7 @@ export function NotificationsSection() {
                 Browser notifications are blocked
               </p>
               <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-0.5">
-                To enable, open your browser settings â†’ Site settings â†’
+                To enable, open your browser settings → Site settings →
                 Notifications, and allow notifications for this site.
               </p>
             </div>

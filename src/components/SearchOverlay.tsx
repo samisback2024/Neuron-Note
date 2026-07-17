@@ -46,7 +46,7 @@ export function SearchOverlay() {
       .slice(0, 8);
   }, [query, notes]);
 
-  // Reset selection when results change â€” done inline in the onChange handler
+  // Reset selection when results change — done inline in the onChange handler
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") close();
@@ -110,7 +110,7 @@ export function SearchOverlay() {
                   setSelected(0);
                 }}
                 onKeyDown={handleKeyDown}
-                placeholder="Search notes by title or contentâ€¦"
+                placeholder="Search notes by title or content…"
                 className="flex-1 bg-transparent text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none text-[14px]"
               />
               {query && (
@@ -190,13 +190,13 @@ export function SearchOverlay() {
               <div className="flex items-center gap-3 text-[10.5px] text-zinc-400">
                 <span className="flex items-center gap-1">
                   <kbd className="px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
-                    â†‘â†“
+                    ↑↓
                   </kbd>
                   navigate
                 </span>
                 <span className="flex items-center gap-1">
                   <kbd className="px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 font-mono text-[10px]">
-                    â†µ
+                    ↵
                   </kbd>
                   open
                 </span>

@@ -1,7 +1,7 @@
 ﻿import { useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { Menu } from "lucide-react";
+import { Menu, Settings as SettingsIcon } from "lucide-react";
 import {
   SettingsSidebar,
   type SettingsSectionId,
@@ -54,7 +54,7 @@ export function SettingsPage() {
         className="mx-auto max-w-[1080px] h-full"
       >
         {/* Header */}
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3.5 mb-8">
           <button
             onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
             className="md:hidden p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
@@ -65,11 +65,14 @@ export function SettingsPage() {
               className="text-zinc-600 dark:text-zinc-400"
             />
           </button>
+          <div className="hidden sm:flex w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-900/20 items-center justify-center shrink-0">
+            <SettingsIcon size={19} className="text-primary-500" />
+          </div>
           <div>
-            <h1 className="text-[18px] font-semibold text-zinc-900 dark:text-zinc-50">
+            <h1 className="text-[20px] font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">
               Settings
             </h1>
-            <p className="text-[12.5px] text-zinc-500 dark:text-zinc-400">
+            <p className="text-[13px] text-zinc-500 dark:text-zinc-400">
               Manage your account and preferences
             </p>
           </div>

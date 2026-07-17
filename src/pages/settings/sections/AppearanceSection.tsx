@@ -195,8 +195,8 @@ export function AppearanceSection() {
             </div>
           </div>
           <p className="text-[11px] text-zinc-400 mt-2 text-center">
-            {resolvedTheme === "dark" ? "Dark" : "Light"} theme Â·{" "}
-            {ACCENT_LABELS[accentColor]} accent Â·{" "}
+            {resolvedTheme === "dark" ? "Dark" : "Light"} theme ·{" "}
+            {ACCENT_LABELS[accentColor]} accent ·{" "}
             {density === "compact" ? "Compact" : "Comfortable"} density
           </p>
         </div>

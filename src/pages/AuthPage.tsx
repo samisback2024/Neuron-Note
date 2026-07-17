@@ -143,12 +143,24 @@ export function AuthPage() {
   return (
     <div className="min-h-screen flex bg-zinc-100 dark:bg-zinc-900">
       {/* Left branding panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-500 via-primary-600 to-violet-600 p-12 flex-col justify-between">
-        <div className="flex items-center gap-3">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-primary-500 via-primary-600 to-violet-600 p-12 flex-col justify-between">
+        {/* Decorative depth layer */}
+        <div
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, #fff 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/10 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-violet-400/20 blur-3xl" />
+
+        <div className="relative flex items-center gap-3">
           <img src="/favicon.svg" alt="Neuron Note" className="w-10 h-10" />
           <span className="text-2xl font-bold text-white">Neuron Note</span>
         </div>
-        <div>
+        <div className="relative">
           <h1 className="text-5xl font-bold text-white leading-tight mb-4">
             Your thinking
             <br />
@@ -159,11 +171,14 @@ export function AuthPage() {
             you connect the dots.
           </p>
         </div>
-        <div className="flex gap-8">
+        <div className="relative flex flex-wrap gap-2">
           {["Notes", "Tasks", "Knowledge Graph", "AI Assistant"].map((f) => (
-            <div key={f} className="text-white/60 text-sm font-medium">
+            <span
+              key={f}
+              className="px-3 py-1.5 rounded-full text-xs font-medium text-white/85 bg-white/10 border border-white/15 backdrop-blur-sm"
+            >
               {f}
-            </div>
+            </span>
           ))}
         </div>
       </div>
@@ -174,7 +189,7 @@ export function AuthPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="w-full max-w-md"
+          className="w-full max-w-md lg:bg-white lg:dark:bg-zinc-900/60 lg:border lg:border-zinc-200 lg:dark:border-zinc-800 lg:rounded-3xl lg:shadow-xl lg:shadow-zinc-900/5 lg:p-10"
         >
           <div className="lg:hidden flex items-center gap-3 mb-8">
             <img src="/favicon.svg" alt="Neuron Note" className="w-10 h-10" />
@@ -196,7 +211,7 @@ export function AuthPage() {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={googleLoading}
-            className="w-full py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-semibold text-sm transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-700 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-semibold text-sm transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-700 shadow-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {googleLoading ? (
               <div className="w-5 h-5 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
@@ -255,14 +270,14 @@ export function AuthPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm"
+                  className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm shadow-sm"
                 />
               </div>
             )}
             <div className="relative">
               <Mail
                 size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none"
               />
               <input
                 type="email"
@@ -270,13 +285,13 @@ export function AuthPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm"
+                className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm shadow-sm"
               />
             </div>
             <div className="relative">
               <Lock
                 size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none"
               />
               <input
                 type={showPassword ? "text" : "password"}
@@ -285,7 +300,7 @@ export function AuthPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full pl-12 pr-12 py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm"
+                className="w-full pl-12 pr-12 py-3.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500 transition-all text-sm shadow-sm"
               />
               <button
                 type="button"

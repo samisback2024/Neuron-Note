@@ -228,7 +228,7 @@ export function DataStorageSection() {
               {exporting ? (
                 <>
                   <span className="w-3.5 h-3.5 border-2 border-primary-500/30 border-t-primary-500 rounded-full animate-spin" />
-                  Exportingâ€¦
+                  Exporting…
                 </>
               ) : (
                 <>
@@ -357,7 +357,7 @@ export function DataStorageSection() {
                 {deleteLoading ? (
                   <span className="flex items-center gap-2">
                     <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Deletingâ€¦
+                    Deleting…
                   </span>
                 ) : (
                   "Permanently delete"
