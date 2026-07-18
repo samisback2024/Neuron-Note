@@ -28,6 +28,7 @@ Neuron is a full-stack personal knowledge management app. Everything — notes, 
 | **Notes**           | TipTap rich-text editor with formatting toolbar, auto-save, word count, and reading time            |
 | **Tasks**           | Priority levels (high / medium / low), due dates, project assignment, and filters                   |
 | **Projects**        | Color-coded cards with progress bars; slide-over panel with inline editing and task management      |
+| **Visual Workspace** | Infinite canvas (pan / zoom / minimap) for sticky notes, text, and shapes — Phase 1 of a planned Miro-style workspace, see [roadmap](#visual-workspace-roadmap) |
 | **Knowledge Graph** | Interactive force-directed canvas that visualizes connections between notes                         |
 | **Bookmarks**       | Save links with tags and collections; toggle between list and grid view                             |
 | **Trash**           | Soft-delete for notes and projects with a 30-day countdown, one-click restore, and permanent delete |
@@ -52,6 +53,26 @@ Neuron is a full-stack personal knowledge management app. Everything — notes, 
 
 ---
 
+## Visual Workspace Roadmap
+
+An infinite canvas for visually organizing notes, tasks, and ideas — inspired by Miro/FigJam/Lucidchart, built incrementally. Full scope is large (realtime multiplayer, AI diagram generation, etc.), so it's tracked here phase by phase rather than promised all at once.
+
+| Phase | Scope | Status |
+| ----- | ----- | ------ |
+| 1 | Canvas foundation — infinite pan/zoom, minimap, controls; basic node system (Sticky Note, Text, Shape) with drag/resize/inline-edit/delete; Supabase persistence (`canvas_nodes` table) | ✅ Shipped |
+| 2 | Full node system — remaining node types (Note, Task, Project, Bookmark, Image, Database, Code Block, Website Link) | Planned |
+| 3 | Connections — straight/curved/orthogonal connectors, arrows, labels, styles | Planned |
+| 4 | Full shape library — circle, diamond, hexagon, cylinder, cloud, document, decision, database, container, swimlane, frame | Planned |
+| 5 | Templates — flowchart, mind map, kanban, system design, ER diagram, org chart, SWOT, roadmap, etc. | Planned |
+| 6 | AI generation — natural-language prompt → diagram (needs a new LLM API integration + server-side function) | Planned |
+| 7 | Realtime collaboration — live cursors, presence, comments, conflict resolution (Supabase Realtime) | Planned |
+| 8 | Import/export — PNG, SVG, PDF, JSON, Mermaid, Draw.io | Planned |
+| 9 | Performance — virtualization, memoization, support for thousands of nodes | Planned |
+
+Also planned, cutting across phases: deep Neuron integration (drag a note/task/project onto the canvas as a live-synced node), Knowledge Graph sync, auto-layout algorithms, and mind-map mode (Tab/Enter to branch).
+
+---
+
 ## Tech Stack
 
 | Layer      | Technology                                                                                      |
@@ -61,6 +82,7 @@ Neuron is a full-stack personal knowledge management app. Everything — notes, 
 | State      | Zustand v5 — global store and persisted settings store                                          |
 | Editor     | TipTap v3 (StarterKit, Highlight, TaskList, Typography, Link, CodeBlock w/ syntax highlighting) |
 | Animations | Motion v12                                                                                      |
+| Canvas     | React Flow (`@xyflow/react`) — Visual Workspace's infinite canvas                                |
 | Backend    | Supabase v2 — Auth, PostgreSQL, Row Level Security, Realtime                                    |
 | Icons      | Lucide React                                                                                    |
 | Routing    | React Router DOM v7                                                                             |
@@ -103,6 +125,7 @@ supabase/migration_trash.sql
 supabase/migration_project_trash.sql
 supabase/migration_user_settings.sql
 supabase/migration_note_collaborators.sql
+supabase/migration_canvas.sql
 ```
 
 ### 4. Start the dev server
@@ -154,6 +177,12 @@ src/
 │   │   ├── PageShell.tsx        # Consistent page wrapper (title / description / action)
 │   │   ├── SectionCard.tsx      # Card with optional header
 │   │   └── EmptyState.tsx       # Empty state (icon + title + description + CTA)
+│   ├── canvas/                  # Visual Workspace node components
+│   │   ├── StickyNoteNode.tsx   # Sticky note (6 colors, inline edit)
+│   │   ├── TextNode.tsx         # Floating text node
+│   │   ├── ShapeNode.tsx        # Shape node (rectangle/rounded/circle/diamond)
+│   │   ├── CanvasToolbar.tsx    # Floating add-node toolbar
+│   │   └── stickyColors.ts      # Sticky note color palette
 │   ├── OnboardingTour.tsx       # Guided interactive tour
 │   ├── QuickCapture.tsx         # Ctrl+K capture modal
 │   ├── SearchOverlay.tsx        # Ctrl+/ smart search overlay
@@ -171,6 +200,7 @@ src/
 │   ├── NoteEditor.tsx           # TipTap rich text editor
 │   ├── TasksPage.tsx            # Task manager with filters
 │   ├── ProjectsPage.tsx         # Cards + slide-over panel + per-project tasks
+│   ├── VisualWorkspace.tsx      # Infinite canvas (React Flow) — Phase 1
 │   ├── KnowledgeGraph.tsx       # Force-directed canvas graph
 │   ├── BookmarksPage.tsx        # Bookmark manager (list + grid)
 │   ├── TrashPage.tsx            # Trash with restore and permanent delete
@@ -192,7 +222,7 @@ supabase/
 
 PostgreSQL via Supabase with Row Level Security enforced on every table:
 
-`profiles` · `notes` · `tasks` · `projects` · `bookmarks` · `note_links` · `tags` · `note_tags` · `note_collaborators`
+`profiles` · `notes` · `tasks` · `projects` · `bookmarks` · `note_links` · `tags` · `note_tags` · `note_collaborators` · `canvas_nodes`
 
 ---
 
