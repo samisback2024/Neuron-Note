@@ -71,6 +71,27 @@ export interface NoteLink {
   target_id: string;
 }
 
+export type CanvasNodeType = "sticky" | "text" | "shape";
+
+export interface CanvasNodeData {
+  text?: string;
+  color?: string; // sticky note color
+  shape?: "rectangle" | "rounded" | "circle" | "diamond";
+}
+
+export interface CanvasNode {
+  id: string;
+  user_id: string;
+  type: CanvasNodeType;
+  position_x: number;
+  position_y: number;
+  width: number | null;
+  height: number | null;
+  data: CanvasNodeData;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Tag {
   id: string;
   name: string;
@@ -189,6 +210,26 @@ interface AppState {
   loadNoteLinks: () => Promise<void>;
   createNoteLink: (sourceId: string, targetId: string) => Promise<void>;
   deleteNoteLink: (id: string) => Promise<void>;
+
+  // Canvas Nodes (Visual Workspace)
+  canvasNodes: CanvasNode[];
+  canvasNodesLoading: boolean;
+  /** True once the initial load has completed at least once (distinct from
+   * canvasNodesLoading, which starts false before the load even begins). */
+  canvasNodesLoaded: boolean;
+  loadCanvasNodes: () => Promise<void>;
+  createCanvasNode: (
+    node: Partial<
+      Pick<CanvasNode, "type" | "position_x" | "position_y" | "width" | "height" | "data">
+    >,
+  ) => Promise<CanvasNode | null>;
+  updateCanvasNode: (
+    id: string,
+    updates: Partial<
+      Pick<CanvasNode, "position_x" | "position_y" | "width" | "height" | "data">
+    >,
+  ) => Promise<void>;
+  deleteCanvasNode: (id: string) => Promise<void>;
 
   // Tags
   tags: Tag[];
@@ -718,6 +759,64 @@ export const useStore = create<AppState>((set, get) => ({
   deleteNoteLink: async (id) => {
     await supabase.from("note_links").delete().eq("id", id);
     set((s) => ({ noteLinks: s.noteLinks.filter((l) => l.id !== id) }));
+  },
+
+  // Canvas Nodes (Visual Workspace)
+  canvasNodes: [],
+  canvasNodesLoading: false,
+  canvasNodesLoaded: false,
+  loadCanvasNodes: async () => {
+    const user = get().user;
+    if (!user) return;
+    set({ canvasNodesLoading: true });
+    const { data } = await supabase
+      .from("canvas_nodes")
+      .select("*")
+      .eq("user_id", user.id);
+    set({
+      canvasNodes: (data as CanvasNode[]) ?? [],
+      canvasNodesLoading: false,
+      canvasNodesLoaded: true,
+    });
+  },
+
+  createCanvasNode: async (node) => {
+    const user = get().user;
+    if (!user) return null;
+    const { data, error } = await supabase
+      .from("canvas_nodes")
+      .insert({
+        user_id: user.id,
+        type: node.type ?? "sticky",
+        position_x: node.position_x ?? 0,
+        position_y: node.position_y ?? 0,
+        width: node.width ?? null,
+        height: node.height ?? null,
+        data: node.data ?? {},
+      })
+      .select()
+      .single();
+    if (error || !data) return null;
+    const created = data as CanvasNode;
+    set((s) => ({ canvasNodes: [...s.canvasNodes, created] }));
+    return created;
+  },
+
+  updateCanvasNode: async (id, updates) => {
+    set((s) => ({
+      canvasNodes: s.canvasNodes.map((n) =>
+        n.id === id ? { ...n, ...updates } : n,
+      ),
+    }));
+    await supabase
+      .from("canvas_nodes")
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq("id", id);
+  },
+
+  deleteCanvasNode: async (id) => {
+    set((s) => ({ canvasNodes: s.canvasNodes.filter((n) => n.id !== id) }));
+    await supabase.from("canvas_nodes").delete().eq("id", id);
   },
 
   // Tags

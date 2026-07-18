@@ -136,6 +136,27 @@ export type Database = {
         >;
         Update: Partial<Database["public"]["Tables"]["tags"]["Insert"]>;
       };
+      canvas_nodes: {
+        Row: {
+          id: string;
+          user_id: string;
+          type: string;
+          position_x: number;
+          position_y: number;
+          width: number | null;
+          height: number | null;
+          data: Record<string, unknown>;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["canvas_nodes"]["Row"],
+          "id" | "created_at" | "updated_at"
+        >;
+        Update: Partial<
+          Database["public"]["Tables"]["canvas_nodes"]["Insert"]
+        >;
+      };
       note_tags: {
         Row: {
           note_id: string;

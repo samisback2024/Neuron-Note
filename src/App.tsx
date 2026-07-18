@@ -11,6 +11,7 @@ import { NotesPage } from "./pages/NotesPage";
 import { NoteEditor } from "./pages/NoteEditor";
 import { TasksPage } from "./pages/TasksPage";
 import { ProjectsPage } from "./pages/ProjectsPage";
+import { VisualWorkspace } from "./pages/VisualWorkspace";
 import { KnowledgeGraph } from "./pages/KnowledgeGraph";
 import { BookmarksPage } from "./pages/BookmarksPage";
 import { SettingsPage } from "./pages/settings/SettingsPage";
@@ -46,6 +47,7 @@ export default function App() {
     loadNoteLinks,
     loadTags,
     loadProfile,
+    loadCanvasNodes,
     session,
   } = useStore();
 
@@ -75,6 +77,7 @@ export default function App() {
       loadBookmarks();
       loadNoteLinks();
       loadTags();
+      loadCanvasNodes();
     }
   }, [
     session,
@@ -85,6 +88,7 @@ export default function App() {
     loadBookmarks,
     loadNoteLinks,
     loadTags,
+    loadCanvasNodes,
   ]);
 
   useEffect(() => {
@@ -144,6 +148,7 @@ export default function App() {
                   <Route path="/notes/:id" element={<NoteEditor />} />
                   <Route path="/tasks" element={<TasksPage />} />
                   <Route path="/projects" element={<ProjectsPage />} />
+                  <Route path="/canvas" element={<VisualWorkspace />} />
                   <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
                   <Route path="/bookmarks" element={<BookmarksPage />} />
                   <Route path="/trash" element={<TrashPage />} />
