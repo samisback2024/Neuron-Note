@@ -175,16 +175,22 @@ export function AppearanceSection() {
           </p>
           <div className="bg-zinc-50 dark:bg-zinc-800/80 rounded-xl p-4 border border-zinc-200 dark:border-zinc-700/60">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-full bg-primary-500" />
+              <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white text-xs font-semibold shrink-0">
+                N
+              </div>
               <div>
-                <div className="h-3 w-24 bg-primary-200 dark:bg-primary-800 rounded-full" />
-                <div className="h-2 w-16 bg-zinc-200 dark:bg-zinc-700 rounded-full mt-1.5" />
+                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                  Project ideas
+                </p>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-500">
+                  Updated 2 min ago
+                </p>
               </div>
             </div>
-            <div className="space-y-2">
-              <div className="h-2.5 w-full bg-zinc-200 dark:bg-zinc-700 rounded-full" />
-              <div className="h-2.5 w-3/4 bg-zinc-200 dark:bg-zinc-700 rounded-full" />
-            </div>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              This is a sample card showing how your theme, accent color, and
+              density will look across Neuron.
+            </p>
             <div className="flex gap-2 mt-3">
               <span className="px-3 py-1 bg-primary-500 text-white text-[11px] font-medium rounded-lg">
                 Primary
