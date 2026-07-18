@@ -1,7 +1,7 @@
 ﻿import { useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { Search, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { Search, ZoomIn, ZoomOut, Maximize2, Link2 } from "lucide-react";
 import { useStore } from "../lib/store";
 import { useState } from "react";
 
@@ -14,6 +14,7 @@ interface GraphNode {
   vy: number;
   color: string;
   radius: number;
+  linked: boolean;
 }
 
 interface GraphEdge {
@@ -21,12 +22,10 @@ interface GraphEdge {
   target: string;
 }
 
-const CATEGORY_COLORS: Record<string, string> = {
-  Concepts: "#4F7DF3",
-  Methods: "#8B7CF6",
-  Tools: "#3DDC97",
-  default: "#4F7DF3",
-};
+// Nodes are colored by whether they're actually linked to another note —
+// not by any real "category", since notes don't have one.
+const LINKED_COLOR = "#4F7DF3";
+const UNLINKED_COLOR = "#9CA3AF";
 
 export function KnowledgeGraph() {
   const { notes, noteLinks } = useStore();
@@ -43,9 +42,16 @@ export function KnowledgeGraph() {
   const drawRef = useRef<() => void>(() => {});
 
   const { nodes, edges } = useMemo(() => {
+    const linkedIds = new Set<string>();
+    for (const link of noteLinks) {
+      linkedIds.add(link.source_id);
+      linkedIds.add(link.target_id);
+    }
+
     const graphNodes: GraphNode[] = notes.map((note, i) => {
       const angle = (i / notes.length) * Math.PI * 2;
       const radius = 200 + ((i * 73 + 37) % 100);
+      const linked = linkedIds.has(note.id);
       return {
         id: note.id,
         label: note.title || "Untitled",
@@ -53,8 +59,9 @@ export function KnowledgeGraph() {
         y: Math.sin(angle) * radius,
         vx: 0,
         vy: 0,
-        color: CATEGORY_COLORS[Object.keys(CATEGORY_COLORS)[i % 3]],
+        color: linked ? LINKED_COLOR : UNLINKED_COLOR,
         radius: 30 + Math.min(note.content?.length ?? 0, 500) / 50,
+        linked,
       };
     });
 
@@ -359,6 +366,24 @@ export function KnowledgeGraph() {
           />
         )}
 
+        {/* Hint: notes exist but nothing is linked yet */}
+        {notes.length > 0 && edges.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-white dark:bg-zinc-900/90 rounded-full pl-3 pr-4 py-2 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-[min(90vw,26rem)]"
+          >
+            <Link2 size={14} className="text-primary-500 shrink-0" />
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">
+              Nothing's connected yet — open a note and click{" "}
+              <strong className="text-zinc-900 dark:text-white font-medium">
+                Link a note
+              </strong>{" "}
+              to map connections here.
+            </span>
+          </motion.div>
+        )}
+
         {/* Legend */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -366,23 +391,37 @@ export function KnowledgeGraph() {
           className="absolute bottom-6 left-6 bg-white dark:bg-zinc-900/70 rounded-xl p-4 border border-zinc-200 dark:border-zinc-800 shadow-sm"
         >
           <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2">
-            Categories
+            How to read this
           </h4>
-          <div className="space-y-1.5">
-            {Object.entries(CATEGORY_COLORS)
-              .filter(([k]) => k !== "default")
-              .map(([label, color]) => (
-                <div key={label} className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: color }}
-                  />
-                  <span className="text-xs text-zinc-600 dark:text-zinc-400">
-                    {label}
-                  </span>
-                </div>
-              ))}
+          <div className="space-y-1.5 mb-3">
+            <div className="flex items-center gap-2">
+              <div
+                className="w-3 h-3 rounded-full shrink-0"
+                style={{ backgroundColor: LINKED_COLOR }}
+              />
+              <span className="text-xs text-zinc-600 dark:text-zinc-400">
+                Linked note
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div
+                className="w-3 h-3 rounded-full shrink-0"
+                style={{ backgroundColor: UNLINKED_COLOR }}
+              />
+              <span className="text-xs text-zinc-600 dark:text-zinc-400">
+                Not linked yet
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-px bg-zinc-400 dark:bg-zinc-600 shrink-0" />
+              <span className="text-xs text-zinc-600 dark:text-zinc-400">
+                Connection
+              </span>
+            </div>
           </div>
+          <p className="text-[10.5px] text-zinc-400 dark:text-zinc-500 pt-2 border-t border-zinc-100 dark:border-zinc-800 leading-relaxed">
+            Drag to pan · Scroll to zoom · Click a note to open it
+          </p>
         </motion.div>
       </div>
     </div>

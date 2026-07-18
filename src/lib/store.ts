@@ -188,6 +188,7 @@ interface AppState {
   noteLinks: NoteLink[];
   loadNoteLinks: () => Promise<void>;
   createNoteLink: (sourceId: string, targetId: string) => Promise<void>;
+  deleteNoteLink: (id: string) => Promise<void>;
 
   // Tags
   tags: Tag[];
@@ -697,7 +698,13 @@ export const useStore = create<AppState>((set, get) => ({
 
   createNoteLink: async (sourceId, targetId) => {
     const user = get().user;
-    if (!user) return;
+    if (!user || sourceId === targetId) return;
+    const alreadyLinked = get().noteLinks.some(
+      (l) =>
+        (l.source_id === sourceId && l.target_id === targetId) ||
+        (l.source_id === targetId && l.target_id === sourceId),
+    );
+    if (alreadyLinked) return;
     const { data } = await supabase
       .from("note_links")
       .insert({ source_id: sourceId, target_id: targetId, user_id: user.id })
@@ -706,6 +713,11 @@ export const useStore = create<AppState>((set, get) => ({
     if (data) {
       set((s) => ({ noteLinks: [...s.noteLinks, data as NoteLink] }));
     }
+  },
+
+  deleteNoteLink: async (id) => {
+    await supabase.from("note_links").delete().eq("id", id);
+    set((s) => ({ noteLinks: s.noteLinks.filter((l) => l.id !== id) }));
   },
 
   // Tags

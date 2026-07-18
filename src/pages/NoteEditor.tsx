@@ -25,6 +25,10 @@ import {
   RotateCcw,
   AlertTriangle,
   Pin,
+  Link2,
+  Plus,
+  X,
+  Search,
 } from "lucide-react";
 import { useStore } from "../lib/store";
 import { ShareModal } from "../components/ShareModal";
@@ -48,11 +52,16 @@ export function NoteEditor() {
     loadTrashedNotes,
     restoreNote,
     permanentlyDeleteNote,
+    noteLinks,
+    createNoteLink,
+    deleteNoteLink,
   } = useStore();
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [confirmPermanentDelete, setConfirmPermanentDelete] = useState(false);
+  const [linkPickerOpen, setLinkPickerOpen] = useState(false);
+  const [linkSearch, setLinkSearch] = useState("");
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Track whether the title has changed since the note was first loaded
   const titleInitializedRef = useRef(false);
@@ -238,6 +247,35 @@ export function NoteEditor() {
       .split(/\s+/)
       .filter((w) => w).length ?? 0;
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+  const linkedNotes = id
+    ? noteLinks
+        .filter((l) => l.source_id === id || l.target_id === id)
+        .map((l) => {
+          const otherId = l.source_id === id ? l.target_id : l.source_id;
+          return { linkId: l.id, note: notes.find((n) => n.id === otherId) };
+        })
+        .filter(
+          (l): l is { linkId: string; note: (typeof notes)[number] } =>
+            !!l.note,
+        )
+    : [];
+
+  const linkableNotes = notes
+    .filter(
+      (n) =>
+        n.id !== id &&
+        !n.is_trashed &&
+        !linkedNotes.some((l) => l.note.id === n.id) &&
+        n.title.toLowerCase().includes(linkSearch.toLowerCase()),
+    )
+    .slice(0, 8);
+
+  const handleLinkNote = async (targetId: string) => {
+    if (!id) return;
+    await createNoteLink(id, targetId);
+    setLinkSearch("");
+  };
 
   return (
     <motion.div
@@ -475,6 +513,115 @@ export function NoteEditor() {
             You have view-only access to this note.
           </div>
         )}
+
+        {/* Linked Notes */}
+        <div className="mt-10 pt-6 border-t border-zinc-100 dark:border-zinc-800">
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
+              <Link2 size={14} />
+              <span className="text-xs font-semibold uppercase tracking-wide">
+                Linked Notes
+                {linkedNotes.length > 0 && ` (${linkedNotes.length})`}
+              </span>
+            </div>
+            {canEdit && (
+              <button
+                onClick={() => {
+                  setLinkPickerOpen((v) => !v);
+                  setLinkSearch("");
+                }}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11.5px] font-medium transition-colors ${
+                  linkPickerOpen
+                    ? "bg-primary-50 dark:bg-primary-900/30 text-primary-500"
+                    : "hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500"
+                }`}
+              >
+                {linkPickerOpen ? <X size={13} /> : <Plus size={13} />}
+                {linkPickerOpen ? "Close" : "Link a note"}
+              </button>
+            )}
+          </div>
+
+          {linkPickerOpen && (
+            <div className="mb-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 p-3">
+              <div className="relative mb-2">
+                <Search
+                  size={13}
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-400"
+                />
+                <input
+                  autoFocus
+                  type="text"
+                  value={linkSearch}
+                  onChange={(e) => setLinkSearch(e.target.value)}
+                  placeholder="Search your notes..."
+                  className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                />
+              </div>
+              {linkableNotes.length > 0 ? (
+                <ul className="space-y-0.5 max-h-48 overflow-y-auto">
+                  {linkableNotes.map((n) => (
+                    <li key={n.id}>
+                      <button
+                        onClick={() => handleLinkNote(n.id)}
+                        className="w-full text-left px-2.5 py-1.5 rounded-lg text-xs text-zinc-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-zinc-800 transition-colors truncate"
+                      >
+                        {n.title || "Untitled"}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-xs text-zinc-400 px-1 py-1.5">
+                  {notes.length <= 1
+                    ? "Create another note first to link it here."
+                    : "No matching notes."}
+                </p>
+              )}
+            </div>
+          )}
+
+          {linkedNotes.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {linkedNotes.map(({ linkId, note: linked }) => (
+                <div
+                  key={linkId}
+                  className="group flex items-center gap-1.5 pl-3 pr-1.5 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800/80 text-xs text-zinc-700 dark:text-zinc-300 hover:border-primary-300 dark:hover:border-primary-700 transition-colors"
+                >
+                  <button
+                    onClick={() => navigate(`/notes/${linked.id}`)}
+                    className="hover:text-primary-500 transition-colors max-w-[160px] truncate"
+                  >
+                    {linked.title || "Untitled"}
+                  </button>
+                  {canEdit && (
+                    <button
+                      onClick={() => deleteNoteLink(linkId)}
+                      aria-label={`Unlink ${linked.title || "Untitled"}`}
+                      className="p-0.5 rounded-full text-zinc-400 opacity-0 group-hover:opacity-100 hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-red-500 transition-all"
+                    >
+                      <X size={12} />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            !linkPickerOpen && (
+              <p className="text-xs text-zinc-400">
+                No linked notes yet. Link related notes to map connections in
+                the{" "}
+                <button
+                  onClick={() => navigate("/knowledge-graph")}
+                  className="text-primary-500 hover:text-primary-600 font-medium"
+                >
+                  Knowledge Graph
+                </button>
+                .
+              </p>
+            )
+          )}
+        </div>
       </div>
 
       {/* Share Modal */}
